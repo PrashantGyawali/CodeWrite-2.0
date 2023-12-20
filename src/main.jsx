@@ -28,7 +28,7 @@ const routes=[
 }]
 
 const browserRouter=createBrowserRouter(routes,{
-  basename: '/CodeWrite/',
+  basename: '/',
 }
 
 )
