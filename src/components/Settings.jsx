@@ -1,7 +1,7 @@
 import { Accordion, Form, Dropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useContext } from "react";
-import { SettingsContext } from "./App";
+import { SettingsContext } from "../App";
 
 export default function Settingsbar(props) {
 

@@ -4,8 +4,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import Settingsbar from "./Settings";
-import { SettingsContext } from "./App";
-import { useNavigate } from "react-router-dom";
+import { SettingsContext } from "../App";
+import { useNavigate,useParams } from "react-router-dom";
 import '../App.css'
 
 
@@ -14,11 +14,14 @@ function NavComponent() {
   const { editor, setEditor} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   
+  const params = useParams();
+  console.log(params);
+  
   const navigate = useNavigate();
   return (
     <>
       <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={() => { setNavbarExpanded(!navbarExpanded); setSettingsOpen(false) }}>
-        <Navbar.Brand className="brand-name">CodeWrite</Navbar.Brand>
+        <Navbar.Brand className="brand-name" onClick={()=>{navigate("/")}}>CodeWrite</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">

@@ -1,10 +1,12 @@
-import NavComponent from './Navbar';
-import Editor from './Editor';
+import NavComponent from '../../components/Navbar';
+import Editor from './MdEditorComponent';
 import 'bootstrap/dist/css/bootstrap.css';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import '../App.css'
-import useLocalStorage from '../hooks/localstorage';
+import { useState } from 'react';
+import '../../App.css'
+import '../Editor/styles/Editor.css'
+import useLocalStorage from '../../hooks/localstorage';
 
 //for syntax highlighting in markdown
 import rehypeRaw from 'rehype-raw';
@@ -36,7 +38,7 @@ const CodeBlock = {
 
 
   function MarkdownOutput(props){
-    return  (<div className='text-light '>
+    return  (<div className='text-light markdownoutput'>
         <div className="editor-title css md-output-title">Output</div>
                 <div className='pl-10'>
                 <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={CodeBlock}>{props.markdown}</Markdown>
@@ -46,19 +48,30 @@ const CodeBlock = {
 
 
 export default function MarkdownEditor(){
-    const[markdown,setMarkdown]  = useLocalStorage("markdown",`# Hello World`);
+    const[markdown,setMarkdown]  = useLocalStorage("markdown",`# Drag and drop your Markdown file here or start writing`);
+    const [mdMinimize, setMdMinimize] = useState(false);
 
+    const handleMinimize = (resize) => {
+        if(!resize)
+        {
+          if(mdMinimize==false)
+          {
+            setMdMinimize(true);
+          }
+          else{
+            setMdMinimize(false);
+          }
+        }
+        else{
+            setMdMinimize("resize");
+        }
+    }
     return (
         <>
         <NavComponent/>
-        <div className="d-sm-flex " >
-            <div className="editor-container h-90vh">
-            <Editor language="markdown" displayname="Markdown" value={markdown} onChange={setMarkdown} />
-            </div>
-
-            <div className="editor-container min-height-300px h-sm-90vh">
+        <div className="d-sm-flex mdeditor-container" >
+            <Editor language="markdown" displayname="Markdown" value={markdown} onChange={setMarkdown} minimized={mdMinimize} handleMinimize={handleMinimize}/>
             <MarkdownOutput markdown={markdown}/>
-            </div>
         </div>
         </>
     )  

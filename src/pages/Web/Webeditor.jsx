@@ -1,20 +1,43 @@
 import { useState, useEffect, useContext } from "react";
-import Editor from "./Editor";
-import "../App.css";
-import useLocalStorage from "../hooks/localstorage";
-import NavComponent from "./Navbar";
-import { SettingsContext } from "./App";
-import { combineIntoHTML } from "../utils/functions";
+import Editor from "../Editor/Editor";
+import "../../App.css";
+import NavComponent from "../../components/Navbar";
+import { SettingsContext } from "../../App";
+import { combineIntoHTML } from "../../utils/functions";
 
-import runbtn from "../assets/run.svg";
+import runbtn from "../../assets/run.svg";
 
 import Nav from "react-bootstrap/Nav";
+import useProject from "../Projects/ProjectFunctions";
 
+
+import { useParams,useNavigate } from "react-router-dom";
 export default function WebEditor() {
+
+  
+  const urlParams=useParams();
+  const navigate=useNavigate();
+  
   //for storage
-  const [html, setHTML] = useLocalStorage("html", "");
-  const [css, setCss] = useLocalStorage("css", "");
-  const [js, setJs] = useLocalStorage("js", "");
+  const [code, setCode] = useProject("web",urlParams.id); 
+
+
+  //handle rerouting to projects if project id not found
+  if(!urlParams.id)
+  {
+    return null;
+  }
+  useEffect(() => {
+    if(!code || !setCode)
+    {
+      navigate(`/projects/web`);
+    }
+  },[])
+  
+
+  const [html, setHTML] = useState( code?.html || "");
+  const [css, setCss] = useState(code?.css || "");
+  const [js, setJs] = useState(code?.js || "");
 
   //for iframe
   const [srcDoc, setSrcDoc] = useState("");
@@ -28,27 +51,47 @@ export default function WebEditor() {
   const [jsMinimize, setJsMinimize] = useState(false);
 
   //prevent minimizing if 2 editors are already minimized except on smaller screens, to prevent looking odd
-  const handleMinimize = (fn, prevValue) => {
-    let totalMinimized = htmlMinimize + cssMinimize + jsMinimize;
-    if (screen.availWidth > 768) {
-      if (!prevValue && totalMinimized != 2) {
-        fn(true);
-      } else if (prevValue) {
-        fn(false);
+  const handleMinimize = (fn, prevValue,resize) => {
+    let sizeStore={
+      //true means minimzed and flase means maximazed
+      true:0,false:0,resize:0
+    }
+
+    sizeStore[htmlMinimize]+=1;
+    sizeStore[cssMinimize]+=1;
+    sizeStore[jsMinimize]+=1;
+    if(!resize)
+    {
+      //stopping minimization if two are already minimized is not necessary on mobiles since the editors are not in same row
+      if (window.innerWidth > 768) {
+        if ((prevValue==false ) && (sizeStore["resize"]+sizeStore["true"])<2) {
+          //minimize the editor
+          fn(true);
+        } else if (prevValue==true || prevValue== "resize") {
+          //maximize the editor
+          fn(false);
+        }
       }
-    } else {
-      fn(!prevValue);
+      else {
+        //toggle the editor size
+          fn(!prevValue);   
+      }
+    }
+    else{
+      //due to problems in resizing, we are not allowing to minimize or resize if 2 editors are already minimized
+      if((sizeStore["resize"]+sizeStore["true"])<2 || (prevValue==true && ((sizeStore["true"]-1+sizeStore["resize"])<2)) || prevValue== "resize")
+      {    fn("resize");  }
     }
   };
 
-  const handleHtmlMinimize = () => {
-    handleMinimize(setHtmlMinimize, htmlMinimize);
+  const handleHtmlMinimize = (resize) => {
+    handleMinimize(setHtmlMinimize, htmlMinimize,resize);
   };
-  const handleCssMinimize = () => {
-    handleMinimize(setCssMinimize, cssMinimize);
+  const handleCssMinimize = (resize) => {
+    handleMinimize(setCssMinimize, cssMinimize,resize);
   };
-  const handleJsMinimize = () => {
-    handleMinimize(setJsMinimize, jsMinimize);
+  const handleJsMinimize = (resize) => {
+    handleMinimize(setJsMinimize, jsMinimize,resize);
   };
 
 //for tab or not nd run btn
@@ -61,6 +104,7 @@ export default function WebEditor() {
   }, []);
 
   useEffect(() => {
+    setCode({html:html,css:css,js:js});
     if (autorun) {
       const timeout = setTimeout(() => {
         setSrcDoc(

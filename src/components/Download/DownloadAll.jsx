@@ -1,5 +1,5 @@
 import React from 'react'
-import downloadAll from '../assets/downloadAll.svg'
+import downloadAll from '../../assets/downloadAll.svg'
 
 export default function DownloadAll({onClickfn,title}) {
   return (

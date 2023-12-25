@@ -1,0 +1,108 @@
+.editor-container.collapsed {
+  flex-grow: 0;
+  position: relative;
+}
+
+.editor-container.collapsed .CodeMirror-scroll {
+  position: absolute;
+  overflow: hidden !important;
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 0.25rem;
+  background-color: rgb(30, 30, 30);
+}
+
+.mdeditor-container {
+  display: flex;
+  flex:1 1 50%;
+  background-color: rgb(30, 30, 30);
+  height: 90vh; 
+}
+
+@media screen and (max-width: 768px) {
+  .mdeditor-container {
+    flex-direction: column;
+    
+  }
+}
+
+.editor-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(0, 0, 0);
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+
+.javascript{
+  color: rgb(252, 246, 50) !important;
+}
+.xml{
+  color: rgb(255, 93, 30) !important;
+}
+.css{
+color: rgb(41, 198, 255) !important;
+}
+.markdown{
+  color: rgb(255, 93, 30) !important;
+}
+
+
+.markdowneditor{
+flex: 0 1 50% !important;
+max-width: 50% !important;
+overflow-y: auto;
+height: 90vh;
+overflow-x: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .markdowneditor {
+    width:100% !important;
+    flex: 1 1 100% !important;  
+    max-width: 100% !important;
+  }
+}
+
+.markdownoutput{
+flex:1 1 50% !important;
+overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .markdowneditor {
+    width:100% !important;
+  }
+}
+
+.maximized {
+  flex:1 1 100%;
+  position: relative;
+}
+
+
+@media screen and (min-width: 768px) {
+  .minimized{
+    flex: 1 0 0 !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .markdowneditor.minimized{
+    flex: 0 0 55px  !important;
+  }
+}
+
+.flexcolgrow{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
