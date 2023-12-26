@@ -5,7 +5,7 @@ import { SettingsContext } from "../App";
 
 export default function Settingsbar(props) {
 
-    const { editor, setEditor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags  } = useContext(SettingsContext);
+    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags  } = useContext(SettingsContext);
 
     const themeMapping={
         "material":"Material Theme",

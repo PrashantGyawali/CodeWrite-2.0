@@ -70,7 +70,7 @@ export default function useProject(type, id) {
         ...projectInfo,
         ...value
       };
-      console.log(newProjectInfo);
+      // console.log(newProjectInfo);
   
       setData(newProjectInfo);
       localStorage.setItem(preFixedKey, JSON.stringify(newProjectInfo));

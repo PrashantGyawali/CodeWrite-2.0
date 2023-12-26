@@ -1,11 +1,11 @@
 import React,{useEffect,useRef,useState} from "react";
 import { useNavigate } from "react-router-dom";
-import useProject, { createNewProject } from "./ProjectFunctions";
+import useProject from "../../hooks/ProjectFunctions";
 
 export default function CreatingNewProjectElement({id,type,setCreatingNewProject}){
     const navigate=useNavigate();
     const inputRef=useRef();
-    const [projectInfo,setProjectInfo]=useProject("web",id);
+    const [projectInfo,setProjectInfo]=useProject(type,id);
     
     const [projectName,setProjectName]=useState("New Project "+ id);
 

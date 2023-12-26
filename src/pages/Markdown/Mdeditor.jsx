@@ -3,7 +3,7 @@ import Editor from './MdEditorComponent';
 import 'bootstrap/dist/css/bootstrap.css';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../App.css'
 import '../Editor/styles/Editor.css'
 import useLocalStorage from '../../hooks/localstorage';
@@ -12,6 +12,10 @@ import useLocalStorage from '../../hooks/localstorage';
 import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
+import { useParams,useNavigate } from 'react-router-dom';
+import useProject from '../../hooks/ProjectFunctions';
+
 
 const CodeBlock = {
     code({ node, inline, className, children, ...props }) {
@@ -48,8 +52,14 @@ const CodeBlock = {
 
 
 export default function MarkdownEditor(){
-    const[markdown,setMarkdown]  = useLocalStorage("markdown",`# Drag and drop your Markdown file here or start writing`);
-    const [mdMinimize, setMdMinimize] = useState(false);
+
+  const urlParams=useParams();
+  const navigate=useNavigate();
+  const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
+
+
+  const [code, setCode] = useProject("md",urlParams.id); 
+  const [mdMinimize, setMdMinimize] = useState(false);
 
     const handleMinimize = (resize) => {
         if(!resize)
@@ -66,6 +76,27 @@ export default function MarkdownEditor(){
             setMdMinimize("resize");
         }
     }
+
+  
+  
+    const [markdown, setMarkdown] = useState( code?.md || "");
+
+
+    //handle rerouting to projects if project id not found  or updating last opened route
+    useEffect(() => {
+      if(!code || !setCode)
+      {
+        navigate(`/projects/md`);
+      }
+      else{
+        setLastOpened({
+          ...lastOpened,
+          md:urlParams.id
+        });
+      }
+    }, [markdown])
+
+
     return (
         <>
         <NavComponent/>

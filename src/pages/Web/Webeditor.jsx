@@ -8,8 +8,8 @@ import { combineIntoHTML } from "../../utils/functions";
 import runbtn from "../../assets/run.svg";
 
 import Nav from "react-bootstrap/Nav";
-import useProject from "../Projects/ProjectFunctions";
-
+import useProject from "../../hooks/ProjectFunctions";
+import useLocalStorage from "../../hooks/localstorage";
 
 import { useParams,useNavigate } from "react-router-dom";
 export default function WebEditor() {
@@ -18,38 +18,34 @@ export default function WebEditor() {
   const urlParams=useParams();
   const navigate=useNavigate();
   
-  //for storage
   const [code, setCode] = useProject("web",urlParams.id); 
+  const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
 
 
-  //handle rerouting to projects if project id not found
-  if(!urlParams.id)
-  {
-    return null;
-  }
-  useEffect(() => {
-    if(!code || !setCode)
-    {
-      navigate(`/projects/web`);
-    }
-  },[])
-  
 
   const [html, setHTML] = useState( code?.html || "");
   const [css, setCss] = useState(code?.css || "");
   const [js, setJs] = useState(code?.js || "");
 
+
+
   //for iframe
   const [srcDoc, setSrcDoc] = useState("");
 
+
+
   // handling tabs if user has enabled show as tabs
   const [tabstate, setTabstate] = useState(1);
+
+
 
   //for minimizing if not tabs
   const [htmlMinimize, setHtmlMinimize] = useState(false);
   const [cssMinimize, setCssMinimize] = useState(false);
   const [jsMinimize, setJsMinimize] = useState(false);
 
+
+  
   //prevent minimizing if 2 editors are already minimized except on smaller screens, to prevent looking odd
   const handleMinimize = (fn, prevValue,resize) => {
     let sizeStore={
@@ -104,15 +100,24 @@ export default function WebEditor() {
   }, []);
 
   useEffect(() => {
-    setCode({html:html,css:css,js:js});
-    if (autorun) {
-      const timeout = setTimeout(() => {
-        setSrcDoc(
-          `<html><style>${css}</style><body>${html}</body><script>${js}</script></html>`
-        );
-      }, 1000);
 
-      return () => clearTimeout(timeout);
+    if(!code || !setCode)
+    {
+      navigate(`/projects/web`);
+    }
+
+    else{
+      setLastOpened({web:urlParams.id,md:lastOpened.md});
+      setCode({html:html,css:css,js:js});
+      if (autorun) {
+        const timeout = setTimeout(() => {
+          setSrcDoc(
+            `<html><style>${css}</style><body>${html}</body><script>${js}</script></html>`
+          );
+        }, 1000);
+  
+        return () => clearTimeout(timeout);
+      }
     }
   }, [html, css, js]);
 

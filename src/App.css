@@ -7,6 +7,10 @@
   overflow-y: auto;
 }
 
+.user-select-none{
+  user-select: none;
+}
+
 .h-sm-90vh{
   height: auto;
 }
@@ -96,6 +100,7 @@ overflow-y-md-scroll {
   text-fill-color: transparent;
   background-size: 500% auto;
   animation: textShine 8s linear infinite alternate;
+  cursor: pointer;
 
 }
 

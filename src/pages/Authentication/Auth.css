@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+.error-text {
+    color: rgb(255, 0, 0);
+    font-family: Arial, sans-serif;
+    padding-left: 5px;
+}
+
+.error-text::before {
+    content: " * ";
+}
+.auth-div{
+    width: 100%;
+}
+
+.tab-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    :nth-child(1).tab{
+        border-radius: 10px 5px 0px 0px;
+    }
+    :nth-child(1).tab.selected{
+        border-right: 2px solid rgb(20, 20, 20);
+        border-radius: 10px 5px 0px 0px;
+    }
+
+    :nth-child(2).tab{
+        border-radius: 5px 10px 0px 0px;
+    }
+    :nth-child(2).tab.selected{
+        border-left: 2px solid rgb(20, 20, 20);
+        border-radius: 5px 10px 0px 0px;
+    }
+
+}
+
+.tab{
+    width: 100%; 
+    font-size: 23px;
+    color:#616161;
+    text-align: center;
+    margin: 0px;
+    border-bottom: 2px solid rgb(20, 20, 20);
+    background-color: rgb(25, 25, 25);
+    cursor: pointer;
+    line-height: 2;
+}
+
+.tab.selected{
+    border-top:2px solid rgb(20, 20, 20);
+    background-color: #222;  
+    background-color: #222222ca;
+    color:#ffffff;
+    border-bottom: none;
+}
+
+
+.auth-section
+{
+  position: absolute;
+  width: 100vw;
+  height: max(80vh,600px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  
+}
+
+
+
+
+.auth-section .auth
+{
+  position: absolute;
+  width: min(400px,93%);
+  background: #222;  
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  box-shadow: 0 7px 12px rgba(0,0,0,9);
+  border-radius: 10px 10px 10px 10px;
+}
+.auth-section .auth.login .content 
+{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+}
+.auth-section .auth.register .content 
+{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+}
+.auth-section .auth .content h2 
+{
+  font-size: 2em;
+  color: #0f0;
+  text-transform: uppercase;
+}
+
+.auth-form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: min(40px,4.5vw);
+}
+
+.auth-form .inputBox
+{
+  position: relative;
+  width: 100%;
+}
+
+.auth-input 
+{
+  position: relative;
+  width: 100%;
+  background: #333;
+  border: none;
+  outline: none;
+  padding: 25px 10px 7.5px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1em;
+}
+.floating-label
+{
+  position: absolute;
+  left: 0;
+  padding: 15px 10px;
+  font-style: normal;
+  color: #aaa;
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+input:focus ~ .floating-label,
+input:valid ~ .floating-label
+{
+  transform: translateY(-7.5px);
+  font-size: 0.8em;
+  color: #ffffffc7;
+}
+input[type="email"]:not(:placeholder-shown) ~ .floating-label
+{
+    transform: translateY(-7.5px);
+    font-size: 0.8em;
+    color: #ffffffc7;
+}
+
+.forgot-pass-div{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .forgot-pass-link
+    {
+        color: #fff !important;
+        text-decoration: 1px underline #fff;
+    }
+}
+
+
+.auth-form .inputBox input[type="submit"]
+{
+  padding: 10px;
+  background: #0f0;
+  color: #000;
+  font-weight: 600;
+  font-size: 1.35em;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+.auth-form .inputBox input[type="submit"]:active
+{
+  opacity: 0.6;
+}
+
