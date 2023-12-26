@@ -32,7 +32,7 @@ function LoginNavComponent() {
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="link-2" onClick={() => {setEditor('markdown');navigate(`/self/md/${lastOpened.md}`)}} className="ps-3 pe-3">
+                  <Nav.Link eventKey="link-2" onClick={() => {navigate(`/self/md/${lastOpened.md}`)}} className="ps-3 pe-3">
                     <span className="text-info">M&darr;{" "}</span>Markdown editor</Nav.Link>
                 </Nav.Item>
               </div>
