@@ -1,22 +1,14 @@
 import {createContext} from 'react'
 
 import './App.css'
-import { Outlet , useLocation} from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import useLocalStorage from './hooks/localstorage';
+import useUrl from './hooks/UrlClassify';
 
 export const SettingsContext = createContext()
 
 
 export default function App() {
-
-  const location=useLocation();
-
-  const useUrl=()=>{
-    if(String(location.pathname).includes("web"))
-    return "webeditor";
-    else if(String(location.pathname).includes("md"))
-    return "markdown";
-  }
 
   //editor settings
     const editor = useUrl();  //sets the default editor to webeditor

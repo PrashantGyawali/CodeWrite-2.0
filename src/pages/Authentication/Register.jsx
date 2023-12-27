@@ -19,6 +19,21 @@ const ErrorMessagesElement = ({errorMessage}) => {
 
 export default function Register() {
 
+  const [passwordVisibility,setPasswordVisibility]=useState("password");
+  const showPassword=()=>{
+    if(passwordVisibility=="password")
+    {
+      setPasswordVisibility("text");
+      setTimeout(()=>{setPasswordVisibility("password")},4000);
+    }
+    }
+
+  const hidePassword=()=>{
+    setPasswordVisibility("password");
+  }
+
+
+
     const [errors,setErrors]=useState("");
     const navigate=useNavigate();
 
@@ -76,8 +91,9 @@ export default function Register() {
               </div>
   
               <div className="inputBox">
-                <input type="password" className="auth-input" name="password" required />{" "}
+                <input type={passwordVisibility} className="auth-input" name="password" required />{" "}
                 <i className="floating-label">Password</i>
+                <i className="show-password" onMouseDown={showPassword} onTouchStart={showPassword} onMouseUp={hidePassword} onTouchEnd={hidePassword}>&#128065;</i>
               </div>
   
               <div> 

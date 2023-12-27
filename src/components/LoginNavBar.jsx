@@ -7,7 +7,8 @@ import { SettingsContext } from "../App";
 import { useNavigate} from "react-router-dom";
 import '../App.css'
 import useLocalStorage from "../hooks/localstorage";
-
+import profileIcon from "../assets/profileIcon.svg"
+import userIcon from "../assets/userIcon.svg"
 
 function LoginNavComponent() {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -36,9 +37,9 @@ function LoginNavComponent() {
                     <span className="text-info">M&darr;{" "}</span>Markdown editor</Nav.Link>
                 </Nav.Item>
               </div>
-              <Nav.Item className="ms-0 ms-md-auto ">
-                <Button variant="dark" className="text-light " data-bs-theme="dark" onClick={()=>navigate("/auth")}>
-                &#9786;
+              <Nav.Item className="ms-3 ms-md-auto ">
+                <Button variant="dark" className="text-light border-radius-50 "  data-bs-theme="dark" onClick={()=>navigate("/auth")} >
+                  <img src={profileIcon} title="Login/Register"/>
                 </Button>
               </Nav.Item>
             </Nav>

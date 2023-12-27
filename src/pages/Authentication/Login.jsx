@@ -1,11 +1,10 @@
 import React from "react";
 import "./Auth.css";
 import { isValidEmail } from "../../utils/Emailvalidator";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ErrorMessagesElement = ({errorMessage}) => {
-
     
     return (
         <>
@@ -16,6 +15,25 @@ const ErrorMessagesElement = ({errorMessage}) => {
 
 
 export default function Login() {
+
+    const [passwordVisibility,setPasswordVisibility]=useState("password");
+    const timerRef = useRef(null);
+
+    const showPassword=()=>{
+      if(passwordVisibility=="password")
+      {
+        setPasswordVisibility("text");
+        timerRef.current=setTimeout(()=>{setPasswordVisibility("password")},10000);
+      }
+      }
+
+    const hidePassword=()=>{
+      setPasswordVisibility("password");
+      clearTimeout(timerRef.current);
+    }
+
+
+
 
     const [errors,setErrors]=useState("");
 
@@ -46,6 +64,9 @@ export default function Login() {
     };
 
 
+
+
+
   return (
     <section className="auth-section">
       <div className="auth login">
@@ -64,8 +85,9 @@ export default function Login() {
             </div>
 
             <div className="inputBox">
-              <input type="password" className="auth-input" name="password" required />{" "}
+              <input type={passwordVisibility} className="auth-input"  name="password" required />{" "}
               <i className="floating-label">Password</i>
+              <i className="show-password" onMouseDown={showPassword} onTouchStart={showPassword} onMouseUp={hidePassword} onTouchEnd={hidePassword}>&#128065;</i>
             </div>
 
             <div> 

@@ -45,6 +45,9 @@ export default function WebEditor() {
   const [jsMinimize, setJsMinimize] = useState(false);
 
 
+  const [htmlWidth, setHtmlWidth] = useState("auto");
+  const [cssWidth, setCssWidth] = useState("auto");
+  const [jsWidth, setJsWidth] = useState("auto");
   
   //prevent minimizing if 2 editors are already minimized except on smaller screens, to prevent looking odd
   const handleMinimize = (fn, prevValue,resize) => {
@@ -150,6 +153,8 @@ export default function WebEditor() {
               minimized={htmlMinimize}
               handleMinimize={handleHtmlMinimize}
               handleDownloadAllClick={handleDownloadAllClick}
+              editorWidth={htmlWidth}
+              setEditorWidth={setHtmlWidth}
             />
             <Editor
               language="css"
@@ -158,6 +163,8 @@ export default function WebEditor() {
               onChange={setCss}
               minimized={cssMinimize}
               handleMinimize={handleCssMinimize}
+              editorWidth={cssWidth}
+              setEditorWidth={setCssWidth}
             />
             <Editor
               language="javascript"
@@ -166,6 +173,8 @@ export default function WebEditor() {
               onChange={setJs}
               minimized={jsMinimize}
               handleMinimize={handleJsMinimize}
+              editorWidth={jsWidth}
+              setEditorWidth={setJsWidth}
             />
           </div>
         </>

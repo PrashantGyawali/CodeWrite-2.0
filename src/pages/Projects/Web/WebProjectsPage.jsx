@@ -1,7 +1,7 @@
 import { useState} from 'react';
 import  { createNewProject } from '../../../hooks/ProjectFunctions';
 import CreatingNewProjectElement from '../CreateNewProjectInput';
-
+import ProjectList from '../ProjectsList';
 
 export default function WebProjectsPage() {
     const [creatingNewProject,setCreatingNewProject]=useState();
@@ -15,8 +15,7 @@ export default function WebProjectsPage() {
     <div>
         <button onClick={handleCLick}>+New Project</button> <br></br>
             {creatingNewProject && <CreatingNewProjectElement id={creatingNewProject} type="web" setCreatingNewProject={setCreatingNewProject} />}
-        <div>        ProjectName--CloudBackupSymbol--cloud cross symbol if not backed up--share icon--date modified--deployment EditIcon (to change name) deleteIcon    </div>
-
+            <ProjectList type="web"/>
     </div>
   )
 }

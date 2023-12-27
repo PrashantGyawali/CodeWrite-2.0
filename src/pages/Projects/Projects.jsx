@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Outlet,useLocation } from 'react-router-dom'
 import LoginNavComponent from '../../components/LoginNavBar';
+import "./Projects.css"
 
 export default function Projects() {
   const location=useLocation();
@@ -10,7 +11,7 @@ export default function Projects() {
   {
     webselected="selected"
   }
-  else if(location.pathname.search("markdown")!= -1)
+  else if(location.pathname.search("md")!= -1)
   {
     markdownselected="selected"
   };
@@ -19,14 +20,13 @@ export default function Projects() {
      <LoginNavComponent/>
 
     <div>Your projects</div>
-    <Link to="/projects/web" className={webselected}>Web Projects</Link> < Link to="/projects/md" className={markdownselected}>Markdowns</Link><br></br>
-    {/* there will be tab to these */}
-    <Outlet/>
-    {/* this will be a separate component that will be shown when you visit /self/web */}
-
-
+    <div className="project-tab-row">
+      <Link to="/projects/web" className={"tab "+webselected}>Web Projects</Link>
+      <Link to="/projects/md" className={"tab "+markdownselected}>Markdowns</Link>
+    </div>
     <br></br>
-    {/* this will be a separate component that will be shown when you visit /self/web */}
+
+    <Outlet/>
     
     </>
     

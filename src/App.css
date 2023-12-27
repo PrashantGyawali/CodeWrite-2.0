@@ -134,3 +134,14 @@ overflow-y-md-scroll {
 .run-button:hover{
   transform: scale(1.1);
 }
+
+.border-radius-50{
+  border-radius: 50% !important;
+}
+
+.h-20px{
+  height: 25px !important;
+}
+.w-20px{
+  width: 25px !important;
+}

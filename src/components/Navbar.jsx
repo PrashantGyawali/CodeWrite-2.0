@@ -16,7 +16,9 @@ function NavComponent() {
   const { editor} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
-    useEffect(() => {console.log(editor)}, [editor])
+
+    useEffect(() => {console.log(editor)}, [editor]);
+
   const navigate = useNavigate();
   return (
     <>
@@ -25,7 +27,7 @@ function NavComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">
-            <Nav variant="tabs" defaultActiveKey={editor == "webeditor" ? "link-1" : "link-2"} data-bs-theme="dark" className="ms-0">
+            <Nav variant="tabs" defaultActiveKey={editor == "web" ? "link-1" : "link-2"} data-bs-theme="dark" className="ms-0">
               <div className="d-md-flex ms-0">
                 <Nav.Item>
                   <Nav.Link eventKey="link-1" onClick={() => {navigate(`/self/web/${lastOpened.web}`)}} className="ps-3 pe-3">

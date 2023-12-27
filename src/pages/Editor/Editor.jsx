@@ -48,7 +48,6 @@ const Editor = (props) => {
   const { editor, theme, tabornot, autoCloseTags } = useContext(SettingsContext);
   const editorRef = useRef(0);
   const editorContainerRef = useRef(null);
-  const [editorWidth, setEditorWidth] = useState("auto");
 
   const {
     language,
@@ -58,6 +57,8 @@ const Editor = (props) => {
     minimized,
     handleMinimize,
     handleDownloadAllClick,
+    editorWidth,
+     setEditorWidth
   } = props;
 
   const handleChange = (editor, data, value) => {
@@ -124,7 +125,7 @@ const Editor = (props) => {
         <div style={{ display: 'flex', flexDirection: "row", marginLeft: "5px" }}>
           {language === "xml" && <DownloadAll onClickfn={handleDownloadAllClick} title={"Combine into Single HTML"} />}
           <Downloadbtn onClickfn={download} title={"Download " + contentTypes[language].name} />
-          {!tabornot && editor !== 'markdown' && <button onClick={() => handleMinimize(false)}><img src={minimized ? maximizeIcon : minimizeIcon} alt={!minimized ? "><" : "<>"} /></button>}
+          {!tabornot && editor !== 'markdown' && <button onClick={() => handleMinimize(false)} className="editor-button"><img src={minimized ? maximizeIcon : minimizeIcon} alt={!minimized ? "><" : "<>"} /></button>}
         </div>
       </div>
 
@@ -141,7 +142,7 @@ const Editor = (props) => {
         undoDepth: 400,
       }} ref={editorRef} />
 
-      <div className="resizeBar" onMouseDown={handleResize} onTouchStart={handleResize}></div>
+      {tabornot==false && <div className="resizeBar" onMouseDown={handleResize} onTouchStart={handleResize}></div>}
     </div>
   );
 };

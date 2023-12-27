@@ -1,11 +1,22 @@
-import { Accordion, Form, Dropdown} from "react-bootstrap";
+import { Accordion, Form, Dropdown, Button} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useContext } from "react";
 import { SettingsContext } from "../App";
+import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../hooks/localstorage";
 
 export default function Settingsbar(props) {
 
     const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags  } = useContext(SettingsContext);
+    const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
+
+    const navigate = useNavigate();
+
+    const closeProject=()=>{
+        setLastOpened({ ...lastOpened, [editor]: ""});
+        setTimeout(() => {        navigate("/");
+    },10)
+    }
 
     const themeMapping={
         "material":"Material Theme",
@@ -21,7 +32,7 @@ export default function Settingsbar(props) {
             <Accordion.Item eventKey="0">
                 <Accordion.Body >
                     <Form className="d-md-flex justify-content-md-between align-items-center">
-                        {editor=="webeditor" && <>
+                        {editor=="web" && <>
                         <div className="p-1">
                             <Form.Check type="switch" label="Run manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} />
                         </div>
@@ -33,6 +44,9 @@ export default function Settingsbar(props) {
                         </div>
                         </>
                         }
+                        <div className="p-1">
+                            <Button variant="danger" onClick={closeProject} >X Close Project </Button>
+                        </div>
                         <div className="p-1">
                             <Dropdown>
                                 <Dropdown.Toggle variant="secondary" id="dropdown-basic">
