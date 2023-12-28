@@ -1,11 +1,14 @@
 import React,{useState, useEffect, useRef} from 'react'
 import useProject from '../../hooks/ProjectFunctions';
 import { Link } from 'react-router-dom';
+import { deleteProject } from '../../hooks/deleteLocalStorage';
+import editIcon from '../../assets/editIcon.svg';
+import deleteIcon from '../../assets/deleteIcon.svg';
+import cloudUpload from '../../assets/cloudUpload.svg';
+import shareIcon from '../../assets/shareIcon.svg';
 
 export default function ProjectInfo(props) {
   const [projectInfo,setProjectInfo]=useProject(props.projectType,props.projectId);
-  console.log(projectInfo);
-
 
   const projectNameRef=useRef();
   
@@ -24,8 +27,10 @@ export default function ProjectInfo(props) {
 
     if(projectNameEditing)
     {
-      projectNameRef.current.focus();
+      projectNameRef.current.focus(); 
         projectNameRef.current.addEventListener("focusout",()=>{
+          console.log("projectNameEditing");
+
           setProjectNameEditing(false);
         });
          projectNameRef.current.addEventListener('keyup', function (e) {
@@ -35,28 +40,26 @@ export default function ProjectInfo(props) {
             }
          });
     }
-  },[projectName,projectNameEditing])
+  },[projectNameEditing]);
+
+
   return (
-    <div>
+    <div style={{display:"flex", gap:"10px"}}>
 {
   !projectNameEditing?<Link to={`/self/${props.projectType}/${props.projectId}`}>{projectInfo.name}</Link>
-:      <input
-value={projectInfo.name}
-ref={projectNameRef}        
-
-onChange={(e) => {
-  setProjectName(e.target.value);
-}}
-/>
+:      <input value={projectName} ref={projectNameRef}   onChange={(e) => {setProjectName(e.target.value);}} />
 }
 
-      --CloudBackupSymbol--cloud cross symbol if not backed up--share icon--
+        <div onClick={() => {}}><img src={cloudUpload}/></div>
+
+        <div onClick={() => {}}><img src={shareIcon}/></div>
+
+
       { (new Date(projectInfo.dateModified)).toLocaleString()}
      --deployment 
-      <button onClick={() => {
-          setProjectNameEditing(true);
-        }}>Edit</button>
-        <button>Delete</button>
+      <div onClick={() => { setProjectNameEditing(true);}}><img src={editIcon}/></div>
+
+        <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} ><img src={deleteIcon}/></div>
     </div>
   );
 }

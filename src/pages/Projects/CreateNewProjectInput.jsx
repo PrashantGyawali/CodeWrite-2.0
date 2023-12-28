@@ -10,10 +10,10 @@ export default function CreatingNewProjectElement({id,type,setCreatingNewProject
     const [projectName,setProjectName]=useState("New Project "+ id);
 
     useEffect(()=>{
-
+        let newName=projectName.trim()!=""?projectName:("New Project "+ id);
         setProjectInfo({
         ...projectInfo,     
-        name:projectName
+        name:newName
         });
     },[projectName]);
 

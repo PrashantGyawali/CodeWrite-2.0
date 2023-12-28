@@ -62,7 +62,7 @@
 .auth-section
 {
   position: absolute;
-  width: 100vw;
+  width: 98vw;
   height: max(80vh,600px);
   display: flex;
   justify-content: center;

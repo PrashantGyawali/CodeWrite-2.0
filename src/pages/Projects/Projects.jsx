@@ -3,6 +3,7 @@ import { Link, Outlet,useLocation } from 'react-router-dom'
 import LoginNavComponent from '../../components/LoginNavBar';
 import "./Projects.css"
 
+
 export default function Projects() {
   const location=useLocation();
   let webselected="";
@@ -16,19 +17,21 @@ export default function Projects() {
     markdownselected="selected"
   };
   return (
-    <>
+    <section style={{backgroundColor:"rgba(0,0,0,0)"}}>
      <LoginNavComponent/>
 
-    <div>Your projects</div>
+    <div style={{fontSize:"30px",color:"white", backgroundColor:"rgb(36,36,36)"}}>Your projects</div>
     <div className="project-tab-row">
       <Link to="/projects/web" className={"tab "+webselected}>Web Projects</Link>
       <Link to="/projects/md" className={"tab "+markdownselected}>Markdowns</Link>
     </div>
+
     <br></br>
 
+    <div>
     <Outlet/>
-    
-    </>
+    </div>
+    </section>
     
   )
 }
