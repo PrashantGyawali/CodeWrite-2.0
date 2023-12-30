@@ -3,6 +3,8 @@ import "./Auth.css";
 import { isValidEmail } from "../../utils/Emailvalidator";
 import { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react"; 
+import { SettingsContext } from "../../App";
 
 const ErrorMessagesElement = ({errorMessage}) => {
     
@@ -17,6 +19,7 @@ const ErrorMessagesElement = ({errorMessage}) => {
 export default function Login() {
 
     const [passwordVisibility,setPasswordVisibility]=useState("password");
+    const {user,setUser}= useContext(SettingsContext);
     const timerRef = useRef(null);
 
     const showPassword=()=>{
@@ -45,7 +48,7 @@ export default function Login() {
         },3000);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
 
         const formData=new FormData(e.currentTarget);
@@ -61,7 +64,20 @@ export default function Login() {
         {
             handleErrors("Incorrect Password");
         }
+        else{
+          let res=await setUser("login",{email,password});
+          console.log(res);
+          if(res && res.isAuth)
+          {
+            navigate("/");
+          }
+          else{
+            handleErrors(res.error);
+          }          
+        }
     };
+
+
 
 
 

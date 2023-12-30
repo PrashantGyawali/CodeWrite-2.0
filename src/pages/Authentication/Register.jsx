@@ -1,11 +1,11 @@
-import React, { useState} from 'react';
+import { useState, useContext} from 'react';
 import "./Auth.css"
 import { isValidEmail } from '../../utils/Emailvalidator';
 import { useNavigate } from 'react-router-dom';
 
+import { SettingsContext } from '../../App';
 
 const ErrorMessagesElement = ({errorMessage}) => {
-
     
     return (
         <>
@@ -19,11 +19,14 @@ const ErrorMessagesElement = ({errorMessage}) => {
 
 export default function Register() {
 
+  const {user,setUser}= useContext(SettingsContext);
+
   const [passwordVisibility,setPasswordVisibility]=useState("password");
+
+
   const showPassword=()=>{
     if(passwordVisibility=="password")
-    {
-      setPasswordVisibility("text");
+    { setPasswordVisibility("text");
       setTimeout(()=>{setPasswordVisibility("password")},4000);
     }
     }
@@ -44,7 +47,7 @@ export default function Register() {
         },3000);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData=new FormData(e.currentTarget);
@@ -53,17 +56,29 @@ export default function Register() {
         const username=formData.get("username");
         const password=formData.get("password");
         
-        if(username.length<4)
+        if(username.trim().length<4)
         {
             handleErrors("Username must be atleast 3 characters long");
         }
-        if(!isValidEmail(email)){
+        else if(!isValidEmail(email)){
             handleErrors("Invalid Email");
         }
-        if(password.length<4)
+        else if(password.length<4)
         {
             handleErrors("Password must be atleast 4 characters long");
         }
+        else{
+          let res=await setUser("register",{username,email,password});
+          if(res && res.isAuth)
+          {
+            navigate("/");
+          }
+          else{
+            handleErrors(res.error);
+          }          
+        }
+
+
     };
 
 

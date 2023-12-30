@@ -12,7 +12,7 @@ import userIcon from "../assets/userIcon.svg"
 
 function LoginNavComponent() {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
-  const { editor} = useContext(SettingsContext);
+  const { editor,user} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
   
@@ -39,7 +39,7 @@ function LoginNavComponent() {
               </div>
               <Nav.Item className="ms-3 ms-md-auto ">
                 <Button variant="dark" className="text-light border-radius-50 "  data-bs-theme="dark" onClick={()=>navigate("/auth")} >
-                  <img src={profileIcon} title="Login/Register"/>
+                  <img src={user.isAuth?userIcon:profileIcon} title="Login/Register"/>
                 </Button>
               </Nav.Item>
             </Nav>
