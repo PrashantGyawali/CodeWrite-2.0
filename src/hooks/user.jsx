@@ -107,6 +107,7 @@ export default function useUser() {
             credentials: "include", 
             headers: {
               "Content-Type": "application/json",
+              "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", 
           });
@@ -123,6 +124,7 @@ export default function useUser() {
             credentials: "include", 
             headers: {
               "Content-Type": "application/json",
+              "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", 
             body: JSON.stringify(data), 
