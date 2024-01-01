@@ -1,17 +1,20 @@
 import React,{useState, useEffect, useRef} from 'react'
 import useProject from '../../hooks/ProjectFunctions';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteProject } from '../../hooks/deleteLocalStorage';
 import editIcon from '../../assets/editIcon.svg';
 import deleteIcon from '../../assets/deleteIcon.svg';
 import cloudUpload from '../../assets/cloudUpload.svg';
 import shareIcon from '../../assets/shareIcon.svg';
+import deployIcon from '../../assets/deployIcon.svg';
+import './Projects.css'
 
 export default function ProjectInfo(props) {
   const [projectInfo,setProjectInfo]=useProject(props.projectType,props.projectId);
-
   const projectNameRef=useRef();
-  
+
+  const navigate=useNavigate();
+
   const [projectName,setProjectName]=useState(projectInfo.name);
   const [projectNameEditing,setProjectNameEditing]=useState(false);
 
@@ -44,10 +47,15 @@ export default function ProjectInfo(props) {
 
 
   return (
-    <div style={{display:"flex", gap:"10px"}}>
+    <div style={{display:"flex", gap:"10px", padding:"5px"}}>
 {
-  !projectNameEditing?<Link to={`/self/${props.projectType}/${props.projectId}`}>{projectInfo.name}</Link>
-:      <input value={projectName} ref={projectNameRef}   onChange={(e) => {setProjectName(e.target.value);}} />
+  !projectNameEditing?
+  <div style={{position:"relative"}}>
+    <div  onClick={()=>navigate(`/self/${props.projectType}/${props.projectId}`)} className='project-link'> </div>
+      <input value={projectInfo.name} onChange={()=>{}} className='editing-input' disabled/>
+  </div>
+:
+<input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
 }
 
         <div onClick={() => {}}><img src={cloudUpload}/></div>
@@ -56,7 +64,7 @@ export default function ProjectInfo(props) {
 
 
       { (new Date(projectInfo.dateModified)).toLocaleString()}
-     --deployment 
+      <div onClick={() => {}}><img src={deployIcon}/></div>
       <div onClick={() => { setProjectNameEditing(true);}}><img src={editIcon}/></div>
 
         <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} ><img src={deleteIcon}/></div>

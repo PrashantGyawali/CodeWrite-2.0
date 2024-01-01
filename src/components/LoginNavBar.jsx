@@ -16,6 +16,16 @@ function LoginNavComponent() {
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
   
+  const handleProfileClick = () => {
+    if(user.isAuth)
+    {
+      navigate("/profile")
+    }
+    else{
+      navigate("/auth")
+    }
+  }
+
   
   const navigate = useNavigate();
   return (
@@ -38,8 +48,8 @@ function LoginNavComponent() {
                 </Nav.Item>
               </div>
               <Nav.Item className="ms-3 ms-md-auto ">
-                <Button variant="dark" className="text-light border-radius-50 "  data-bs-theme="dark" onClick={()=>navigate("/auth")} >
-                  <img src={user.isAuth?userIcon:profileIcon} title="Login/Register"/>
+                <Button variant="dark" className="text-light border-radius-50 "  data-bs-theme="dark" onClick={handleProfileClick} >
+                  <img src={user.isAuth?userIcon:profileIcon} title={user.username||"Login/Register"}/>
                 </Button>
               </Nav.Item>
             </Nav>

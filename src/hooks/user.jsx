@@ -13,7 +13,7 @@ export default function useUser() {
             case "login":
                 let userInfo=await logInUser(data);
 
-                if(userInfo && userInfo.isAuth)
+                if(userInfo && userInfo.isAuth && !updatedUser.error)
                 {
                     setUser(userInfo);
                 }
@@ -26,14 +26,16 @@ export default function useUser() {
 
 
             case "logout":
-                logOutUser();
-                setUser({name:"Guest",email:"",joined:Date.now()});
+                logOutUser().then(()=>{
+                    setUser({name:"Guest",email:"",joined:Date.now()});
+                });
+                
                 break;
 
 
             case "update":
                 const updatedUser =await updateExistingUserInfo(data);
-                if(updatedUser && updatedUser.id)
+                if(updatedUser && !updatedUser.error && !updatedUser.error && updatedUser.isAuth)
                 {
                     setUser(updatedUser);
                 }

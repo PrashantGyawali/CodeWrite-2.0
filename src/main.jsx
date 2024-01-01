@@ -12,6 +12,7 @@ import MarkdownEditor from './pages/Markdown/Mdeditor.jsx'
 import Auth from './pages/Authentication/Auth.jsx'
 import Login from './pages/Authentication/Login.jsx'
 import Register from './pages/Authentication/Register.jsx'
+import Profile from './pages/Profile/Profile.jsx'
 
 const routes=[
   {
@@ -93,6 +94,10 @@ const routes=[
         element: <Navigate to="/auth/login"/>
       }
     ]
+  },
+  {
+    path:"/profile",
+    element:<Profile/>
   }
 
   ],
