@@ -46,7 +46,7 @@ export default function ProjectInfo(props) {
 
 
   return (
-    <div style={{display:"flex", gap:"10px", padding:"5px"}}>
+    <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"wrap",alignItems:"center", marginBottom:"5px" }}>
     {!projectNameEditing?
                         <div style={{position:"relative"}}>
                           <div  onClick={()=>navigate(`/self/${props.projectType}/${props.projectId}`)} className='project-link'> </div>
@@ -56,18 +56,23 @@ export default function ProjectInfo(props) {
                       <input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
     }
 
-        {/* save to database */}
-        <div onClick={() => {}}><img src={cloudUpload}/></div>
-
-        {/* create a /shared/web/id project on db */}
-        <div onClick={() => {}}><img src={shareIcon}/></div>
-
-        {/* date modified but shorter like 2 days ago and sth like that, no need to put seconds  */}
+    {/* ! VVI why is this updating every time??  */}
+      {/* date modified but shorter like 2 days ago and sth like that, no need to put seconds  */}
       { (new Date(projectInfo.dateModified)).toLocaleString()}
-      <div onClick={() => {}}><img src={deployIcon}/></div>
-      <div onClick={() => { setProjectNameEditing(true);}}><img src={editIcon}/></div>
 
-        <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} ><img src={deleteIcon}/></div>
+      <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"nowrap", alignItems:"center", justifyContent:"center"}}>
+          {/* save to database */}
+          <div onClick={() => {}} className='project-info-icon'><img src={cloudUpload}/></div>
+
+          {/* create a /shared/web/id project on db */}
+          <div onClick={() => {}} className='project-info-icon'><img src={shareIcon}/></div>
+
+        <div onClick={() => {}} className='project-info-icon'><img src={deployIcon}/></div>
+        <div onClick={() => { setProjectNameEditing(true);}} className='project-info-icon'><img src={editIcon}/></div>
+
+        <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} className='project-info-icon'><img src={deleteIcon}/></div>
+      </div>
+
     </div>
   );
 }

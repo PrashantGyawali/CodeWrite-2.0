@@ -22,7 +22,7 @@
     }
 
     .tab{
-        font-size: 20px;
+        font-size: min(20px,6vw);
         color:#616161;
         text-align: center;
         margin: 0px;
@@ -32,6 +32,8 @@
         cursor: pointer;
         line-height: 2;
         width: fit-content;
+        white-space: nowrap;
+        overflow: hidden;
     }
     
     .tab.selected{
@@ -73,5 +75,15 @@ input:disabled{
     }
 
 }
+
+.project-info-icon{
+    cursor: pointer;
+    padding: 2px 5px;
+    &:hover{
+        transform: scale(1.08);
+        background-color: #dedede;
+    }
+}
+
 
 }
