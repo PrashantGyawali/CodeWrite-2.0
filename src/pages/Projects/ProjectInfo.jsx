@@ -18,61 +18,80 @@ export default function ProjectInfo(props) {
   const [projectName,setProjectName]=useState(projectInfo.name);
   const [projectNameEditing,setProjectNameEditing]=useState(false);
 
-  useEffect(()=>{
-      setProjectInfo({
-      ...projectInfo,     
-      name:projectName,
-      dateModified:Date.now()
-      });
-  },[projectName]);
+
+  const [minimizeable,setMinimizable]=useState(false);
+
 
   useEffect(()=>{
-
-    if(projectNameEditing)
+    if(projectName!=projectInfo?.name && projectName!="" && !projectNameEditing)
     {
-      projectNameRef.current.focus(); 
-        projectNameRef.current.addEventListener("focusout",()=>{
-          setProjectNameEditing(false);
-          
+      setProjectInfo({
+        ...projectInfo,     
+        name:projectName,
+        dateModified:Date.now()
         });
-         projectNameRef.current.addEventListener('keyup', function (e) {
-            if (e.key === 'Enter')
-            {
-              setProjectNameEditing(false);
-            }
-         });
     }
+    else{
+      setProjectName(projectInfo.name); 
+    }     
   },[projectNameEditing]);
 
+  useEffect(() => {
+    if (projectNameEditing) {
+      projectNameRef.current.focus();
+      projectNameRef.current.addEventListener("focusout", () => {
+        setProjectNameEditing(false);
+      });
+      projectNameRef.current.addEventListener("keyup", function (e) {
+        if (e.key === "Enter") {
+          setProjectNameEditing(false);
+        }
+      });
+    }
+  }, [projectNameEditing]);
+
+  useEffect(() => {
+    if(window.innerWidth<545){
+      setMinimizable(true);
+    }},[])
 
   return (
-    <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"wrap",alignItems:"center", marginBottom:"5px" }}>
+    <div className='project'>
     {!projectNameEditing?
-                        <div style={{position:"relative"}}>
+                        <div className='project-name-wrapper'>
+                        <div className="project-name-div" >
                           <div  onClick={()=>navigate(`/self/${props.projectType}/${props.projectId}`)} className='project-link'> </div>
                             <input value={projectInfo.name} onChange={()=>{}} className='editing-input' disabled/>
                         </div>
+                        {minimizeable&& <button className='minimize-btn'>V</button>}
+                        </div>
                       :
-                      <input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
+                      <div className='project-name-wrapper'>
+                      <div className='project-name-div'>
+                        <input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
+                      </div>
+                      {minimizeable&& <button className='minimize-btn'>V</button>}
+                      </div>
+
     }
 
-    {/* ! VVI why is this updating every time??  */}
       {/* date modified but shorter like 2 days ago and sth like that, no need to put seconds  */}
+      <div className='project-info'>
       { (new Date(projectInfo.dateModified)).toLocaleString()}
 
-      <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"nowrap", alignItems:"center", justifyContent:"center"}}>
-          {/* save to database */}
-          <div onClick={() => {}} className='project-info-icon'><img src={cloudUpload}/></div>
+        <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"nowrap", alignItems:"center", justifyContent:"center"}}>
+            {/* save to database */}
+            <div onClick={() => {}} className='project-info-icon'><img src={cloudUpload}/></div>
 
-          {/* create a /shared/web/id project on db */}
-          <div onClick={() => {}} className='project-info-icon'><img src={shareIcon}/></div>
+            {/* create a /shared/web/id project on db */}
+            <div onClick={() => {}} className='project-info-icon'><img src={shareIcon}/></div>
 
-        <div onClick={() => {}} className='project-info-icon'><img src={deployIcon}/></div>
-        <div onClick={() => { setProjectNameEditing(true);}} className='project-info-icon'><img src={editIcon}/></div>
+          <div onClick={() => {}} className='project-info-icon'><img src={deployIcon}/></div>
+          <div onClick={() => { setProjectNameEditing(true);}} className='project-info-icon'><img src={editIcon}/></div>
 
-        <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} className='project-info-icon'><img src={deleteIcon}/></div>
+          <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} className='project-info-icon'><img src={deleteIcon}/></div>
+        </div>
       </div>
-
     </div>
   );
 }

@@ -54,9 +54,16 @@ input:disabled{
     color: rgb(0, 0, 0) !important;
     background-color: rgb(255, 255, 255) !important;
     outline: none !important;
-    width: max-content !important;
+    width: min(100%, 300px) !important;
     padding: 3px !important;
+
+    &:focus{
+        border: 1px solid #cacaca !important;
+        border-radius: 5px !important;
+        
+    }
   }
+
 
 .project-link{
     z-index:10;
@@ -82,6 +89,61 @@ input:disabled{
     &:hover{
         transform: scale(1.08);
         background-color: #dedede;
+    }
+}
+
+.project{
+    display:flex;
+    column-gap:10px;
+    padding:5px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:5px; 
+}
+
+.project-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+}
+.project-name-div{
+    position:relative;
+    width:fit-content;
+}
+.project-name-wrapper{
+    display: flex;
+}
+.minimize-btn{
+    display:none;
+    border-radius: 12px;
+    padding: 0px 8px 0px 8px;
+    background-color: #d1d1d1;
+    color:#222222
+}
+
+@media only screen and (max-width: 572px) {
+    
+    .minimize-btn{
+        display: block;
+    }
+
+    .project-name-wrapper{
+        width: 100%;
+        justify-content: space-between;
+        padding: 0px min(10px,0.5vw)  0px 0px;
+    }
+    .project-info
+    {
+        width: 100%;
+        gap: 0px;
+    }
+
+    @media only screen and (max-width: 350px) {
+        .project-info{
+            flex-direction: column;
+            align-items: flex-start;
+        }
     }
 }
 
