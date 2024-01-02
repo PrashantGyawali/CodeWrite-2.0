@@ -11,7 +11,6 @@ import profileIcon from "../assets/profileIcon.svg"
 import userIcon from "../assets/userIcon.svg"
 
 function LoginNavComponent() {
-  const [isSettingsOpen, setSettingsOpen] = useState(false);
   const { editor,user} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
@@ -30,7 +29,7 @@ function LoginNavComponent() {
   const navigate = useNavigate();
   return (
     <>
-      <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={() => { setNavbarExpanded(!navbarExpanded); setSettingsOpen(false) }}>
+      <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={() => { setNavbarExpanded(!navbarExpanded); }}>
         <Navbar.Brand className="brand-name" onClick={()=>{navigate("/")}}>CodeWrite</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
@@ -56,7 +55,6 @@ function LoginNavComponent() {
           </div>
         </Navbar.Collapse>
       </Navbar>
-      <Outlet/>
     </>
   );
 }

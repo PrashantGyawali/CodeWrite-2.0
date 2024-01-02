@@ -5,6 +5,7 @@ import { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react"; 
 import { SettingsContext } from "../../App";
+import loginSchemaValidator from "../Validations/LoginValidation";
 
 const ErrorMessagesElement = ({errorMessage}) => {
     
@@ -55,26 +56,20 @@ export default function Login() {
 
         const email=formData.get("email");
         const password=formData.get("password");
-        
-        if(!isValidEmail(email)){
-            handleErrors( "Invalid Email");
-            return
-        }
-        if(password.length<4)
-        {
-            handleErrors("Incorrect Password");
-        }
-        else{
-          let res=await setUser("login",{email,password});
-          console.log(res);
+        loginSchemaValidator(email, password).then(async(data)=>{
+          let res = await setUser("login", data);
           if(res && res.isAuth)
-          {
-            navigate("/");
-          }
+          {   navigate("/");  }
           else{
             handleErrors(res.error);
-          }          
-        }
+          }
+      })
+          .catch(async (error) => {
+            if (error) {
+              handleErrors(error.message);
+            }
+          })
+                    
     };
 
 
@@ -96,7 +91,7 @@ export default function Login() {
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="inputBox">
-              <input type="email" className="auth-input" name="email" placeholder="" required />{" "}
+              <input type="email" className="auth-input" name="email" placeholder="" required autoComplete="true"/>{" "}
               <i className="floating-label">Email</i>
             </div>
 

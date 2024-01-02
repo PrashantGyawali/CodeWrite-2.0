@@ -96,12 +96,12 @@ export default function Register() {
   
             <form className="auth-form" onSubmit={handleSubmit}>
             <div className="inputBox">
-                <input type="text" className="auth-input" name="username" required />{" "}
+                <input type="text" className="auth-input" name="username" required autoComplete='true'/>{" "}
                 <i className="floating-label">Username</i>
               </div>
 
               <div className="inputBox">
-                <input type="email" className="auth-input" name="email" placeholder="" required />{" "}
+                <input type="email" className="auth-input" name="email" placeholder="" required autoComplete='true'/>{" "}
                 <i className="floating-label">Email</i>
               </div>
   

@@ -15,6 +15,7 @@ import Register from './pages/Authentication/Register.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import Protected from './components/Protected.jsx'
 import LoginNavComponent from './components/LoginNavBar.jsx'
+import DefaultNavOnlyPage from './pages/Default/DefaultNavOnlyPage.jsx'
 
 const routes=[
   {
@@ -23,7 +24,7 @@ const routes=[
   children:[
     {
       path: '/',
-      element: <LoginNavComponent/>,
+      element: <DefaultNavOnlyPage/>,
       children:[
         {
           path: '/',

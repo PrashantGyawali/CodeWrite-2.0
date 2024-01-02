@@ -9,7 +9,17 @@ import shareIcon from '../../assets/shareIcon.svg';
 import deployIcon from '../../assets/deployIcon.svg';
 import './Projects.css'
 
+const iconsData={
+  "edit":"Edit Project Name",
+  "delete":"Delete Project",
+  "upload":"Save to Cloud",
+  "share":"Share Project",
+  "deploy":"Deploy Project"
+}
+
+
 export default function ProjectInfo(props) {
+
   const [projectInfo,setProjectInfo]=useProject(props.projectType,props.projectId);
   const projectNameRef=useRef();
 
@@ -81,15 +91,15 @@ export default function ProjectInfo(props) {
 
         <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"nowrap", alignItems:"center", justifyContent:"center"}}>
             {/* save to database */}
-            <div onClick={() => {}} className='project-info-icon'><img src={cloudUpload}/></div>
+            <div onClick={() => {}} className='project-info-icon' title={iconsData["upload"]}><img src={cloudUpload}/></div>
 
             {/* create a /shared/web/id project on db */}
-            <div onClick={() => {}} className='project-info-icon'><img src={shareIcon}/></div>
+            <div onClick={() => {}} className='project-info-icon' title={iconsData["share"]}><img src={shareIcon}/></div>
 
-          <div onClick={() => {}} className='project-info-icon'><img src={deployIcon}/></div>
-          <div onClick={() => { setProjectNameEditing(true);}} className='project-info-icon'><img src={editIcon}/></div>
+          {props.projectType=="web" && <div onClick={() => {}} className='project-info-icon' title={iconsData["deploy"]}><img src={deployIcon}/></div> }
+          <div onClick={() => { setProjectNameEditing(true);}} className='project-info-icon' title={iconsData["edit"]}><img src={editIcon}/></div>
 
-          <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} className='project-info-icon'><img src={deleteIcon}/></div>
+          <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} className='project-info-icon' title={iconsData["delete"]}><img src={deleteIcon}/></div>
         </div>
       </div>
     </div>
