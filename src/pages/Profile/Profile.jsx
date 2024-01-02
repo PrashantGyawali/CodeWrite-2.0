@@ -24,9 +24,9 @@ export default function Profile() {
         {
           projectNameRef.current.focus(); 
             projectNameRef.current.addEventListener("focusout",()=>{
-    
               setUserNameEditing(false);
-              handleUser("update",{username:userName});
+              setTimeout(()=>{              handleUser("update",{username:userName});
+            },1000);
             });
              projectNameRef.current.addEventListener('keyup', function (e) {
                 if (e.key === 'Enter')
@@ -34,6 +34,7 @@ export default function Profile() {
                   setUserNameEditing(false);
                 }
              });
+
         }
       },[userNameEditing]);
 
@@ -60,7 +61,7 @@ export default function Profile() {
               <div className={`profile-property ${userNameEditing?"text-white":""}`}>Name:&nbsp;</div> 
               {
                 !userNameEditing?<div className='property-value value-editable' onClick={()=>{setUserNameEditing(true)}}>{user.username}</div>
-                :<input value={userName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setUserName(e.target.value);}} />
+                :<input value={userName} ref={projectNameRef} className='editing-input' onChange={(e) => {setUserName(e.target.value);}} />
               }
              </div>
             <div className="profileInfo-div ">Email: {user.email}</div>

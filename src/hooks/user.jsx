@@ -13,7 +13,7 @@ export default function useUser() {
             case "login":
                 let userInfo=await logInUser(data);
 
-                if(userInfo && userInfo.isAuth && !updatedUser.error)
+                if(userInfo && userInfo.isAuth && !userInfo.error)
                 {
                     setUser(userInfo);
                 }
@@ -35,7 +35,8 @@ export default function useUser() {
 
             case "update":
                 const updatedUser =await updateExistingUserInfo(data);
-                if(updatedUser && !updatedUser.error && !updatedUser.error && updatedUser.isAuth)
+                console.log(updatedUser);
+                if(updatedUser && !updatedUser.error && updatedUser.isAuth)
                 {
                     setUser(updatedUser);
                 }
@@ -43,7 +44,7 @@ export default function useUser() {
 
             case "register":
                 const registeredUser = await registerUser(data);
-                if(registeredUser && registeredUser.isAuth)
+                if(registeredUser && registeredUser.isAuth && !registeredUser.error)
                 {
                     console.log(registeredUser,"hihihihi");
                     setUser(registeredUser);
@@ -59,7 +60,7 @@ export default function useUser() {
     async function updateExistingUserInfo(data)
     {
         const response = await fetch(url+"/updateuser", {
-            method: "PUT",
+            method: "POST",
             mode: "cors",
             cache: "no-cache",
             credentials: "include", 

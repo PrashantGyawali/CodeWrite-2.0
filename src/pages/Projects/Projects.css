@@ -1,3 +1,4 @@
+.project-section{
 .project-tab-row{
     display: flex;
     justify-content: flex-start;
@@ -70,5 +71,7 @@ input:disabled{
     &:hover{
         background-color: rgba(198, 198, 198, 0.258);
     }
+
+}
 
 }

@@ -32,9 +32,8 @@ export default function ProjectInfo(props) {
     {
       projectNameRef.current.focus(); 
         projectNameRef.current.addEventListener("focusout",()=>{
-          console.log("projectNameEditing");
-
           setProjectNameEditing(false);
+          
         });
          projectNameRef.current.addEventListener('keyup', function (e) {
             if (e.key === 'Enter')
@@ -48,21 +47,22 @@ export default function ProjectInfo(props) {
 
   return (
     <div style={{display:"flex", gap:"10px", padding:"5px"}}>
-{
-  !projectNameEditing?
-  <div style={{position:"relative"}}>
-    <div  onClick={()=>navigate(`/self/${props.projectType}/${props.projectId}`)} className='project-link'> </div>
-      <input value={projectInfo.name} onChange={()=>{}} className='editing-input' disabled/>
-  </div>
-:
-<input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
-}
+    {!projectNameEditing?
+                        <div style={{position:"relative"}}>
+                          <div  onClick={()=>navigate(`/self/${props.projectType}/${props.projectId}`)} className='project-link'> </div>
+                            <input value={projectInfo.name} onChange={()=>{}} className='editing-input' disabled/>
+                        </div>
+                      :
+                      <input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
+    }
 
+        {/* save to database */}
         <div onClick={() => {}}><img src={cloudUpload}/></div>
 
+        {/* create a /shared/web/id project on db */}
         <div onClick={() => {}}><img src={shareIcon}/></div>
 
-
+        {/* date modified but shorter like 2 days ago and sth like that, no need to put seconds  */}
       { (new Date(projectInfo.dateModified)).toLocaleString()}
       <div onClick={() => {}}><img src={deployIcon}/></div>
       <div onClick={() => { setProjectNameEditing(true);}}><img src={editIcon}/></div>

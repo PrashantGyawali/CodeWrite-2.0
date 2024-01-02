@@ -127,13 +127,18 @@ overflow-y-md-scroll {
 
 .run-button{
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 2px;
+  top: 2px;
+  border-radius: 8px;
   padding: 3px 8px 5px 8px
 }
 .run-button:hover{
+  transform: scale(1.05);
+}
+.run-button:active{
   transform: scale(1.1);
 }
+
 
 .border-radius-50{
   border-radius: 50% !important;

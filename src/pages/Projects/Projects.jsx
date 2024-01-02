@@ -17,7 +17,7 @@ export default function Projects() {
     markdownselected="selected"
   };
   return (
-    <section style={{backgroundColor:"rgba(0,0,0,0)"}}>
+    <section style={{backgroundColor:"rgba(0,0,0,0)"}} className='project-section'> 
      <LoginNavComponent/>
 
     <div style={{fontSize:"30px",color:"white", backgroundColor:"rgb(36,36,36)"}}>Your projects</div>
