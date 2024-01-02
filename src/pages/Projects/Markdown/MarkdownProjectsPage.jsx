@@ -6,7 +6,7 @@ import ProjectList from '../ProjectsList';
 export default function MarkdownProjectsPage() {
     const [creatingNewProject,setCreatingNewProject]=useState();
     const handleCLick=()=>{
-        const id=String(Number(createNewProject("md",null)));
+        const id=String(Number(createNewProject("md",{})));
         setCreatingNewProject(id);   
     }
 

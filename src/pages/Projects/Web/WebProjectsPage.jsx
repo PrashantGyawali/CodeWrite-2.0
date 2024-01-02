@@ -6,7 +6,7 @@ import ProjectList from '../ProjectsList';
 export default function WebProjectsPage() {
     const [creatingNewProject,setCreatingNewProject]=useState();
     const handleCLick=()=>{
-        const id=String(Number(createNewProject("web",null)));
+        const id=String(Number(createNewProject("web",{})));
         setCreatingNewProject(id);   
     }
 
