@@ -1,10 +1,8 @@
 import React from 'react'
-import LoginNavComponent from '../../components/LoginNavBar'
 
 export default function Home() {
   return (
     <>
-        <LoginNavComponent/>
         <div>Home</div>
     </>
   )

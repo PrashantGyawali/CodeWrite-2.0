@@ -18,7 +18,6 @@ export default function Projects() {
   };
   return (
     <section style={{backgroundColor:"rgba(0,0,0,0)"}} className='project-section'> 
-     <LoginNavComponent/>
 
     <div style={{fontSize:"30px",color:"white", backgroundColor:"rgb(36,36,36)"}}>Your projects</div>
     <div className="project-tab-row">

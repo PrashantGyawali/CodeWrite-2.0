@@ -1,12 +1,11 @@
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef, useEffect, useContext} from 'react'
 import "./Profile.css"
 import userIcon from "../../assets/userIcon.svg"
-import useUser from '../../hooks/user'
 import { useNavigate } from 'react-router-dom'
-import LoginNavComponent from '../../components/LoginNavBar'
+import { SettingsContext } from '../../App'
 
 export default function Profile() {
-    const [user,handleUser]=useUser();
+    const {user,setUser:handleUser}=useContext(SettingsContext);
     const [userNameEditing,setUserNameEditing]=useState(false);
     const [userName,setUserName]=useState(user.username);
 
@@ -45,7 +44,6 @@ export default function Profile() {
 
   return (
     <>
-    <LoginNavComponent/>
     <div className='profile '>
     <section className="auth-section">
         <div className="auth register">

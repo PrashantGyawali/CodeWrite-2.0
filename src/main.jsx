@@ -13,6 +13,8 @@ import Auth from './pages/Authentication/Auth.jsx'
 import Login from './pages/Authentication/Login.jsx'
 import Register from './pages/Authentication/Register.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import Protected from './components/Protected.jsx'
+import LoginNavComponent from './components/LoginNavBar.jsx'
 
 const routes=[
   {
@@ -21,31 +23,68 @@ const routes=[
   children:[
     {
       path: '/',
-      element: <Home/> //here will be home page
-    },
-    {
-      path: '/projects',
-      element: <Projects/>,
+      element: <LoginNavComponent/>,
       children:[
         {
-          path: '/projects/',
-          element: <WebProjectsPage/>
-        }
-        ,
-        {
-          path: '/projects/web/*',
-          element: <Navigate to="/projects/web"/>
+          path: '/',
+          element: <Home/>
         },
         {
-          path: '/projects/web',
-          element: <WebProjectsPage/>
+          path: '/auth',
+          element:<Auth/>,
+          children:[
+            {
+              path: '/auth/',
+              element: <Navigate to="/auth/login"/>
+            },
+            {
+              path: '/auth/login',
+              element: <Login/>
+            },
+            {
+              path: '/auth/signup',
+              element: <Navigate to="/auth/register"/>
+            },
+            {
+              path: '/auth/register',
+              element: <Register/>
+            },
+            {
+              path: '/auth/signin',
+              element: <Navigate to="/auth/login"/>
+            }
+          ]
         },
         {
-          path: '/projects/md/',
-          element: <MarkdownProjectsPage/>
+          path:"/profile",
+          element:<Protected element={Profile}/>
+        },
+        {
+          path: '/projects',
+          element: <Projects/>,
+          children:[
+            {
+              path: '/projects/',
+              element: <WebProjectsPage/>
+            }
+            ,
+            {
+              path: '/projects/web/*',
+              element: <Navigate to="/projects/web"/>
+            },
+            {
+              path: '/projects/web',
+              element: <WebProjectsPage/>
+            },
+            {
+              path: '/projects/md/',
+              element: <MarkdownProjectsPage/>
+            }
+          ]
         }
       ]
-    },{
+    },
+   {
       path: '/web',
       element: <Navigate to="/projects/web"/>,
       
@@ -69,36 +108,6 @@ const routes=[
     path: '/self/md',
     element:<Navigate to="/projects/md"/>
   },
-  {
-    path: '/auth',
-    element:<Auth/>,
-    children:[
-      {
-        path: '/auth/',
-        element: <Navigate to="/auth/login"/>
-      },
-      {
-        path: '/auth/login',
-        element: <Login/>
-      },
-      {
-        path: '/auth/signup',
-        element: <Navigate to="/auth/register"/>
-      },
-      {
-        path: '/auth/register',
-        element: <Register/>
-      },
-      {
-        path: '/auth/signin',
-        element: <Navigate to="/auth/login"/>
-      }
-    ]
-  },
-  {
-    path:"/profile",
-    element:<Profile/>
-  }
 
   ],
   errorElement:<Navigate to="/"/>

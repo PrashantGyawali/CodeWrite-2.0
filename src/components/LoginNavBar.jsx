@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import { SettingsContext } from "../App";
-import { useNavigate} from "react-router-dom";
+import { Outlet, useNavigate} from "react-router-dom";
 import '../App.css'
 import useLocalStorage from "../hooks/localstorage";
 import profileIcon from "../assets/profileIcon.svg"
@@ -56,6 +56,7 @@ function LoginNavComponent() {
           </div>
         </Navbar.Collapse>
       </Navbar>
+      <Outlet/>
     </>
   );
 }

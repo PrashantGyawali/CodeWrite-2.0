@@ -17,7 +17,7 @@ function NavComponent() {
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
 
-    useEffect(() => {console.log(editor)}, [editor]);
+    // useEffect(() => {console.log(editor)}, [editor]);
 
   const navigate = useNavigate();
   return (
