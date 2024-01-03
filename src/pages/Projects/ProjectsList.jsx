@@ -16,8 +16,8 @@ export default function ProjectList() {
 
 
   return (
-    <div>
+    <>
         {projects && validProjects.map((project)=>{return <ProjectInfo key={project[0]} projectType={projectType} projectId={project[0]} updateProjects={setProjects}/>})}
-    </div>
+    </>
   )
 }

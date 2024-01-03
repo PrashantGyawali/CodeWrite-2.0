@@ -250,7 +250,7 @@ export default function WebEditor() {
         <iframe
           srcDoc={srcDoc}
           title="output"
-          sandbox="allow-scripts"
+          sandbox="allow-scripts allow-modals"
           width="100%"
           height="100%"
         ></iframe>
@@ -262,7 +262,8 @@ export default function WebEditor() {
                         <style>${css}</style>
                         <body>${html}</body>
                         <script>
-                        ${js}
+                        try{${js}}
+                        catch(err){document.write(err)}
                         </script></html>`)
             }
             className="run-button"

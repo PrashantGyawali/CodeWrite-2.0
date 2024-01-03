@@ -16,17 +16,14 @@ export default function Projects() {
     markdownselected="selected"
   };
   return (
-    <section style={{backgroundColor:"rgba(0,0,0,0)"}} className='project-section'> 
+    <section className='project-section'> 
 
     <div style={{fontSize:"30px",color:"white", backgroundColor:"rgb(36,36,36)"}}>Your projects</div>
     <div className="project-tab-row">
       <Link to="/projects/web" className={"tab "+webselected}>Web Projects</Link>
       <Link to="/projects/md" className={"tab "+markdownselected}>Markdowns</Link>
     </div>
-
-    <br></br>
-
-    <div>
+    <div className='projects-list'>
     <Outlet/>
     </div>
     </section>

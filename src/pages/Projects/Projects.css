@@ -1,4 +1,10 @@
 .project-section{
+    background-color: rgb(36,36,36);
+
+    .projects-list{
+        background-color: rgb(45,45,45);
+        padding: 4px 0px;
+    }
 .project-tab-row{
     display: flex;
     justify-content: flex-start;
@@ -35,14 +41,13 @@
         white-space: nowrap;
         overflow: hidden;
     }
-    
     .tab.selected{
         border-top:2px solid rgb(20, 20, 20);
-        background-color: #222;  
-        background-color: #222222ca;
+        background-color: rgb(45,45,45);
         color:#ffffff;
         border-bottom: none;
     }
+
 
 }
 input:disabled{

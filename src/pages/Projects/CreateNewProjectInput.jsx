@@ -1,6 +1,7 @@
 import React,{useEffect,useRef,useState} from "react";
 import { useNavigate } from "react-router-dom";
 import useProject from "../../hooks/ProjectFunctions";
+import "./Projects.css";
 
 export default function CreatingNewProjectElement({id,type,setCreatingNewProject}){
     const navigate=useNavigate();
@@ -35,7 +36,9 @@ export default function CreatingNewProjectElement({id,type,setCreatingNewProject
 
     return(
         <div>
-            <input ref={inputRef} type="text" placeholder="Enter Project Name" value={projectName} onChange={(e)=>{setProjectName(e.target.value)}} />
+            <input ref={inputRef} type="text" placeholder="Enter Project Name" 
+            // className="editing-input"
+            value={projectName} onChange={(e)=>{setProjectName(e.target.value)}} />
         </div>
     )
 };
