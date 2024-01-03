@@ -82,6 +82,10 @@ overflow: auto;
   .markdowneditor {
     width:100% !important;
   }
+  .editor-container{
+    flex-direction: column;
+  width: 100% !important;
+  }
 }
 
 .maximized {

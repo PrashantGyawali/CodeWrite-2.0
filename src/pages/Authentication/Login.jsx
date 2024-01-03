@@ -56,14 +56,13 @@ export default function Login() {
 
         const email=formData.get("email");
         const password=formData.get("password");
-        loginSchemaValidator(email, password).then(async(data)=>{
-          let res = await setUser("login", data);
-          if(res && res.isAuth)
-          {   navigate("/");  }
-          else{
-            handleErrors(res.error);
-          }
-      })
+        loginSchemaValidator(email, password).then(async(data)=>
+          {
+            let res = await setUser("login", data);
+            if(res && res.isAuth)
+            {   navigate("/");  }
+            else{ handleErrors(res.error);  }
+          })
           .catch(async (error) => {
             if (error) {
               handleErrors(error.message);

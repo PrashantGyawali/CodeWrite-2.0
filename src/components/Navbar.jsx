@@ -9,7 +9,7 @@ import { useNavigate} from "react-router-dom";
 import '../App.css'
 import useLocalStorage from "../hooks/localstorage";
 
-
+import { Dropdown,Form} from 'react-bootstrap';
 
 function NavComponent() {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -54,3 +54,6 @@ function NavComponent() {
 }
 
 export default NavComponent;
+
+
+

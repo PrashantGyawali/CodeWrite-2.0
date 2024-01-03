@@ -4,10 +4,11 @@ import { useContext } from "react";
 import { SettingsContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/localstorage";
+import exitIcon from "../assets/exitIcon.svg"
 
 export default function Settingsbar(props) {
 
-    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags  } = useContext(SettingsContext);
+    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole  } = useContext(SettingsContext);
     const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
 
     const navigate = useNavigate();
@@ -34,22 +35,47 @@ export default function Settingsbar(props) {
                     <Form className="d-md-flex justify-content-md-between align-items-center">
                         {editor=="web" && <>
                         <div className="p-1">
-                            <Form.Check type="switch" label="Run manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} />
-                        </div>
-                        <div className="p-1">
-                            <Form.Check type="switch" label="Show as Tabs" defaultChecked={tabornot} onChange={() => setTabornot(!tabornot)} />
-                        </div>
-                        <div className="p-1">
-                            <Form.Check type="switch" label="Autoclose tags" defaultChecked={autoCloseTags} onChange={() => setAutoCloseTags(!autoCloseTags)} />
-                        </div>
+                            <Dropdown >
+                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                                    Editor Settings
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu variant="dark">
+                                    <Dropdown.Item >
+                                    <Form.Check type="switch" label="Show as Tabs"  defaultChecked={tabornot} onChange={() => setTabornot(!tabornot)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                    <Form.Check type="switch" label="Autoclose Tags" defaultChecked={autoCloseTags} onChange={() => setAutoCloseTags(!autoCloseTags)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                    <Form.Check type="switch" label="Advanced Resize" defaultChecked={allowResize} onChange={() => setAllowResize(!allowResize)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            </div>
+                            <div className="p-1">
+                            <Dropdown >
+                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                                    Output Settings
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu variant="dark">
+                                    <Dropdown.Item>
+                                    <Form.Check type="switch" label="Run Manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} onClick={(e)=>{e.stopPropagation()}} />
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={(showConsole) => setShowConsole(!showConsole)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            </div>
+
                         </>
                         }
-                        <div className="p-1">
-                            <Button variant="danger" onClick={closeProject} >X Close Project </Button>
-                        </div>
+                        
                         <div className="p-1">
                             <Dropdown>
-                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
                                     Theme: {themeMapping[theme]}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
@@ -61,6 +87,9 @@ export default function Settingsbar(props) {
                                     <Dropdown.Item onClick={() => setTheme("3024-day")}>Light</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
+                        </div>
+                        <div className="p-1">
+                            <Button variant="secondary" onClick={closeProject} ><img src={exitIcon} />  Close</Button>
                         </div>
                     </Form>
                 </Accordion.Body>

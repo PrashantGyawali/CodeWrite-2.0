@@ -45,7 +45,7 @@ const contentTypes = {
 };
 
 const Editor = (props) => {
-  const { editor, theme, tabornot, autoCloseTags } = useContext(SettingsContext);
+  const { editor, theme, tabornot, autoCloseTags,     allowResize  } = useContext(SettingsContext);
   const editorRef = useRef(0);
   const editorContainerRef = useRef(null);
 
@@ -58,7 +58,7 @@ const Editor = (props) => {
     handleMinimize,
     handleDownloadAllClick,
     editorWidth,
-     setEditorWidth
+     setEditorWidth,
   } = props;
 
   const handleChange = (editor, data, value) => {
@@ -85,9 +85,10 @@ const Editor = (props) => {
         }
       }
     };
-
     adjustLines();
   }, []);
+
+
 
   const download = () => {
     const link = document.createElement('a');
@@ -142,7 +143,7 @@ const Editor = (props) => {
         undoDepth: 400,
       }} ref={editorRef} />
 
-      {tabornot==false && <div className="resizeBar" onMouseDown={handleResize} onTouchStart={handleResize}></div>}
+      {!!allowResize && tabornot==false && <div className="resizeBar" onMouseDown={handleResize} onTouchStart={handleResize}></div>}
     </div>
   );
 };

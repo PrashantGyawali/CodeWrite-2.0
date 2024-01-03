@@ -16,12 +16,15 @@ export default function App() {
     const [tabornot, setTabornot] = useLocalStorage("tabornot",false);
     const [autorun, setAutorun] = useLocalStorage("autorun",true);
     const [autoCloseTags, setAutoCloseTags] = useLocalStorage("autoclosetags",true);
+    const [allowResize,setAllowResize]=useLocalStorage("allowresize",true);
     const [user, setUser] = useUser();
+    const [showConsole, setShowConsole] = useLocalStorage("showconsole",true);
 
+    const contextValues={editor,theme,setTheme,tabornot,setTabornot,autorun,setAutorun,autoCloseTags,setAutoCloseTags,user,setUser,setAllowResize,allowResize,showConsole,setShowConsole};
 
   return (
     <>
-    <SettingsContext.Provider value={{editor,theme,setTheme,tabornot,setTabornot,autorun,setAutorun,autoCloseTags,setAutoCloseTags,user,setUser}}>
+    <SettingsContext.Provider value={contextValues}>
       <Outlet/>
     </SettingsContext.Provider>
     </>

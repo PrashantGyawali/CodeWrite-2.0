@@ -3,7 +3,7 @@ import Editor from "../Editor/Editor";
 import "../../App.css";
 import NavComponent from "../../components/Navbar";
 import { SettingsContext } from "../../App";
-import { combineIntoHTML } from "../../utils/functions";
+import { combineIntoHTML, convertConsoleLogs } from "../../utils/functions";
 
 import runbtn from "../../assets/run.svg";
 
@@ -14,7 +14,6 @@ import useLocalStorage from "../../hooks/localstorage";
 import { useParams,useNavigate } from "react-router-dom";
 export default function WebEditor() {
 
-  
   const urlParams=useParams();
   const navigate=useNavigate();
   
@@ -30,7 +29,7 @@ export default function WebEditor() {
 
 
   //for iframe
-  const [srcDoc, setSrcDoc] = useState("");
+  const [srcDoc, setSrcDoc] = useState(htmlWithConsole(html,css,js));
 
 
 
@@ -96,11 +95,11 @@ export default function WebEditor() {
 //for tab or not nd run btn
   const { tabornot, autorun } = useContext(SettingsContext);
 
-  useEffect(() => {
-    setSrcDoc(
-      `<html><style>${css}</style><body>${html}</body><script>${js}</script></html>`
-    );
-  }, []);
+  // useEffect(() => {
+  //   setSrcDoc(
+  //     htmlWithConsole(html,css,js)
+  //   );
+  // }, []);
 
   useEffect(() => {
 
@@ -115,7 +114,7 @@ export default function WebEditor() {
       if (autorun) {
         const timeout = setTimeout(() => {
           setSrcDoc(
-            `<html><style>${css}</style><body>${html}</body><script>${js}</script></html>`
+           htmlWithConsole(html,css,js)
           );
         }, 1000);
   
@@ -250,21 +249,14 @@ export default function WebEditor() {
         <iframe
           srcDoc={srcDoc}
           title="output"
-          sandbox="allow-scripts allow-modals"
+          sandbox="allow-scripts allow-modals allow-forms"
           width="100%"
           height="100%"
         ></iframe>
         {!autorun && (
           <button
             onClick={() =>
-              setSrcDoc(`
-                        <html>
-                        <style>${css}</style>
-                        <body>${html}</body>
-                        <script>
-                        try{${js}}
-                        catch(err){document.write(err)}
-                        </script></html>`)
+              setSrcDoc(()=>(htmlWithConsole(html,css,js)))
             }
             className="run-button"
           >
@@ -274,4 +266,60 @@ export default function WebEditor() {
       </div>
     </>
   );
+}
+
+function htmlWithConsole(html,css,js)
+{
+  let consoleId=(Math.random()*10000).toString(20);
+  let htmlId=(Math.random()*10000).toString(20);
+  let consoleTabId=(Math.random()*10000).toString(20);
+  let htmlTabId=(Math.random()*10000).toString(20);
+  let convertedText=`
+  <html>
+  <style>${css}</style>
+  <body style="margin:0px">
+  <div class="tabs" style="display:flex;width:100%; background-color:rgb(36,36,36)">
+  <button style="font-size:20px; padding:5px; background-color:rgb(73, 80, 87); color:white; border:2px solid black" id="${htmlTabId}">HTML</button>
+  <button id="${consoleTabId}" style=" font-size:20px;background-color:rgb(33, 37, 41); color:white; border:2px solid black">Console</button>
+  </div>
+  <div id="${htmlId}">
+  ${html}
+  </div>
+  <div id="${consoleId}" style="background: linear-gradient(to bottom, rgba(36,36,36,1) 50%, rgb(100,100,100) ); border-bottom: rgb(41,0,155) 4px solid; color:red; font-size:20px; height:88vh; overflow-y:hidden;"></div>
+  </body>
+
+  <script defer>
+  document.getElementById("${consoleId}").style.display="none";
+
+  document.getElementById("${consoleTabId}").addEventListener("click",()=>{
+    document.getElementById("${consoleId}").style.display="block";
+    document.getElementById("${htmlId}").style.display="none";
+    document.getElementById("${htmlTabId}").style.backgroundColor="rgb(33, 37, 41)";
+    document.getElementById("${consoleTabId}").style.color="white";
+
+    document.getElementById("${consoleTabId}").style.backgroundColor="rgb(73, 80, 87)";
+  });
+
+  document.getElementById("${htmlTabId}").addEventListener("click",()=>{document.getElementById("${htmlId}").style.display="block";
+  document.getElementById("${consoleId}").style.display="none";
+  document.getElementById("${consoleTabId}").style.backgroundColor="rgb(33, 37, 41)";
+  document.getElementById("${consoleTabId}").style.color="white";
+
+  document.getElementById("${htmlTabId}").style.backgroundColor="rgb(73, 80, 87)";
+
+});
+
+  try{
+    ${convertConsoleLogs(js,consoleId)}
+  }
+  catch(err){
+    document.getElementById("${consoleId}").innerText+=err;
+    console.log(err);
+  }
+  </script>
+
+  <script>
+  
+  </script></html>`
+return convertedText;
 }
