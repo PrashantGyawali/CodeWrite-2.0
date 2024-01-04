@@ -21,6 +21,8 @@ export default function WebEditor() {
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
 
 
+//for tab or not nd run btn
+  const { tabornot, autorun, showConsoleOnError, showConsole } = useContext(SettingsContext);
 
   const [html, setHTML] = useState( code?.html || "");
   const [css, setCss] = useState(code?.css || "");
@@ -29,7 +31,7 @@ export default function WebEditor() {
 
 
   //for iframe
-  const [srcDoc, setSrcDoc] = useState(htmlWithConsole(html,css,js));
+  const [srcDoc, setSrcDoc] = useState(htmlWithConsole(html,css,js,showConsole,showConsoleOnError));
 
 
 
@@ -92,14 +94,6 @@ export default function WebEditor() {
     handleMinimize(setJsMinimize, jsMinimize,resize);
   };
 
-//for tab or not nd run btn
-  const { tabornot, autorun } = useContext(SettingsContext);
-
-  // useEffect(() => {
-  //   setSrcDoc(
-  //     htmlWithConsole(html,css,js)
-  //   );
-  // }, []);
 
   useEffect(() => {
 
@@ -114,14 +108,14 @@ export default function WebEditor() {
       if (autorun) {
         const timeout = setTimeout(() => {
           setSrcDoc(
-           htmlWithConsole(html,css,js)
+           htmlWithConsole(html,css,js,showConsole,showConsoleOnError)
           );
         }, 1000);
   
         return () => clearTimeout(timeout);
       }
     }
-  }, [html, css, js]);
+  }, [html, css, js,showConsole,showConsoleOnError]);
 
 
 // handle download all
@@ -256,7 +250,7 @@ export default function WebEditor() {
         {!autorun && (
           <button
             onClick={() =>
-              setSrcDoc(()=>(htmlWithConsole(html,css,js)))
+              setSrcDoc(htmlWithConsole(html,css,js,showConsole,showConsoleOnError ))
             }
             className="run-button"
           >
@@ -268,13 +262,35 @@ export default function WebEditor() {
   );
 }
 
-function htmlWithConsole(html,css,js)
+function htmlWithConsole(html,css,js,showConsole,showConsoleOnError)
 {
   let consoleId=(Math.random()*10000).toString(20);
   let htmlId=(Math.random()*10000).toString(20);
   let consoleTabId=(Math.random()*10000).toString(20);
   let htmlTabId=(Math.random()*10000).toString(20);
-  let convertedText=`
+
+  let showConsoleOnErrorFunction=" ";
+  let convertedText=""
+  if(showConsoleOnError)
+  {
+      showConsoleOnErrorFunction= "showConsole();";
+  }
+  if(!showConsole)
+  {
+      convertedText=`
+      <html>
+      <style>${css}</style>
+      <body style="margin:0px">
+      ${html}
+      </body>
+      <script defer>
+      ${js}
+      </script>
+      </html>`
+
+  }
+  else{
+   convertedText=`
   <html>
   <style>${css}</style>
   <body style="margin:0px">
@@ -291,29 +307,34 @@ function htmlWithConsole(html,css,js)
   <script defer>
   document.getElementById("${consoleId}").style.display="none";
 
-  document.getElementById("${consoleTabId}").addEventListener("click",()=>{
+  function showConsole(){
     document.getElementById("${consoleId}").style.display="block";
     document.getElementById("${htmlId}").style.display="none";
-    document.getElementById("${htmlTabId}").style.backgroundColor="rgb(33, 37, 41)";
+    document.getElementById("${htmlTabId}").style.backgroundColor="rgb(0,0,0)";
     document.getElementById("${consoleTabId}").style.color="white";
-
     document.getElementById("${consoleTabId}").style.backgroundColor="rgb(73, 80, 87)";
-  });
+    document.getElementById("${consoleTabId}").style.border="none";
+  }
+  function showHTML(){
+    document.getElementById("${htmlId}").style.display="block";
+    document.getElementById("${consoleId}").style.display="none";
+    document.getElementById("${consoleTabId}").style.backgroundColor="rgb(0,0,0)";
+    document.getElementById("${consoleTabId}").style.color="white";
+    document.getElementById("${htmlTabId}").style.backgroundColor="rgb(73, 80, 87)";
+  }
 
-  document.getElementById("${htmlTabId}").addEventListener("click",()=>{document.getElementById("${htmlId}").style.display="block";
-  document.getElementById("${consoleId}").style.display="none";
-  document.getElementById("${consoleTabId}").style.backgroundColor="rgb(33, 37, 41)";
-  document.getElementById("${consoleTabId}").style.color="white";
+  document.getElementById("${consoleTabId}").addEventListener("click",()=>showConsole());
 
-  document.getElementById("${htmlTabId}").style.backgroundColor="rgb(73, 80, 87)";
+  document.getElementById("${htmlTabId}").addEventListener("click",()=>showHTML());
 
-});
 
   try{
     ${convertConsoleLogs(js,consoleId)}
   }
   catch(err){
-    document.getElementById("${consoleId}").innerText+=err;
+      ${showConsoleOnErrorFunction}
+      document.getElementById("${consoleTabId}").style.border="2px solid red";
+      document.getElementById("${consoleId}").innerText+=err;
     console.log(err);
   }
   </script>
@@ -321,5 +342,6 @@ function htmlWithConsole(html,css,js)
   <script>
   
   </script></html>`
+}
 return convertedText;
 }

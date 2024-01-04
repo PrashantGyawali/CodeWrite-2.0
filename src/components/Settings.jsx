@@ -8,7 +8,7 @@ import exitIcon from "../assets/exitIcon.svg"
 
 export default function Settingsbar(props) {
 
-    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole  } = useContext(SettingsContext);
+    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError  } = useContext(SettingsContext);
     const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
 
     const navigate = useNavigate();
@@ -64,8 +64,11 @@ export default function Settingsbar(props) {
                                     <Form.Check type="switch" label="Run Manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} onClick={(e)=>{e.stopPropagation()}} />
                                     </Dropdown.Item>
                                     <Dropdown.Item>
-                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={(showConsole) => setShowConsole(!showConsole)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
                                     </Dropdown.Item>
+                                    {showConsole && <Dropdown.Item>
+                                    <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>}
                                 </Dropdown.Menu>
                             </Dropdown>
                             </div>

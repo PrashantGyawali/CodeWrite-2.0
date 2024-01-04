@@ -19,8 +19,9 @@ export default function App() {
     const [allowResize,setAllowResize]=useLocalStorage("allowresize",true);
     const [user, setUser] = useUser();
     const [showConsole, setShowConsole] = useLocalStorage("showconsole",true);
+    const [showConsoleOnError, setShowConsoleOnError] = useLocalStorage("showconsoleonerror",true);
 
-    const contextValues={editor,theme,setTheme,tabornot,setTabornot,autorun,setAutorun,autoCloseTags,setAutoCloseTags,user,setUser,setAllowResize,allowResize,showConsole,setShowConsole};
+    const contextValues={editor,theme,setTheme,tabornot,setTabornot,autorun,setAutorun,autoCloseTags,setAutoCloseTags,user,setUser,setAllowResize,allowResize,showConsole,setShowConsole,showConsoleOnError,setShowConsoleOnError};
 
   return (
     <>
