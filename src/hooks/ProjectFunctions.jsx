@@ -16,6 +16,7 @@ export function createNewProject(type,value) {
         id:id,
         name:  `New Project ${id}`,
         dateModified: Date.now(),
+        dateCreated: Date.now(),
         sharedURL:"",
     }
     if(type==="web")
@@ -68,6 +69,8 @@ export default function useProject(type, id) {
   
       let newProjectInfo = {
         ...projectInfo,
+        // not suitable for database cause this is local string and not globally valid
+        dateModified: (new Date()).toLocaleString(),
         ...value
       };
       // console.log(newProjectInfo);

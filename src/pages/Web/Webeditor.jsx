@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Editor from "../Editor/Editor";
 import "../../App.css";
 import NavComponent from "../../components/Navbar";
@@ -104,7 +104,7 @@ export default function WebEditor() {
 
     else{
       setLastOpened({web:urlParams.id,md:lastOpened.md});
-      setCode({html:html,css:css,js:js});
+      // setCode({html:html,css:css,js:js});
       if (autorun) {
         const timeout = setTimeout(() => {
           setSrcDoc(
@@ -116,6 +116,19 @@ export default function WebEditor() {
       }
     }
   }, [html, css, js,showConsole,showConsoleOnError]);
+
+// dont cause reinitialization of lastModified date on entering
+  const renderCount=useRef(0);
+  useEffect(()=>{
+    if(renderCount.current>0)
+    {
+      setCode({html:html,css:css,js:js});
+    }
+    else{
+      renderCount.current+=1;
+    }
+  },[html,css,js]);
+
 
 
 // handle download all

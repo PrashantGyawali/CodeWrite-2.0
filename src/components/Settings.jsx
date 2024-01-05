@@ -5,6 +5,9 @@ import { SettingsContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/localstorage";
 import exitIcon from "../assets/exitIcon.svg"
+import cloudUpload from "../assets/cloudUpload.svg"
+import cloudSavedIcon from "../assets/cloudSavedIcon.svg"
+import ShareModal from "./ShareModal";
 
 export default function Settingsbar(props) {
 
@@ -15,13 +18,13 @@ export default function Settingsbar(props) {
 
     const closeProject=()=>{
         setLastOpened({ ...lastOpened, [editor]: ""});
-        setTimeout(() => {        navigate("/");
+        setTimeout(() => {        navigate(`/projects/${editor}`); 
     },10)
     }
 
     const themeMapping={
-        "material":"Material Theme",
-        "cobalt":"Cobalt theme",
+        "material":"Material",
+        "cobalt":"Cobalt",
         "xq-dark":"XQ-dark",
         "the-matrix":"Matrix",
         "night":"Night",
@@ -75,21 +78,42 @@ export default function Settingsbar(props) {
 
                         </>
                         }
-                        
+                        <div className="p-1">
+                            <Dropdown >
+                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                                    Project Settings
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu variant="dark" className="p-0">
+                                    <Dropdown.Item className="p-0">
+                                    <Button className="w-100" variant="secondary" onClick={closeProject} ><img src={cloudUpload} /> Save to cloud</Button>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>
+                                    {showConsole && <Dropdown.Item>
+                                    <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
                         <div className="p-1">
                             <Dropdown>
                                 <Dropdown.Toggle variant="dark" id="dropdown-basic">
                                     Theme: {themeMapping[theme]}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => setTheme("material")}>Material Theme</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setTheme("cobalt")}>Cobalt theme</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setTheme("material")}>Material</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setTheme("cobalt")}>Cobalt</Dropdown.Item>
                                     <Dropdown.Item onClick={() => setTheme("xq-dark")}>XQ-dark</Dropdown.Item>
                                     <Dropdown.Item onClick={() => setTheme("the-matrix")}>Matrix</Dropdown.Item>
                                     <Dropdown.Item onClick={() => setTheme("night")}>Night</Dropdown.Item>
                                     <Dropdown.Item onClick={() => setTheme("3024-day")}>Light</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
+                        </div>
+                        <div className="p-1">
+                            <ShareModal/>
                         </div>
                         <div className="p-1">
                             <Button variant="secondary" onClick={closeProject} ><img src={exitIcon} />  Close</Button>

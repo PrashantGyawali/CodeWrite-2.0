@@ -1,9 +1,8 @@
 import React from "react";
 import "./Auth.css";
-import { isValidEmail } from "../../utils/Emailvalidator";
-import { useState,useRef } from "react";
+import { useState,useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react"; 
+import { useContext} from "react"; 
 import { SettingsContext } from "../../App";
 import loginSchemaValidator from "../Validations/LoginValidation";
 
@@ -22,7 +21,13 @@ export default function Login() {
     const [passwordVisibility,setPasswordVisibility]=useState("password");
     const {user,setUser}= useContext(SettingsContext);
     const timerRef = useRef(null);
-
+    useEffect(()=>{
+      if(user.isAuth)
+      {
+        navigate("/projects");
+      }
+    },[user]);
+    
     const showPassword=()=>{
       if(passwordVisibility=="password")
       {
@@ -35,8 +40,6 @@ export default function Login() {
       setPasswordVisibility("password");
       clearTimeout(timerRef.current);
     }
-
-
 
 
     const [errors,setErrors]=useState("");
@@ -116,5 +119,6 @@ export default function Login() {
         </div>
       </div>
     </section>
+
   );
 }

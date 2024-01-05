@@ -1,9 +1,10 @@
-import { useState, useContext} from 'react';
+import { useState, useContext, useEffect} from 'react';
 import "./Auth.css"
-import { isValidEmail } from '../../utils/Emailvalidator';
 import { useNavigate } from 'react-router-dom';
 
 import { SettingsContext } from '../../App';
+import registerSchemaValidator from '../Validations/RegisterValidation';
+
 
 const ErrorMessagesElement = ({errorMessage}) => {
     
@@ -35,6 +36,12 @@ export default function Register() {
     setPasswordVisibility("password");
   }
 
+  useEffect(()=>{
+    if(user.isAuth)
+    {
+      navigate("/projects");
+    }
+  },[user])
 
 
     const [errors,setErrors]=useState("");
@@ -56,27 +63,18 @@ export default function Register() {
         const username=formData.get("username");
         const password=formData.get("password");
         
-        if(username.trim().length<4)
-        {
-            handleErrors("Username must be atleast 3 characters long");
-        }
-        else if(!isValidEmail(email)){
-            handleErrors("Invalid Email");
-        }
-        else if(password.length<4)
-        {
-            handleErrors("Password must be atleast 4 characters long");
-        }
-        else{
-          let res=await setUser("register",{username,email,password});
-          if(res && res.isAuth)
+        registerSchemaValidator(username.trim(),email.trim(), password).then(async(data)=>
           {
-            navigate("/");
-          }
-          else{
-            handleErrors(res.error);
-          }          
-        }
+            let res = await setUser("register", data);
+            if(res && res.isAuth)
+            {   navigate("/projects");  }
+            else{ handleErrors(res.error);  }
+          })
+          .catch(async (error) => {
+            if (error) {
+              handleErrors(error.message);
+            }
+          })
 
 
     };

@@ -4,7 +4,6 @@ import { SettingsContext } from '../App';
 export default function Protected({element}) {
     const Element=element;
     const {user}=useContext(SettingsContext);
-    console.log(user);
     return (
         <>{user.isAuth?<Element/>:<Navigate to="/auth" />}</>
     )

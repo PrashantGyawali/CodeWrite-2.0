@@ -46,7 +46,6 @@ export default function useUser() {
                 const registeredUser = await registerUser(data);
                 if(registeredUser && registeredUser.isAuth && !registeredUser.error)
                 {
-                    console.log(registeredUser,"hihihihi");
                     setUser(registeredUser);
                 }
                 return registeredUser; //this will return the error text recieved from db or the user object
@@ -114,6 +113,7 @@ export default function useUser() {
             },
             referrerPolicy: "no-referrer", 
           });
+          console.log(response)
     }
 
     async function registerUser(data)

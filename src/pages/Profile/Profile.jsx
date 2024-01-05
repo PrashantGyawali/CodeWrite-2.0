@@ -64,7 +64,7 @@ export default function Profile() {
              </div>
             <div className="profileInfo-div ">Email: {user.email}</div>
             <div className="profileInfo-div ">Date joined: {user.dateJoined}</div>
-            <button className="logout">LOGOUT</button>
+            <button className="logout" onClick={handleLogout}>LOGOUT</button>
           </div>
         </div>
       </section>

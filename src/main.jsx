@@ -14,7 +14,6 @@ import Login from './pages/Authentication/Login.jsx'
 import Register from './pages/Authentication/Register.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import Protected from './components/Protected.jsx'
-import LoginNavComponent from './components/LoginNavBar.jsx'
 import DefaultNavOnlyPage from './pages/Default/DefaultNavOnlyPage.jsx'
 
 const routes=[
