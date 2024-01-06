@@ -1,6 +1,6 @@
 import { Accordion, Form, Dropdown, Button} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
-import { useContext } from "react";
+import { useContext,useRef   } from "react";
 import { SettingsContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/localstorage";
@@ -11,8 +11,29 @@ import ShareModal from "./ShareModal";
 
 export default function Settingsbar(props) {
 
-    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError  } = useContext(SettingsContext);
+    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError,allowTryTheme,setAllowTryTheme  } = useContext(SettingsContext);
     const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
+
+
+
+
+    //Updating themes and trying themes
+    const themeRef=useRef(theme);
+    const themeDropdownRef=useRef(null);
+    const tryTheme = (toTryTheme) => {
+        if(!allowTryTheme) return;
+        setTheme(toTryTheme);
+        themeDropdownRef.current.addEventListener("mouseleave",()=>{setTheme(themeRef.current);}) 
+    }
+    const updateTheme = (newTheme) => {
+        themeRef.current=newTheme;
+        setTheme(newTheme);
+    }
+
+
+
+
+
 
     const navigate = useNavigate();
 
@@ -97,18 +118,23 @@ export default function Settingsbar(props) {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
-                        <div className="p-1">
-                            <Dropdown>
+                        <div className="p-1" >
+                            <Dropdown >
                                 <Dropdown.Toggle variant="dark" id="dropdown-basic">
                                     Theme: {themeMapping[theme]}
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => setTheme("material")}>Material</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setTheme("cobalt")}>Cobalt</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setTheme("xq-dark")}>XQ-dark</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setTheme("the-matrix")}>Matrix</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setTheme("night")}>Night</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setTheme("3024-day")}>Light</Dropdown.Item>
+                                <Dropdown.Menu >
+                                    <Dropdown.Item >
+                                        <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} onChange={() => setAllowTryTheme(!allowTryTheme)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </Dropdown.Item>
+                                    <div ref={themeDropdownRef} >
+                                    <Dropdown.Item onClick={() => updateTheme("material")} onMouseOver={()=>tryTheme("material")} >Material</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => updateTheme("cobalt")} onMouseOver={()=>tryTheme("cobalt")}>Cobalt</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => updateTheme("xq-dark")} onMouseOver={()=>tryTheme("xq-dark")}>XQ-dark</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => updateTheme("the-matrix")} onMouseOver={()=>tryTheme("the-matrix")}>Matrix</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => updateTheme("night")} onMouseOver={()=>tryTheme("night")}>Night</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => updateTheme("3024-day")} onMouseOver={()=>tryTheme("3024-day")}>Light</Dropdown.Item>
+                                    </div>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
