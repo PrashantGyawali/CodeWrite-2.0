@@ -29,20 +29,8 @@ export default function Settingsbar(props) {
         themeRef.current=newTheme;
         setTheme(newTheme);
     }
-
-
-
-
-
-
-    const navigate = useNavigate();
-
-    const closeProject=()=>{
-        setLastOpened({ ...lastOpened, [editor]: ""});
-        setTimeout(() => {        navigate(`/projects/${editor}`); 
-    },10)
-    }
-
+    
+    //handling themes
     const themeMapping={
         "material":"Material",
         "cobalt":"Cobalt",
@@ -51,6 +39,20 @@ export default function Settingsbar(props) {
         "night":"Night",
         "3024-day":"Light"
     }
+
+
+
+    //handle close button
+    const navigate = useNavigate();
+
+    const closeProject=()=>{
+        setLastOpened({ ...lastOpened, [editor]: ""});
+        setTimeout(() => {        navigate(`/projects/${editor}`); 
+    },10)
+    }
+
+
+
 
     return (
         <Accordion activeKey={props.isSettingsOpen ? "0" : null} data-bs-theme="dark" variant="dark" flush>
