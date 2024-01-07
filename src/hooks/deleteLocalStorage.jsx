@@ -24,9 +24,7 @@ export function deleteProject(id,type, updateProjectList) {
         localStorage.setItem(`${key}-${type}-projects`,JSON.stringify(newProjectList));
         localStorage.removeItem(`${key}-${type}-${id}`);
         updateProjectList(newProjectList);
-
     }
-    // localStorage.setItem(`${key}-${type}-${id}`,JSON.stringify(projectInfo));
 
     return id;
 }

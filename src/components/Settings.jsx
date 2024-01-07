@@ -114,12 +114,6 @@ export default function Settingsbar(props) {
                                     <DropdownItem className="p-0">
                                     <Button className="w-100" variant="secondary" onClick={closeProject} ><img src={cloudUpload} /> Save to cloud</Button>
                                     </DropdownItem>
-                                    <DropdownItem>
-                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </DropdownItem>
-                                    {showConsole && <DropdownItem>
-                                    <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </DropdownItem>}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
