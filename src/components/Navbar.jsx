@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState, useContext} from "react";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -8,8 +7,7 @@ import { SettingsContext } from "../App";
 import { useNavigate} from "react-router-dom";
 import '../App.css'
 import useLocalStorage from "../hooks/localstorage";
-
-import { Dropdown,Form} from 'react-bootstrap';
+import settingsIcon from "../assets/settingsIcon.svg"
 
 function NavComponent() {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -40,9 +38,9 @@ function NavComponent() {
                 </Nav.Item>
               </div>
               <Nav.Item className="ms-0 ms-md-auto ">
-                <Button variant="dark" className="text-light " data-bs-theme="dark" onClick={() => setSettingsOpen(!isSettingsOpen)}>
-                  &#9881;
-                </Button>
+                <div className="text-light px-2 py-1 cursor-pointer" data-bs-theme="dark" onClick={() => setSettingsOpen(!isSettingsOpen)}>
+                  <img src={settingsIcon} alt="settings" className="settings-button" />
+                </div>
               </Nav.Item>
             </Nav>
           </div>

@@ -7,6 +7,7 @@ import useLocalStorage from "../hooks/localstorage";
 import exitIcon from "../assets/exitIcon.svg"
 import cloudUpload from "../assets/cloudUpload.svg"
 import cloudSavedIcon from "../assets/cloudSavedIcon.svg"
+import DropdownItem from "./DropdownItem";
 import ShareModal from "./ShareModal";
 
 export default function Settingsbar(props) {
@@ -24,6 +25,8 @@ export default function Settingsbar(props) {
         if(!allowTryTheme) return;
         setTheme(toTryTheme);
         themeDropdownRef.current.addEventListener("mouseleave",()=>{setTheme(themeRef.current);}) 
+        themeDropdownRef.current.addEventListener("touchend",()=>{setTheme(themeRef.current);}) 
+
     }
     const updateTheme = (newTheme) => {
         themeRef.current=newTheme;
@@ -67,15 +70,15 @@ export default function Settingsbar(props) {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu variant="dark">
-                                    <Dropdown.Item >
+                                    <DropdownItem >
                                     <Form.Check type="switch" label="Show as Tabs"  defaultChecked={tabornot} onChange={() => setTabornot(!tabornot)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
+                                    </DropdownItem>
+                                    <DropdownItem>
                                     <Form.Check type="switch" label="Autoclose Tags" defaultChecked={autoCloseTags} onChange={() => setAutoCloseTags(!autoCloseTags)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
+                                    </DropdownItem>
+                                    <DropdownItem>
                                     <Form.Check type="switch" label="Advanced Resize" defaultChecked={allowResize} onChange={() => setAllowResize(!allowResize)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>
+                                    </DropdownItem>
                                 </Dropdown.Menu>
                             </Dropdown>
                             </div>
@@ -86,15 +89,15 @@ export default function Settingsbar(props) {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu variant="dark">
-                                    <Dropdown.Item>
+                                    <DropdownItem>
                                     <Form.Check type="switch" label="Run Manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} onClick={(e)=>{e.stopPropagation()}} />
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
+                                    </DropdownItem>
+                                    <DropdownItem>
                                     <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>
-                                    {showConsole && <Dropdown.Item>
+                                    </DropdownItem>
+                                    {showConsole && <DropdownItem>
                                     <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>}
+                                    </DropdownItem>}
                                 </Dropdown.Menu>
                             </Dropdown>
                             </div>
@@ -108,15 +111,15 @@ export default function Settingsbar(props) {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu variant="dark" className="p-0">
-                                    <Dropdown.Item className="p-0">
+                                    <DropdownItem className="p-0">
                                     <Button className="w-100" variant="secondary" onClick={closeProject} ><img src={cloudUpload} /> Save to cloud</Button>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
+                                    </DropdownItem>
+                                    <DropdownItem>
                                     <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>
-                                    {showConsole && <Dropdown.Item>
+                                    </DropdownItem>
+                                    {showConsole && <DropdownItem>
                                     <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>}
+                                    </DropdownItem>}
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
@@ -126,16 +129,14 @@ export default function Settingsbar(props) {
                                     Theme: {themeMapping[theme]}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu >
-                                    <Dropdown.Item >
-                                        <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} onChange={() => setAllowTryTheme(!allowTryTheme)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </Dropdown.Item>
+                                    <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} className="mx-2" onChange={() => setAllowTryTheme(!allowTryTheme)} onClick={(e)=>{e.stopPropagation()}} title="Hover to try out themes on desktop, slide over to try on smartphones"/>
                                     <div ref={themeDropdownRef} >
-                                    <Dropdown.Item onClick={() => updateTheme("material")} onMouseOver={()=>tryTheme("material")} >Material</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateTheme("cobalt")} onMouseOver={()=>tryTheme("cobalt")}>Cobalt</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateTheme("xq-dark")} onMouseOver={()=>tryTheme("xq-dark")}>XQ-dark</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateTheme("the-matrix")} onMouseOver={()=>tryTheme("the-matrix")}>Matrix</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateTheme("night")} onMouseOver={()=>tryTheme("night")}>Night</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateTheme("3024-day")} onMouseOver={()=>tryTheme("3024-day")}>Light</Dropdown.Item>
+                                    <DropdownItem onClick={() => updateTheme("material")} onMouseOver={()=>tryTheme("material")} onTouchStart={(e)=>{tryTheme("material");}} >Material</DropdownItem>
+                                    <DropdownItem onClick={() => updateTheme("cobalt")} onMouseOver={()=>tryTheme("cobalt")} onTouchStart={()=>tryTheme("cobalt")} >Cobalt</DropdownItem>
+                                    <DropdownItem onClick={() => updateTheme("xq-dark")} onMouseOver={()=>tryTheme("xq-dark")} onTouchStart={()=>tryTheme("xq-dark")} >XQ-dark</DropdownItem>
+                                    <DropdownItem onClick={() => updateTheme("the-matrix")} onMouseOver={()=>tryTheme("the-matrix")} onTouchStart={()=>tryTheme("the-matrix")} >Matrix</DropdownItem>
+                                    <DropdownItem onClick={() => updateTheme("night")} onMouseOver={()=>tryTheme("night")} onTouchStart={()=>tryTheme("night")} >Night</DropdownItem>
+                                    <DropdownItem onClick={() => updateTheme("3024-day")} onMouseOver={()=>tryTheme("3024-day")} onTouchStart={()=>tryTheme("3024-day")} >Light</DropdownItem>
                                     </div>
                                 </Dropdown.Menu>
                             </Dropdown>
