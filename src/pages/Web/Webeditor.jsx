@@ -3,7 +3,8 @@ import Editor from "../Editor/Editor";
 import "../../App.css";
 import NavComponent from "../../components/Navbar";
 import { SettingsContext } from "../../App";
-import { combineIntoHTML, convertConsoleLogs } from "../../utils/functions";
+import { combineIntoHTML} from "../../utils/functions";
+import htmlWithConsole from "./htmlConsole";
 
 import runbtn from "../../assets/run.svg";
 
@@ -275,103 +276,3 @@ export default function WebEditor() {
   );
 }
 
-function htmlWithConsole(html,css,js,showConsole,showConsoleOnError)
-{
-  let consoleId=(Math.random()*10000).toString(12);
-  let htmlId=(Math.random()*10000).toString(12);
-  let consoleTabId=(Math.random()*10000).toString(12);
-  let htmlTabId=(Math.random()*10000).toString(12);
-
-  let showConsoleOnErrorFunction=" ";
-  let convertedText=""
-  if(showConsoleOnError)
-  {
-      showConsoleOnErrorFunction= "showConsole();";
-  }
-  if(!showConsole)
-  {
-      convertedText=`
-      <html>
-      <style>${css.trim()}
-      </style>
-      <body style="margin:0px">
-      ${html.trim()}
-      </body>
-      <script defer>
-      ${js.trim()}
-      </script>
-      </html>`
-
-  }
-  else{
-   convertedText=`
-  <html>
-  <style>${css.trim()}
-   #${htmlTabId}{
-    text-decoration:none !important;
-     font-size:20px;
-     background-color:rgb(33, 37, 41);
-     color:white;
-     border:2px solid black
-  }
-  </style>
-  <body style="margin:0px">
-  <div class="tabs" style="display:flex;width:100%; background-color:rgb(36,36,36)">
-  <button  id="${htmlTabId}" style="text-decoration:none; font-size:20px; padding:5px; background-color:rgb(73, 80, 87); color:white; border:2px solid black">HTML</button>
-  <button id="${consoleTabId}" style="text-decoration:none !important; font-size:20px;background-color:rgb(33, 37, 41); color:white; border:2px solid black">Console</button>
-  </div>
-  <div id="${htmlId}">
-  ${html.trim()}
-  </div>
-  <div id="${consoleId}" style="background: linear-gradient(to bottom, rgba(36,36,36,1) 50%, rgb(100,100,100) ); border-bottom: rgb(41,0,155) 4px solid; color:red; font-size:20px; height:88vh; overflow-y:hidden;"></div>
-  </body>
-  <script defer>
-  document.getElementById("${consoleTabId}").addEventListener("click",()=>showConsole());
-
-  document.getElementById("${htmlTabId}").addEventListener("click",()=>showHTML());
-
-  //handling syntax errors
-  window.onerror = function(message, source, lineno, colno, error) {
-    ${showConsoleOnErrorFunction}
-    document.getElementById("${consoleTabId}").style.border="2px solid red";
-    document.getElementById("${consoleId}").innerText+=error;
-    console.log("huhuhu");
-  };  
-  
-  document.getElementById("${consoleId}").style.display="none";
-  function showConsole(){
-    document.getElementById("${consoleId}").style.display="block";
-    document.getElementById("${htmlId}").style.display="none";
-    document.getElementById("${htmlTabId}").style.backgroundColor="rgb(0,0,0)";
-    document.getElementById("${consoleTabId}").style.color="white";
-    document.getElementById("${consoleTabId}").style.backgroundColor="rgb(73, 80, 87)";
-    document.getElementById("${consoleTabId}").style.border="none";
-  }
-  function showHTML(){
-    document.getElementById("${htmlId}").style.display="block";
-    document.getElementById("${consoleId}").style.display="none";
-    document.getElementById("${consoleTabId}").style.backgroundColor="rgb(0,0,0)";
-    document.getElementById("${consoleTabId}").style.color="white";
-    document.getElementById("${htmlTabId}").style.backgroundColor="rgb(73, 80, 87)";
-  }
-  </script>
-
-  <script defer>
-  //handling runtime errors
-  try{
-    ${convertConsoleLogs(js,consoleId)}
-  }
-  catch(err){
-      ${showConsoleOnErrorFunction}
-      document.getElementById("${consoleTabId}").style.border="2px solid red";
-      document.getElementById("${consoleId}").innerText+=err;
-    console.log(err);
-  }
-  </script>
-
-  <script>
-  
-  </script></html>`
-}
-return convertedText;
-}

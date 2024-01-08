@@ -6,10 +6,11 @@
   }
   
   .resizeBar {
-    height: 90%;
-    width: 5px;
+    height: 95%;
+    width: 7px;
     position: absolute;
-    right: -2px;
+    right: -4px;
+    top:-5px;
     background-color: rgba(255, 255, 255, 0.03);
     cursor: w-resize;
     border-radius: 20px;

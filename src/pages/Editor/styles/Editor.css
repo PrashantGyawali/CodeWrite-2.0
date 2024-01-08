@@ -14,7 +14,7 @@
   position: relative;
   flex-grow: 1;
   flex-basis: 0;
-  padding: 0.25rem;
+  padding: 3px 4px 0px 4px;
   background-color: rgb(30, 30, 30);
 }
 

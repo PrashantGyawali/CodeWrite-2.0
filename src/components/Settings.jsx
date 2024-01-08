@@ -125,7 +125,9 @@ export default function Settingsbar(props) {
                                 <Dropdown.Menu >
                                     <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} className="mx-2" onChange={() => setAllowTryTheme(!allowTryTheme)} onClick={(e)=>{e.stopPropagation()}} title="Hover to try out themes on desktop, slide over to try on smartphones"/>
                                     <div ref={themeDropdownRef} >
-                                    <DropdownItem onClick={() => updateTheme("material")} onMouseOver={()=>tryTheme("material")} onTouchStart={(e)=>{tryTheme("material");}} >Material</DropdownItem>
+                                    <DropdownItem onClick={() => updateTheme("material")} onMouseOver={()=>tryTheme("material")} onTouchStart={(
+                                        
+                                    )=>{tryTheme("material");}} >Material</DropdownItem>
                                     <DropdownItem onClick={() => updateTheme("cobalt")} onMouseOver={()=>tryTheme("cobalt")} onTouchStart={()=>tryTheme("cobalt")} >Cobalt</DropdownItem>
                                     <DropdownItem onClick={() => updateTheme("xq-dark")} onMouseOver={()=>tryTheme("xq-dark")} onTouchStart={()=>tryTheme("xq-dark")} >XQ-dark</DropdownItem>
                                     <DropdownItem onClick={() => updateTheme("the-matrix")} onMouseOver={()=>tryTheme("the-matrix")} onTouchStart={()=>tryTheme("the-matrix")} >Matrix</DropdownItem>

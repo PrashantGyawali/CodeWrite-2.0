@@ -31,7 +31,7 @@ export default function ProjectInfo(props) {
   const [projectNameEditing,setProjectNameEditing]=useState(false);
 
 
-  const [minimized,setMinimized]=useState(false);
+  const [minimized,setMinimized]=useState(window.innerWidth<573?true:false);
 
 
   useEffect(()=>{
