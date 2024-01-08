@@ -46,7 +46,9 @@ function NavComponent() {
           </div>
         </Navbar.Collapse>
       </Navbar>
-      <Settingsbar isSettingsOpen={isSettingsOpen} />
+      <div style={{position:"relative",zIndex:500}}>
+      <Settingsbar isSettingsOpen={isSettingsOpen} /> 
+      </div>
     </>
   );
 }

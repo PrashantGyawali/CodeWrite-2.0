@@ -58,7 +58,7 @@ export default function Settingsbar(props) {
 
 
     return (
-        <Accordion activeKey={props.isSettingsOpen ? "0" : null} data-bs-theme="dark" variant="dark" flush>
+        <Accordion activeKey={props.isSettingsOpen ? "0" : null} data-bs-theme="dark" variant="dark" flush className="position-absolute w-100 ">
             <Accordion.Item eventKey="0">
                 <Accordion.Body >
                     <Form className="d-md-flex justify-content-md-between align-items-center">
@@ -82,42 +82,9 @@ export default function Settingsbar(props) {
                                 </Dropdown.Menu>
                             </Dropdown>
                             </div>
-                            <div className="p-1">
-                            <Dropdown >
-                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                                    Output Settings
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu variant="dark">
-                                    <DropdownItem>
-                                    <Form.Check type="switch" label="Run Manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} onClick={(e)=>{e.stopPropagation()}} />
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </DropdownItem>
-                                    {showConsole && <DropdownItem>
-                                    <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
-                                    </DropdownItem>}
-                                </Dropdown.Menu>
-                            </Dropdown>
-                            </div>
-
-                        </>
+                            </>
                         }
-                        <div className="p-1">
-                            <Dropdown >
-                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                                    Project Settings
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu variant="dark" className="p-0">
-                                    <DropdownItem className="p-0">
-                                    <Button className="w-100" variant="secondary" onClick={closeProject} ><img src={cloudUpload} /> Save to cloud</Button>
-                                    </DropdownItem>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </div>
-                        <div className="p-1" >
+                            <div className="p-1" >
                             <Dropdown >
                                 <Dropdown.Toggle variant="dark" id="dropdown-basic">
                                     Theme: {themeMapping[theme]}
@@ -137,6 +104,43 @@ export default function Settingsbar(props) {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
+                        {editor=="web" && 
+                        <>
+                            <div className="p-1">
+                            <Dropdown >
+                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                                    Output Settings
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu variant="dark">
+                                    <DropdownItem>
+                                    <Form.Check type="switch" label="Run Manually" defaultChecked={!autorun} onChange={() => setAutorun(!autorun)} onClick={(e)=>{e.stopPropagation()}} />
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                    <Form.Check type="switch" label="Show Console" defaultChecked={showConsole} onChange={() => {setShowConsole(!showConsole)}} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </DropdownItem>
+                                    {showConsole && <DropdownItem>
+                                    <Form.Check type="switch" label="Show Console on Error" defaultChecked={showConsoleOnError} onChange={() => setShowConsoleOnError(!showConsoleOnError)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </DropdownItem>}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            </div>
+                        </>
+                        }
+                        <div className="p-1">
+                            <Dropdown >
+                                <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                                    Project Settings
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu variant="dark" className="p-0">
+                                    <DropdownItem className="p-0">
+                                    <Button className="w-100" variant="secondary" onClick={closeProject} ><img src={cloudUpload} /> Save to cloud</Button>
+                                    </DropdownItem>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                        
                         <div className="p-1">
                             <ShareModal/>
                         </div>
