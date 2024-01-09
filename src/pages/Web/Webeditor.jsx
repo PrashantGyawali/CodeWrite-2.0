@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef, createContext} from "react";
 import Editor from "../Editor/Editor";
 import "../../App.css";
 import NavComponent from "../../components/Navbar";
@@ -13,8 +13,16 @@ import useProject from "../../hooks/ProjectFunctions";
 import useLocalStorage from "../../hooks/localstorage";
 
 import { useParams,useNavigate } from "react-router-dom";
-export default function WebEditor() {
 
+
+
+export const ProjectContext = createContext();
+
+
+
+
+
+export default function WebEditor() {
   const urlParams=useParams();
   const navigate=useNavigate();
   
@@ -147,7 +155,11 @@ export default function WebEditor() {
 
   return (
     <>
-      <NavComponent />
+    
+    <ProjectContext.Provider value={{code,setCode}}>
+        <NavComponent project={code} setProject={setCode}/>
+    </ProjectContext.Provider>
+
 
       {!tabornot ? (
         <>

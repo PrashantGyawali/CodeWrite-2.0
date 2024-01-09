@@ -17,7 +17,7 @@ export default function useLocalStorage(key,initialValue)
     {
         const jsonValue=localStorage.getItem(preFixedKey);
 
-        if(jsonValue!=null && jsonValue!=undefined) return JSON.parse(jsonValue)
+        if(jsonValue!=null && jsonValue!=undefined && jsonValue !="undefined" && jsonValue !="null") return JSON.parse(jsonValue)
 
         if(typeof initialValue==='function')
         {

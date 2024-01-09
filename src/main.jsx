@@ -15,6 +15,7 @@ import Register from './pages/Authentication/Register.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import Protected from './components/Protected.jsx'
 import DefaultNavOnlyPage from './pages/Default/DefaultNavOnlyPage.jsx'
+import Deployment from './pages/Deployments/Deployment.jsx'
 
 const routes=[
   {
@@ -108,6 +109,10 @@ const routes=[
     path: '/self/md',
     element:<Navigate to="/projects/md"/>
   },
+  {
+    path:"/deployments/:id",
+    element:<Deployment/>
+  }
 
   ],
   errorElement:<Navigate to="/"/>
