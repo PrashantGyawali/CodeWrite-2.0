@@ -11,13 +11,15 @@ import DropdownItem from "./DropdownItem";
 import ShareModal from "./ShareModal";
 import DeployModal from "./DeployModal";
 
-export default function Settingsbar() {
+import { ProjectContext } from "../pages/Web/Webeditor";
 
-    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError,allowTryTheme,setAllowTryTheme  } = useContext(SettingsContext);
+export default function Settingsbar(props) {
+
+    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError,allowTryTheme,setAllowTryTheme ,user, setUser } = useContext(SettingsContext);
     const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
 
 
-
+    const {code,setCode}=useContext(ProjectContext);
 
     //Updating themes and trying themes
     const themeRef=useRef(theme);
@@ -55,6 +57,31 @@ export default function Settingsbar() {
     },10)
     }
 
+    const  saveToCloud=async()=>{
+        if(user?.isAuth)
+        {
+            const url="https://codewrite-server.onrender.com";
+            let res= await fetch(url+"/save",
+            {
+                method:"POST",
+                mode: "cors",
+                headers:{
+                  "Content-Type":"application/json",
+                  "Access-Control-Allow-Credentials":true,
+                  "Access-Control-Allow-Origin":"*",
+                  "Access-Control-Allow-Methods":"GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                },
+                cache: "no-cache",
+                credentials: "include", 
+                body:JSON.stringify({
+                    ...code, type:editor
+                })
+            })
+            let resjson=await res.json();
+            console.log(resjson);
+
+        }
+    }
 
 
 
@@ -62,7 +89,7 @@ export default function Settingsbar() {
         <Accordion activeKey={props.isSettingsOpen ? "0" : null} data-bs-theme="dark" variant="dark" flush className="position-absolute w-100 ">
             <Accordion.Item eventKey="0">
                 <Accordion.Body >
-                    <Form className="d-md-flex justify-content-md-between align-items-center">
+                    <Form className="d-nav-flex justify-content-md-between align-items-center">
                         {editor=="web" && <>
                         <div className="p-1">
                             <Dropdown >
@@ -144,7 +171,7 @@ export default function Settingsbar() {
                         </div>
                         
                         <div className="p-1">
-                        <Button className="w-100" variant="secondary" onClick={closeProject} ><img src={cloudUpload} /> Save to cloud</Button>
+                        <Button className="w-nav-100" variant="secondary" onClick={saveToCloud} ><img src={cloudUpload} /> Save to cloud</Button>
                         </div>
                         <div className="p-1">
                             <Button variant="secondary" onClick={closeProject} ><img src={exitIcon} />  Close</Button>

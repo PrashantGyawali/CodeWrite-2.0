@@ -65,7 +65,7 @@ export default function useUser() {
             credentials: "include", 
             headers: {
               "Content-Type": "application/json",
-              
+              "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(data), // body data type must match "Content-Type" header
@@ -83,6 +83,7 @@ export default function useUser() {
             credentials: "include", 
             headers: {
               "Content-Type": "application/json",
+              "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", 
             body: JSON.stringify(data),
@@ -109,7 +110,6 @@ export default function useUser() {
             credentials: "include", 
             headers: {
               "Content-Type": "application/json",
-              "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", 
           });
@@ -126,8 +126,7 @@ export default function useUser() {
             cache: "no-cache",
             credentials: "include", 
             headers: {
-              "Content-Type": "application/json",
-              "Set-Cookie":"SameSite=None; Secure"
+              "Content-Type": "application/json",              
             },
             referrerPolicy: "no-referrer", 
             body: JSON.stringify(data), 
@@ -147,12 +146,13 @@ export default function useUser() {
     {
         const res=await fetch(url+"/auth",{
             method:"GET",
+            mode:"cors",
             credentials:"include",
             headers:{
                 "Content-Type":"application/json",
-                "Access-Control-Allow-Credentials":true,
-                "Access-Control-Allow-Origin":"*",
-                "Access-Control-Allow-Methods":"GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                // "Access-Control-Allow-Credentials":true,
+                // "Access-Control-Allow-Origin":"*",
+                // "Access-Control-Allow-Methods":"GET,PUT,POST,DELETE,PATCH,OPTIONS",
             }
         });
        let resjson=await res.json();

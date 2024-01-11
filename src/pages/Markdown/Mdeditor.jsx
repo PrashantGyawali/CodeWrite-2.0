@@ -15,6 +15,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import { useParams,useNavigate } from 'react-router-dom';
 import useProject from '../../hooks/ProjectFunctions';
+import { ProjectContext } from '../Web/Webeditor';
 
 
 const CodeBlock = {
@@ -99,7 +100,9 @@ export default function MarkdownEditor(){
 
     return (
         <>
-        <NavComponent/>
+        <ProjectContext.Provider value={{code,setCode}}>
+          <NavComponent/>
+        </ProjectContext.Provider>
         <div className="d-sm-flex mdeditor-container" >
             <Editor language="markdown" displayname="Markdown" value={markdown} onChange={setMarkdown} minimized={mdMinimize} handleMinimize={handleMinimize}/>
             <MarkdownOutput markdown={markdown}/>

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import checkIcon from "../assets/checkIcon.svg"
 import copyButton from "../assets/copyButton.svg"
 import deplyIcon from "../assets/deployIcon.svg"
+import { ProjectContext } from '../pages/Web/Webeditor';
 
 function DeployModal() {
   const [show, setShow] = useState(false);
@@ -12,6 +13,8 @@ function DeployModal() {
   const handleShow = () => setShow(true);
 
   const [copied,setCopied]=useState(false);
+
+  const {code,setCode}=useContext(ProjectContext);
 
   const copyToClipboard = () => {
     window.navigator.clipboard.writeText("https://LoremipsumdolorsimetconsecteturadipisicingelitFugaquas?");
@@ -25,10 +28,28 @@ function DeployModal() {
     }
   },[copied]);
 
-  
+  useEffect(async()=>{
+    if(!show) return;
+    console.log(code);  
+    const url=await fetch("https://codewrite-server.onrender.com/deploy",
+    {
+      method:"POST",
+      mode: "cors",
+      headers:{
+        "Content-Type":"application/json",
+      },
+      cache: "no-cache",
+      credentials: "include", 
+      body:JSON.stringify(code)
+    })
+    const data=await url.json();
+    console.log(data);
+},[show])
+
+
   return (
     <>
-      <Button variant="primary" onClick={handleShow} className='w-100 '>
+      <Button variant="primary" onClick={handleShow}  className='w-100 bg-transparent btn-outline-secondary text-white'>
         <img src={deplyIcon}></img> {" "}Deploy
       </Button>
 
@@ -40,7 +61,7 @@ function DeployModal() {
         </Modal.Header>
         <Modal.Body>             
             <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>https://LoremipsumdolorsimetconsecteturadipisicingelitFugaquas?
-            <Button variant='dark' className='float-end' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></Button>
+            <div variant='dark' className='float-end' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></div>
             </Button>
         </Modal.Body>
         <Modal.Footer>
