@@ -8,7 +8,7 @@ export default function Deployment() {
     const url="https://codewrite-server.onrender.com";
 
     useEffect(async() => {
-        const page=await fetch(url+"/deployments:"+params.id,{
+        const page=await fetch(url+"/deployment:"+params.id,{
             method:"GET",
             headers:{
                 "Content-Type":"application/json"

@@ -1,3 +1,4 @@
+
 .CodeMirror{
   height:100% !important;
 }
@@ -166,4 +167,21 @@ cursor: pointer;
 .settings-button:active{
   transform: scale(1.1);
   filter: brightness(0.8);
+}
+
+.d-nav-flex{
+  display: block;
+}
+
+.w-nav-100{
+width: fit-content;
+}
+
+@media (min-width: 888px) {
+  .d-nav-flex{
+    display: flex;
+  }
+.w-nav-100{
+  width: 100%;
+}
 }
