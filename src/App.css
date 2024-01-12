@@ -26,11 +26,30 @@
 .pane{
   height:50vh;
   padding-bottom: .5rem;
-  background-color: rgb(30, 30, 30);
+  background-color: #1e1e1e;
   overflow-x: hidden;
-
 }
+.bottom-pane{
+  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 768px) {
+  .full-height>.CodeMirror{
+    height: 100% !important;
+  }
+  .CodeMirror{
+    height: 50vh !important;
+  }
 
+  .collapsed .CodeMirror{
+    max-height: 0vh !important;
+  }
+}
+.bottom-pane{
+  height: 100vh !important;
+  max-height: 200vh !important;
+}
 .code-mirror-wrapper{
   flex-grow: 1;
   border-bottom-right-radius: .5rem;
@@ -41,7 +60,7 @@
 .top-pane{
   display:flex;
   width: 100%;
-overflow: hidden;
+  overflow: hidden;
 }
 
 .nav.nav-tabs{
@@ -62,12 +81,12 @@ overflow: hidden;
 }
 
 
-overflow-y-md-scroll {
+.overflow-y-md-scroll {
   overflow-y: auto; /* Default for screens <768px */
 }
 
 @media (min-width: 768px) {
-  overflow-y-md-scroll {
+  .overflow-y-md-scroll {
     overflow-y: scroll !important; /* Applied for screens >=768px */
   }
 }
@@ -123,6 +142,9 @@ overflow-y-md-scroll {
   padding:12px !important;
   font-size: 17px;
   margin-top: 5px;
+}
+.md-minimize{
+  height: 0px;
 }
 
 

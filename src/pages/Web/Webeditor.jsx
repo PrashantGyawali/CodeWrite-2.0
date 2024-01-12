@@ -266,13 +266,12 @@ export default function WebEditor() {
         </>
       )}
 
-      <div className="pane" style={{ position: "relative" }}>
+      <div className="pane bottom-pane" style={{ position: "relative" }}>
         <iframe
           srcDoc={srcDoc}
           title="output"
           sandbox="allow-scripts allow-modals allow-forms"
-          width="100%"
-          height="100%"
+          style={{flexGrow:1}}
         ></iframe>
         {!autorun && (
           <button

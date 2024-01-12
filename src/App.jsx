@@ -22,6 +22,8 @@ export default function App() {
     const [showConsole, setShowConsole] = useLocalStorage("showconsole",true);
     const [showConsoleOnError, setShowConsoleOnError] = useLocalStorage("showconsoleonerror",true);
     const [allowTryTheme,setAllowTryTheme]=useLocalStorage("allowtrytheme",false);
+    const [maxHeightInSmallScreen, setMaxHeightInSmallScreen] = useLocalStorage("maxHeightInSmallScreen", "");
+    const [maxHeightOptions, setMaxHeightOptions] = useLocalStorage("maxHeightOptions",false);
 
     const contextValues = {
       editor,
@@ -43,6 +45,10 @@ export default function App() {
       setShowConsoleOnError,
       allowTryTheme,
       setAllowTryTheme,
+      maxHeightInSmallScreen,
+      setMaxHeightInSmallScreen,
+      maxHeightOptions,
+      setMaxHeightOptions
     };
 
   return (

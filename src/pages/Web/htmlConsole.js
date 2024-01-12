@@ -39,8 +39,8 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
     ${css.trim()}
   }
   </style>
-  <body style="margin:0px">
-  <div class="tabs" style="display:flex;width:100%; background-color:rgb(36,36,36)">
+  <body style="margin:0px;position:relative">
+  <div class="tabs" style="display:flex;width:100%; background-color:rgb(36,36,36);position:sticky;top:0px">
   <button  id="${htmlTabId}" style="text-decoration:none; font-size:20px; padding:5px; background-color:rgb(73, 80, 87); color:white; border:2px solid black">HTML</button>
   <button id="${consoleTabId}" style="text-decoration:none !important; font-size:20px;background-color:rgb(33, 37, 41); color:white; border:2px solid black">Console</button>
   </div>

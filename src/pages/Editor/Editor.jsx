@@ -45,7 +45,7 @@ const contentTypes = {
 };
 
 const Editor = (props) => {
-  const { editor, theme, tabornot, autoCloseTags,     allowResize  } = useContext(SettingsContext);
+  const { editor, theme, tabornot, autoCloseTags,     allowResize , maxHeightInSmallScreen } = useContext(SettingsContext);
   const editorRef = useRef(0);
   const editorContainerRef = useRef(null);
 
@@ -130,7 +130,7 @@ const Editor = (props) => {
         </div>
       </div>
 
-      <ControlledEditor onBeforeChange={handleChange} value={value} className="code-mirror-wrapper" options={{
+      <ControlledEditor onBeforeChange={handleChange} value={value} className={`code-mirror-wrapper ${maxHeightInSmallScreen?"full-height":""}`} options={{
         lineWrapping: true,
         lint: true,
         inputStyle: "textarea",

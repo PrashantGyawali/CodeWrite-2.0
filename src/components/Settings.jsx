@@ -1,6 +1,6 @@
 import { Accordion, Form, Dropdown, Button} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
-import { useContext,useRef   } from "react";
+import { useContext,useRef,useEffect} from "react";
 import { SettingsContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/localstorage";
@@ -15,11 +15,33 @@ import { ProjectContext } from "../pages/Web/Webeditor";
 
 export default function Settingsbar(props) {
 
-    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError,allowTryTheme,setAllowTryTheme ,user, setUser } = useContext(SettingsContext);
+    const { editor, theme, setTheme, tabornot, setTabornot, autorun, setAutorun, autoCloseTags,setAutoCloseTags, allowResize, setAllowResize,showConsole,setShowConsole, showConsoleOnError,setShowConsoleOnError,allowTryTheme,setAllowTryTheme ,user, setUser,maxHeightOptions,setMaxHeightInSmallScreen,setMaxHeightOptions,maxHeightInSmallScreen } = useContext(SettingsContext);
     const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
 
 
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(max-width: 770px)');
+    
+        const handleResize = (e) => {
+          // e.matches will be true if the media query is satisfied
+          setMaxHeightOptions(e.matches);
+        };
+    
+        // Initial check
+        handleResize(mediaQuery);
+    
+        // Listen for changes in media query matches
+        mediaQuery.addEventListener("change",handleResize);
+        // Clean up the event listener on component unmount
+        return () => {
+          mediaQuery.removeEventListener("change",handleResize);
+        };
+      }, [setMaxHeightInSmallScreen]);
+
     const {code,setCode}=useContext(ProjectContext);
+
+
+
 
     //Updating themes and trying themes
     const themeRef=useRef(theme);
@@ -35,7 +57,6 @@ export default function Settingsbar(props) {
         themeRef.current=newTheme;
         setTheme(newTheme);
     }
-    
     //handling themes
     const themeMapping={
         "material":"Material",
@@ -50,12 +71,14 @@ export default function Settingsbar(props) {
 
     //handle close button
     const navigate = useNavigate();
-
     const closeProject=()=>{
         setLastOpened({ ...lastOpened, [editor]: ""});
         setTimeout(() => {        navigate(`/projects/${editor}`); 
     },10)
     }
+
+
+
 
     const  saveToCloud=async()=>{
         if(user?.isAuth)
@@ -107,6 +130,9 @@ export default function Settingsbar(props) {
                                     <DropdownItem>
                                     <Form.Check type="switch" label="Advanced Resize" defaultChecked={allowResize} onChange={() => setAllowResize(!allowResize)} onClick={(e)=>{e.stopPropagation()}}/>
                                     </DropdownItem>
+                                    {maxHeightOptions && <DropdownItem>
+                                    <Form.Check type="switch" label="Full Height" defaultChecked={maxHeightInSmallScreen} onChange={() => setMaxHeightInSmallScreen(!maxHeightInSmallScreen)} onClick={(e)=>{e.stopPropagation()}}/>
+                                    </DropdownItem>}
                                 </Dropdown.Menu>
                             </Dropdown>
                             </div>
