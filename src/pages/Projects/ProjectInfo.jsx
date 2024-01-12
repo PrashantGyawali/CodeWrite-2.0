@@ -22,8 +22,8 @@ const iconsData={
 
 export default function ProjectInfo(props) {
 
-  const [projectInfo,setProjectInfo]=useProject(props.projectType,props.projectId);
   const projectNameRef=useRef();
+  const [projectInfo,setProjectInfo]=useProject(props.projectType,props.projectId);
 
   const navigate=useNavigate();
 

@@ -144,7 +144,8 @@ export default function WebEditor() {
   const handleDownloadAllClick = () => {
     const link = document.createElement('a');
     let  downloadableValue=combineIntoHTML(html,css,js);
-    console.log(downloadableValue);
+
+    // console.log(downloadableValue);
     const content=new Blob([downloadableValue],{type:`text/xml`,name:"index.html"});
     link.href=URL.createObjectURL(content);
     link.download="index.html";

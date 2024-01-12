@@ -4,7 +4,7 @@ import useLocalStorage from '../../hooks/localstorage';
 import ProjectInfo from './ProjectInfo';
 export default function ProjectList() {
 
-  const projectType=useUrl();
+  const projectType=useUrl()||"web";
 
   const [projects,setProjects]=useLocalStorage(`${projectType}-projects`,{});
 

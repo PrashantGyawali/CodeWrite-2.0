@@ -7,19 +7,24 @@ import deplyIcon from "../assets/deployIcon.svg"
 import { ProjectContext } from '../pages/Web/Webeditor';
 
 function DeployModal() {
-  const [show, setShow] = useState(false);
 
+
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [title,setTitle]=useState("");
+
   const [copied,setCopied]=useState(false);
+  const copyToClipboard = () => {
+    window.navigator.clipboard.writeText(`https://codewrite.vercel.app/${code.deployment}`);
+    setCopied(true);
+  }
+
+
 
   const {code,setCode}=useContext(ProjectContext);
 
-  const copyToClipboard = () => {
-    window.navigator.clipboard.writeText("https://LoremipsumdolorsimetconsecteturadipisicingelitFugaquas?");
-    setCopied(true);
-  }
 
   useEffect(()=>{
     if(copied)
@@ -41,10 +46,14 @@ function DeployModal() {
       cache: "no-cache",
       credentials: "include", 
       body:JSON.stringify(code)
-    })
+    });
     const data=await url.json();
-    console.log(data);
-},[show])
+    if(data.url)
+    {
+      setTitle("Deployed 🚀🚀 !!");
+      setCode({...code,deployment:data.url});
+    }
+  },[show])
 
 
   return (
@@ -57,10 +66,11 @@ function DeployModal() {
       <div style={{backgroundColor:"black", color:"white"}}>
 
         <Modal.Header closeButton closeVariant="white">
-          <Modal.Title>Deployed 🚀🚀 !!</Modal.Title>
+          <Modal.Title>{title?title:"Deploying..."}</Modal.Title>
         </Modal.Header>
         <Modal.Body>             
-            <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>https://LoremipsumdolorsimetconsecteturadipisicingelitFugaquas?
+            <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>
+              {(title && code.deployment)?`https://codewrite.vercel.app/${code.deployment}`:"..."}
             <div variant='dark' className='float-end' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></div>
             </Button>
         </Modal.Body>

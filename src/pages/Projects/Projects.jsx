@@ -7,7 +7,7 @@ export default function Projects() {
   const location=useLocation();
   let webselected="";
   let markdownselected="";
-  if(location.pathname.search("web")!= -1)
+  if(location.pathname.search("md")==-1)
   {
     webselected="selected"
   }

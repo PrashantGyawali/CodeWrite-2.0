@@ -4,19 +4,9 @@ import { useParams } from 'react-router-dom';
 export default function Deployment() {
     const params=useParams();
     console.log(params.id);
-    const [deployment,setDeployment]=useState();
     const url="https://codewrite-server.onrender.com";
 
-    useEffect(async() => {
-        const page=await fetch(url+"/deployment:"+params.id,{
-            method:"GET",
-            headers:{
-                "Content-Type":"application/json"
-            }
-        });
-        console.log(page);
-    },[]);
-
+    window.location.href=url+"/deployment/"+params.id;
 
   return (
     <></>
