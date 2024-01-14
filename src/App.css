@@ -207,3 +207,8 @@ width: fit-content;
   width: 100%;
 }
 }
+
+
+.icon-images{
+  transform:translateY(-1px) scale(1.2);
+}

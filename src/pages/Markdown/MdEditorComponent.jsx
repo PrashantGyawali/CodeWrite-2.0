@@ -115,7 +115,7 @@ const Editor = (props) => {
         <div>{displayname}</div>
         <div style={{ display: 'flex', flexDirection: "row", marginLeft: "5px" }}>
           <Downloadbtn onClickfn={download} title={"Download " + contentTypes[language].name} />
-          <button onClick={() => handleMinimize(false)}><img src={minimized ? maximizeIcon : minimizeIcon} alt={!minimized ? "><" : "<>"} /></button>
+          <button className="editor-button" onClick={() => handleMinimize(false)}><img src={minimized ? maximizeIcon : minimizeIcon} alt={!minimized ? "><" : "<>"} /></button>
         </div>
       </div>
       <div className={`flexcolgrow ${minimized && "md-minimize"}`}>

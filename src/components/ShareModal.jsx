@@ -15,16 +15,21 @@ function ShareModal() {
 
   const [copied,setCopied]=useState(false);
 
+  const [title,setTitle]=useState("");
+
+
   const {code,setCode}=useContext(ProjectContext);
 
 
   const copyToClipboard = () => {
-    window.navigator.clipboard.writeText("https://LoremipsumdolorsimetconsecteturadipisicingelitFugaquas?");
+    navigator.clipboard.writeText(`https://codewrite-2.vercel.app/shared/${code.type}/${code.sharedURL}`);
     setCopied(true);
   }
 
   useEffect(async()=>{
     if(!show) return;
+    console.log(code);
+    const dateShared=Date.now();
     const url=await fetch("https://codewrite-server.onrender.com/share",
     {
       method:"POST",
@@ -34,10 +39,15 @@ function ShareModal() {
       },
       cache: "no-cache",
       credentials: "include", 
-      body:JSON.stringify(code)
+      body:JSON.stringify({...code,dateShared:dateShared})
     })
     const data=await url.json();
     console.log(data);
+    if(data.url)
+    {
+      setTitle("Shared 🚀🚀 !!");
+      setCode({...code,sharedURL:data.url,dateShared:dateShared});
+    }
 },[show])
 
 
@@ -52,7 +62,7 @@ function ShareModal() {
   return (
     <>
       <Button  onClick={handleShow} className='w-100 bg-transparent btn-outline-secondary text-white '>
-        <img src={shareIcon}></img> {" "}Share 
+        <img src={shareIcon} className="icon-images"></img> {" "}Share 
       </Button>
 
       <Modal show={show} onHide={handleClose} size="lg" contentClassName='overflow-hidden'>
@@ -62,7 +72,8 @@ function ShareModal() {
           <Modal.Title>Share Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>             
-            <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>https://LoremipsumdolorsimetconsecteturadipisicingelitFugaquas?
+            <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>
+            {(title && code.deployment)?`https://codewrite-2.vercel.app/shared/${code.type}/${code.sharedURL}`:"..."}
             <div  className='float-end bg-dark' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></div>
             </Button>
         </Modal.Body>

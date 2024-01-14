@@ -56,7 +56,7 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
   document.getElementById("${consoleTabId}").addEventListener("click",()=>showConsole());
   document.getElementById("${htmlTabId}").addEventListener("click",()=>showHTML());
 
-  //handling syntax errors
+  //handling errors
   window.onerror = function(message, source, lineno, colno, error) {
     ${showConsoleOnErrorFunction}
     document.getElementById("${consoleTabId}").style.border="2px solid red";
@@ -83,16 +83,19 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
   </script>
 
   <script defer>
-  //handling runtime errors
-  try{
+  function tableToString(data) {
+    let result = '';
+    if (Array.isArray(data)) {
+      result += Object.keys(data[0]).join('\t') + '\\n';
+      data.forEach(row => {
+        result += Object.values(row).join('\t') + '\\n';
+      });
+    }
+    return result;
+  }
+
     ${convertConsoleLogs(js,consoleId)}
-  }
-  catch(err){
-      ${showConsoleOnErrorFunction}
-      document.getElementById("${consoleTabId}").style.border="2px solid red";
-      document.getElementById("${consoleId}").innerText+=err;
-    console.log(err);
-  }
+
   </script>
 </html>`
 }

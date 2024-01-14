@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { Dropdown } from 'react-bootstrap'
 
 
-export default function DropdownItem(props) {
+function DropdownItem(props) {
     const thisref=useRef();
     useEffect(() => {
         if(!props.href)
@@ -15,3 +15,5 @@ export default function DropdownItem(props) {
     <Dropdown.Item {...props} ref={thisref}></Dropdown.Item>
   )
 }
+
+export default DropdownItem;

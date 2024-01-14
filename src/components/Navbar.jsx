@@ -2,20 +2,19 @@ import React, { useState, useContext} from "react";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
-import Settingsbar from "./Settings";
 import { SettingsContext } from "../App";
 import { useNavigate} from "react-router-dom";
 import '../App.css'
 import useLocalStorage from "../hooks/localstorage";
 import settingsIcon from "../assets/settingsIcon.svg"
+import Settingsbar from "./Settings/Settings";
+
 
 function NavComponent() {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const { editor} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
-
-    // useEffect(() => {console.log(editor)}, [editor]);
 
   const navigate = useNavigate();
   return (
@@ -37,11 +36,15 @@ function NavComponent() {
                     <span className="text-info">M&darr;{" "}</span>Markdown editor</Nav.Link>
                 </Nav.Item>
               </div>
+
+
               <Nav.Item className="ms-0 ms-md-auto ">
-                <div className="text-light px-2 py-1 cursor-pointer" data-bs-theme="dark" onClick={() => setSettingsOpen(!isSettingsOpen)}>
+                <div className={`text-light px-2 py-1 cursor-pointer rounded ${isSettingsOpen?"bg-secondary":""}`} onClick={() => setSettingsOpen(!isSettingsOpen)}>
                   <img src={settingsIcon} alt="settings" className="settings-button" />
                 </div>
               </Nav.Item>
+
+              
             </Nav>
           </div>
         </Navbar.Collapse>

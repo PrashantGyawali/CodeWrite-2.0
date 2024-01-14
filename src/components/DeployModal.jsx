@@ -1,4 +1,4 @@
-import { useEffect, useState,useContext } from 'react';
+import { useEffect, useState,useContext,useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import checkIcon from "../assets/checkIcon.svg"
@@ -8,6 +8,7 @@ import { ProjectContext } from '../pages/Web/Webeditor';
 
 function DeployModal() {
 
+  const buttonref=useRef(null);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -17,7 +18,8 @@ function DeployModal() {
 
   const [copied,setCopied]=useState(false);
   const copyToClipboard = () => {
-    window.navigator.clipboard.writeText(`https://codewrite.vercel.app/${code.deployment}`);
+    buttonref.current.focus();
+    navigator.clipboard.writeText(buttonref.current.innerText);
     setCopied(true);
   }
 
@@ -51,7 +53,7 @@ function DeployModal() {
     if(data.url)
     {
       setTitle("Deployed 🚀🚀 !!");
-      setCode({...code,deployment:data.url});
+      setCode({...code,deployment:data.url,dateDeployed:Date.now()});
     }
   },[show])
 
@@ -59,7 +61,7 @@ function DeployModal() {
   return (
     <>
       <Button variant="primary" onClick={handleShow}  className='w-100 bg-transparent btn-outline-secondary text-white'>
-        <img src={deplyIcon}></img> {" "}Deploy
+        <img src={deplyIcon} className="icon-images"></img> {" "}Deploy
       </Button>
 
       <Modal show={show} onHide={handleClose} size="lg" contentClassName='overflow-hidden'>
@@ -69,8 +71,8 @@ function DeployModal() {
           <Modal.Title>{title?title:"Deploying..."}</Modal.Title>
         </Modal.Header>
         <Modal.Body>             
-            <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>
-              {(title && code.deployment)?`https://codewrite.vercel.app/${code.deployment}`:"..."}
+            <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}} ref={buttonref}>
+              {(title && code.deployment)?`https://codewrite-2.vercel.app/deployments/${code.deployment}`:"..."}
             <div variant='dark' className='float-end' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></div>
             </Button>
         </Modal.Body>

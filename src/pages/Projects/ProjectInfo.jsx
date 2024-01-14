@@ -5,11 +5,13 @@ import { deleteProject } from '../../hooks/deleteLocalStorage';
 import editIcon from '../../assets/editIcon.svg';
 import deleteIcon from '../../assets/deleteIcon.svg';
 import cloudUpload from '../../assets/cloudUpload.svg';
+import cloudErrorIcon from '../../assets/cloudErrorIcon.svg';
+import cloudNotSaved from '../../assets/cloudNotFound.svg';
+import cloudSavedIcon from '../../assets/cloudSavedIcon.svg';
 import shareIcon from '../../assets/shareIcon.svg';
 import deployIcon from '../../assets/deployIcon.svg';
 import expandIcon from '../../assets/expandIcon.svg';
 import './Projects.css'
-import { Button } from 'react-bootstrap';
 
 const iconsData={
   "edit":"Edit Project Name",
@@ -81,6 +83,29 @@ export default function ProjectInfo(props) {
     };
   }, [setMinimized]);
 
+  const cloudIcon=function()
+  {
+
+    
+    if(projectInfo.dateSaved==projectInfo.dateModified)
+    {
+      return cloudSavedIcon;
+    }
+    else if(projectInfo.dateSaved<projectInfo.dateModified)
+    {
+      return cloudUpload;
+    }
+    else if(projectInfo.dateSaved>projectInfo.dateModified)
+    {
+
+      //make a request to the server for the project data or use the data that was fetced when loading the project page
+      //if dateSaved of database > dateSaved of localstorage then cloudError else cloudSaved
+      return cloudSavedIcon;
+    }
+    return cloudUpload;
+  }()
+
+
   return (
     <div className='project'>
     
@@ -97,7 +122,6 @@ export default function ProjectInfo(props) {
         <div className={`minimize-btn  ${minimized?"":"opened"}`} onClick={()=>setMinimized(!minimized)}><img src={expandIcon}></img></div>
       </div>
 
-      {/* date modified but shorter like 2 days ago and sth like that, no need to put seconds  */}
       {
         !minimized &&       
         <div className='project-info'>
@@ -105,7 +129,7 @@ export default function ProjectInfo(props) {
   
           <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"nowrap", alignItems:"center", justifyContent:"center"}}>
               {/* save to database */}
-              <div onClick={() => {}} className='project-info-icon' title={iconsData["upload"]}><img src={cloudUpload}/></div>
+              <div onClick={() => {}} className='project-info-icon' title={iconsData["upload"]}><img src={cloudIcon} className='icon-images'/></div>
   
               {/* create a /shared/web/id project on db */}
               <div onClick={() => {}} className='project-info-icon' title={iconsData["share"]}><img src={shareIcon}/></div>

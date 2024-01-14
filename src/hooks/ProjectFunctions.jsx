@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 
 const key="codewrite";
 
@@ -18,6 +18,9 @@ export function createNewProject(type,value) {
         dateModified: Date.now(),
         dateCreated: Date.now(),
         sharedURL:"",
+        dateSaved:Date.now(),
+        dateShared:Date.now(),
+        type:type,
     }
     if(type==="web")
     {   
@@ -44,6 +47,7 @@ export function createNewProject(type,value) {
 
 
 export default function useProject(type, id) {
+    const render=useRef(0);
 
     if (!id || typeof id !== 'string' || !type || typeof type !== 'string') {
       return [null, null, null];
@@ -58,6 +62,8 @@ export default function useProject(type, id) {
   
     const [value, setValue] = useState(() => getItemFromLocalStorage(preFixedKey));
     const [data, setData] = useState(value);
+
+
   
     useEffect(() => {
       let projectList = JSON.parse(localStorage.getItem(`${key}-${type}-projects`)) || {};
@@ -66,17 +72,17 @@ export default function useProject(type, id) {
         projectList[id] = true;
         localStorage.setItem(`${key}-${type}-projects`, JSON.stringify(projectList));
       }
-  
+
       let newProjectInfo = {
         ...projectInfo,
-        // not suitable for database cause this is local string and not globally valid
-        dateModified: (new Date()).toLocaleString(),
+        dateModified: Date.now(),
         ...value
       };
-      // console.log(newProjectInfo);
-  
+      
       setData(newProjectInfo);
       localStorage.setItem(preFixedKey, JSON.stringify(newProjectInfo));
+
+      render.current+=1;
     }, [value]);
   
     return [data, setValue];

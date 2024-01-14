@@ -13,7 +13,7 @@ export default function MarkdownProjectsPage() {
 
   return (
     <div>
-        <button onClick={handleCLick}>+New Project</button> <br></br>
+        <button onClick={handleCLick} className='ms-1'>+New Project</button> <br></br>
             {creatingNewProject && <CreatingNewProjectElement id={creatingNewProject} type="md" setCreatingNewProject={setCreatingNewProject} />}
 
             <ProjectList type="md"/>

@@ -113,6 +113,16 @@ const routes=[
     path:"/deployments/:id",
     element:<Deployment/>
   }
+  ,  
+  {
+    path:"/shared/web/:id",
+    element:<Deployment/>
+  },
+  {
+    path:"/shared/md/:id",
+    element:<Deployment/>
+  }
+
 
   ],
   errorElement:<Navigate to="/"/>

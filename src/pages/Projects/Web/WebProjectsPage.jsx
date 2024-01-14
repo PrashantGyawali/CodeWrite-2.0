@@ -13,7 +13,7 @@ export default function WebProjectsPage() {
 
   return (
     <div>
-        <button onClick={handleCLick}>+New Project</button> <br></br>
+        <button onClick={handleCLick} className='ms-1'>+New Project</button> <br></br>
             {creatingNewProject && <CreatingNewProjectElement id={creatingNewProject} type="web" setCreatingNewProject={setCreatingNewProject} />}
             <ProjectList type="web"/>
     </div>

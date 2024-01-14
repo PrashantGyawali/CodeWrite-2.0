@@ -91,6 +91,7 @@ export function sanitizeHTML(string) {
 
 
   export function convertConsoleLogs(scriptString, consoleId) {
+
     // Replace console.log()
     scriptString = scriptString.replace(/console\.log\((.*?)\);?/g, `document.getElementById('${consoleId}').innerHTML += '<span style="color:white">'+ $1 +'</span>' + '\\n';`);
   
@@ -101,18 +102,7 @@ export function sanitizeHTML(string) {
     scriptString = scriptString.replace(/console\.table\((.*?)\);?/g, `document.getElementById('${consoleId}').innerText += tableToString($1) + '\\n';`);
   
     // Helper function to convert console.table() result to string
-    scriptString += `
-      function tableToString(data) {
-        let result = '';
-        if (Array.isArray(data)) {
-          result += Object.keys(data[0]).join('\t') + '\\n';
-          data.forEach(row => {
-            result += Object.values(row).join('\t') + '\\n';
-          });
-        }
-        return result;
-      }
-    `;
+
   
     return scriptString;
   }

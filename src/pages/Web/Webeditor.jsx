@@ -117,7 +117,7 @@ export default function WebEditor() {
       if (autorun) {
         const timeout = setTimeout(() => {
           setSrcDoc(
-           htmlWithConsole(html,css,js,showConsole,showConsoleOnError)
+          htmlWithConsole(html,css,js,showConsole,showConsoleOnError)
           );
         }, 1000);
   
