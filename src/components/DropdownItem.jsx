@@ -16,4 +16,4 @@ function DropdownItem(props) {
   )
 }
 
-export default DropdownItem;
+export default React.memo(DropdownItem);

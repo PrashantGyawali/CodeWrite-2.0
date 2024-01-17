@@ -1,20 +1,33 @@
-import { useEffect, useState,useContext,useRef } from 'react';
+import { useEffect, useState,memo,useRef, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import checkIcon from "../assets/checkIcon.svg"
 import copyButton from "../assets/copyButton.svg"
 import deplyIcon from "../assets/deployIcon.svg"
-import { ProjectContext } from '../pages/Web/Webeditor';
+import { useNavigate } from 'react-router-dom';
+import { SettingsContext } from '../App';
+
+
+import { ProjectCodeContext, SetProjectCodeContext } from "../App"
+import TitleText from './TitleText';
 
 function DeployModal() {
 
   const buttonref=useRef(null);
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose =() => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [title,setTitle]=useState("");
+  const navigate=useNavigate();
+  const {user}=useContext(SettingsContext);
+
+
+
+  const code=useContext(ProjectCodeContext);
+  const setCode=useContext(SetProjectCodeContext)
+
+  const [title,setTitle]=useState("Sharing...");
 
   const [copied,setCopied]=useState(false);
   const copyToClipboard = () => {
@@ -24,10 +37,6 @@ function DeployModal() {
   }
 
 
-
-  const {code,setCode}=useContext(ProjectContext);
-
-
   useEffect(()=>{
     if(copied)
     {
@@ -35,26 +44,42 @@ function DeployModal() {
     }
   },[copied]);
 
+
+  const [errorMsg,setErrorMsg]=useState("");
+
+
   useEffect(async()=>{
     if(!show) return;
-    console.log(code);  
-    const url=await fetch("https://codewrite-server.onrender.com/deploy",
+
+    if(!user?.isAuth)
     {
-      method:"POST",
-      mode: "cors",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      cache: "no-cache",
-      credentials: "include", 
-      body:JSON.stringify(code)
-    });
-    const data=await url.json();
-    if(data.url)
-    {
-      setTitle("Deployed 🚀🚀 !!");
-      setCode({...code,deployment:data.url,dateDeployed:Date.now()});
+      navigate("/auth/login");
     }
+
+    else{ 
+      const url=await fetch("https://codewrite-server.onrender.com/deploy",
+      {
+        method:"POST",
+        mode: "cors",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        cache: "no-cache",
+        credentials: "include", 
+        body:JSON.stringify(code)
+      });
+      const data=await url.json();
+      if(data.url)
+      {
+        setTitle("Deployed 🚀🚀 !!");
+        setCode({...code,deployment:data.url,dateDeployed:Date.now()});
+      }
+      else if(data.error!="")
+      {
+        setTitle("Error !!");
+        setErrorMsg(data.error);
+      }
+  }
   },[show])
 
 
@@ -68,11 +93,11 @@ function DeployModal() {
       <div style={{backgroundColor:"black", color:"white"}}>
 
         <Modal.Header closeButton closeVariant="white">
-          <Modal.Title>{title?title:"Deploying..."}</Modal.Title>
+          <TitleText title={title}/>
         </Modal.Header>
         <Modal.Body>             
             <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}} ref={buttonref}>
-              {(title && code.deployment)?`https://codewrite-2.vercel.app/deployments/${code.deployment}`:"..."}
+              {(title && code.deployment && title!=="Error !!")?`https://codewrite-2.vercel.app/deployments/${code.deployment}`: title=="Error !!"?errorMsg:"..."}
             <div variant='dark' className='float-end' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></div>
             </Button>
         </Modal.Body>
@@ -91,4 +116,4 @@ function DeployModal() {
   );
 }
 
-export default DeployModal;
+export default memo(DeployModal);

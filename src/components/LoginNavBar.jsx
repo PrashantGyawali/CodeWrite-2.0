@@ -1,21 +1,23 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import Button from "react-bootstrap/Button";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import { SettingsContext } from "../App";
-import { Outlet, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import '../App.css'
-import useLocalStorage from "../hooks/localstorage";
 import profileIcon from "../assets/profileIcon.svg"
 import userIcon from "../assets/userIcon.svg"
+
+import BrandName from "./NavBar/BrandName";
+import WebEditorTab from "./NavBar/WebEditorTab";
+import MarkdownTab from "./NavBar/MdEditorTab";
 
 function LoginNavComponent() {
   const { editor,user} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
-  const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
   
-  const handleProfileClick = () => {
+  const handleProfileClick = useCallback(() => {
     if(user.isAuth)
     {
       navigate("/profile")
@@ -23,28 +25,25 @@ function LoginNavComponent() {
     else{
       navigate("/auth")
     }
-  }
+  },[user])
+
+  const handleToggle=useCallback(()=>{
+    setNavbarExpanded(!navbarExpanded);
+  },[navbarExpanded])
 
   
   const navigate = useNavigate();
   return (
     <>
-      <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={() => { setNavbarExpanded(!navbarExpanded); }}>
-        <Navbar.Brand className="brand-name" onClick={()=>{navigate("/")}}>CodeWrite</Navbar.Brand>
+      <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={handleToggle}>
+        <BrandName />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">
             <Nav variant="tabs"  data-bs-theme="dark" className="ms-0" defaultActiveKey={editor=="markdown"?"link-2":"link1"}>
               <div className="d-md-flex ms-0">
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1" onClick={() => {navigate(`/self/web/${lastOpened.web}`)}} className="ps-3 pe-3">
-                    <span className="text-warning">{"</> "}</span>Web Editor
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2" onClick={() => {navigate(`/self/md/${lastOpened.md}`)}} className="ps-3 pe-3">
-                    <span className="text-info">M&darr;{" "}</span>Markdown editor</Nav.Link>
-                </Nav.Item>
+                <WebEditorTab/>
+                <MarkdownTab/>
               </div>
               <Nav.Item className="ms-3 ms-md-auto ">
                 <Button variant="dark" className="text-light border-radius-50 "  data-bs-theme="dark" onClick={handleProfileClick} >

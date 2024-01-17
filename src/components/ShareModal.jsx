@@ -1,53 +1,73 @@
-import { useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import  Modal from 'react-bootstrap/Modal';
 import checkIcon from "../assets/checkIcon.svg"
 import copyButton from "../assets/copyButton.svg"
 import shareIcon from "../assets/shareIcon.svg"
-import { ProjectContext } from '../pages/Web/Webeditor';
-import { Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { SettingsContext } from '../App';
+
+import { ProjectCodeContext, SetProjectCodeContext } from '../App';
+import TitleText from './TitleText';
+
 
 function ShareModal() {
   const [show, setShow] = useState(false);
+  const {user}=useContext(SettingsContext);
 
-  const handleClose = () => setShow(false);
+  const navigate=useNavigate();
+
+
+  const handleClose =() => setShow(false);
   const handleShow = () => setShow(true);
 
   const [copied,setCopied]=useState(false);
 
-  const [title,setTitle]=useState("");
+  const [title,setTitle]=useState("Sharing...");
 
-
-  const {code,setCode}=useContext(ProjectContext);
-
+  const code =useContext(ProjectCodeContext);
+  const setCode=useContext(SetProjectCodeContext)
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`https://codewrite-2.vercel.app/shared/${code.type}/${code.sharedURL}`);
     setCopied(true);
   }
 
+
+  const [errorMsg,setErrorMsg]=useState("");
+
   useEffect(async()=>{
     if(!show) return;
-    console.log(code);
-    const dateShared=Date.now();
-    const url=await fetch("https://codewrite-server.onrender.com/share",
+    if(!user?.isAuth)
     {
-      method:"POST",
-      mode: "cors",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      cache: "no-cache",
-      credentials: "include", 
-      body:JSON.stringify({...code,dateShared:dateShared})
-    })
-    const data=await url.json();
-    console.log(data);
-    if(data.url)
-    {
-      setTitle("Shared 🚀🚀 !!");
-      setCode({...code,sharedURL:data.url,dateShared:dateShared});
+      navigate("/auth/login");
     }
+    else{
+      const dateShared=Date.now();
+      const url=await fetch("https://codewrite-server.onrender.com/share",
+      {
+        method:"POST",
+        mode: "cors",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        cache: "no-cache",
+        credentials: "include", 
+        body:JSON.stringify({...code,dateShared:dateShared})
+      })
+      const data=await url.json();
+      console.log(data);
+      if(data.url)
+      {
+        setTitle("Shared 🚀🚀 !!");
+        setCode({...code,sharedURL:data.url,dateShared:dateShared});
+      }
+      else if(data.error!="")
+      {
+        setTitle("Error !!");
+        setErrorMsg(data.error);
+      }
+    }   
 },[show])
 
 
@@ -69,11 +89,11 @@ function ShareModal() {
       <div style={{backgroundColor:"black", color:"white"}}>
 
         <Modal.Header closeButton closeVariant="white">
-          <Modal.Title>Share Project</Modal.Title>
+          <TitleText title={title}/>
         </Modal.Header>
         <Modal.Body>             
             <Button  className='text-white text-wrap text-break btn-outline-secondary w-100' onClick={copyToClipboard} style={{textAlign:"left", backgroundColor:"rgb(36,36,36)"}}>
-            {(title && code.deployment)?`https://codewrite-2.vercel.app/shared/${code.type}/${code.sharedURL}`:"..."}
+            {(title && code.sharedURL && title!=="Error !!")?`https://codewrite-2.vercel.app/shared/${code.type}/${code.sharedURL}`: title=="Error !!"?errorMsg:"..."}
             <div  className='float-end bg-dark' onClick={copyToClipboard}><img src={copied?checkIcon:copyButton} className="float-end" /></div>
             </Button>
         </Modal.Body>
@@ -92,4 +112,4 @@ function ShareModal() {
   );
 }
 
-export default ShareModal;
+export default memo(ShareModal);

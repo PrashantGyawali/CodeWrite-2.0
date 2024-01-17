@@ -12,10 +12,13 @@ export default function CreatingNewProjectElement({id,type,setCreatingNewProject
 
     useEffect(()=>{
         let newName=projectName.trim()!=""?projectName:("New Project "+ id);
-        setProjectInfo({
-        ...projectInfo,     
-        name:newName
-        });
+        if(typeof setProjectInfo == "function")
+        {
+            setProjectInfo({
+                ...projectInfo,     
+                name:newName
+                });
+        }
     },[projectName]);
 
     useEffect(()=>{
@@ -24,20 +27,19 @@ export default function CreatingNewProjectElement({id,type,setCreatingNewProject
         inputRef.current.addEventListener("focusout",()=>{
             setCreatingNewProject(false);
             navigate(`/self/${type}/${id}`);
-         });
-         inputRef.current.addEventListener('keyup', function (e) {
+        });
+        inputRef.current.addEventListener('keyup', function (e) {
             if (e.key === 'Enter')
             {
                 setCreatingNewProject(false);
                 navigate(`/self/${type}/${id}`);
             }
-         });
+        });
     },[])
 
     return(
         <div>
             <input ref={inputRef} type="text" placeholder="Enter Project Name" 
-            // className="editing-input"
             value={projectName} onChange={(e)=>{setProjectName(e.target.value)}} />
         </div>
     )

@@ -140,4 +140,4 @@ ReactDOM.render(
     <RouterProvider router={browserRouter} />
   </React.StrictMode>,
   document.getElementById('root')
-)
+);

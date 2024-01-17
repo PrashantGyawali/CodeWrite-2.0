@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect, useRef} from "react";
+import {useState, useContext, useEffect, useRef, useCallback} from "react";
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/cobalt.css'
 import 'codemirror/theme/material.css'
@@ -26,10 +26,12 @@ import minimizeIcon from "../../assets/minimize.svg";
 import maximizeIcon from "../../assets/maximize.svg";
 
 import { Controlled as ControlledEditor } from "react-codemirror2";
-import { SettingsContext } from "../../App.jsx";
 
 //utils
 import { isEmptyExcluding } from "../../utils/functions.js";
+import {autoCloseTagsAtom,} from "../../Store/EditorSettingsStore.jsx";
+import {themeAtom} from "../../Store/ThemeSettingsStore.jsx";
+import { useAtomValue } from "jotai";
 
 
 
@@ -38,7 +40,9 @@ const contentTypes = {
 };
 
 const Editor = (props) => {
-  const { theme, autoCloseTags } = useContext(SettingsContext);
+  const autoCloseTags = useAtomValue(autoCloseTagsAtom);
+  const theme = useAtomValue(themeAtom);
+
   const editorRef = useRef(0);
   const editorContainerRef = useRef(null);
   const [editorWidth, setEditorWidth] = useState("auto");
@@ -80,7 +84,7 @@ const Editor = (props) => {
     adjustLines();
   }, []);
 
-  const download = () => {
+  const download = useCallback(() => {
     const link = document.createElement('a');
     const downloadableValue = value;
     const content = new Blob([downloadableValue], { type: `${contentTypes["markdown"].type};charset=utf-8` });
@@ -88,7 +92,7 @@ const Editor = (props) => {
     link.download = contentTypes[language].name;
     link.click();
     URL.revokeObjectURL(link.href);
-  };
+  },[value]);
 
   const handleResize = (event) => {
     handleMinimize(true);
@@ -108,6 +112,21 @@ const Editor = (props) => {
     addEventListener(event.type === "touchstart" ? "touchmove" : "mousemove", settingWidth);
     addEventListener(event.type === "touchstart" ? "touchend" : "mouseup", endResize);
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className={`editor-container h-90vh ${minimized!="resize"?"markdowneditor":""} ${minimized==true?"minimized":""}`} style={minimized === "resize" ? { flex: "0 1 auto", width: editorWidth,  position: "relative",minWidth:"200px",overflowY:"auto",overflowX:"hidden" }:{}} ref={editorContainerRef}>

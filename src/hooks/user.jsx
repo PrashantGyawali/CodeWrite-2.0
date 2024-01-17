@@ -82,8 +82,8 @@ export default function useUser() {
             cache: "no-cache",
             credentials: "include", 
             headers: {
-              "Content-Type": "application/json",
-              "Set-Cookie":"SameSite=None; Secure"
+                "Content-Type": "application/json",
+                "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", 
             body: JSON.stringify(data),

@@ -1,6 +1,8 @@
-import React from 'react'
+import {useRef,memo, useCallback, useMemo} from 'react'
 import { Dropdown,Form } from 'react-bootstrap'
 import DropdownItem from '../DropdownItem';
+import { useAtom } from 'jotai';
+import { themeAtom,allowTryThemeAtom} from '../../Store/ThemeSettingsStore';
 
 
 //handling themes
@@ -13,16 +15,49 @@ const themeMapping={
     "3024-day":"Light"
 }
 
-function ThemeSettings(props) {
-const {
-    theme,
-    allowTryTheme,
-    setAllowTryTheme,
-    themeDropdownRef,
-    updateTheme,
-    tryTheme} = props;
+const DropdownList=memo(({themes,tryTheme,updateTheme})=>{
 
-    const themes=["material","cobalt","xq-dark","the-matrix","night","3024-day"];
+    return (
+    <>
+    {
+    themes.map(
+        (theme)=>
+            <DropdownItem key={theme} onClick={() => updateTheme(theme)} onMouseEnter={()=>tryTheme(theme)} onTouchStart={()=>{tryTheme(theme);}} >
+                {themeMapping[theme]}
+            </DropdownItem>
+        )
+    }
+    </>
+    );
+})
+
+
+
+function ThemeSettings() {
+
+    const [theme, setTheme] = useAtom(themeAtom);
+    const [allowTryTheme, setAllowTryTheme] = useAtom(allowTryThemeAtom);
+
+        //Updating themes and trying themes
+        const themeRef=useRef(theme);
+        const themeDropdownRef=useRef(null);
+    
+    
+        const tryTheme = useCallback((toTryTheme) => {
+            if(!allowTryTheme) return;
+            setTheme(toTryTheme);
+            themeDropdownRef.current.addEventListener("mouseleave",()=>{setTheme(themeRef.current);}) 
+            themeDropdownRef.current.addEventListener("touchend",()=>{setTheme(themeRef.current);}) 
+    
+        },[]);
+    
+        const updateTheme = useCallback((newTheme) => {
+            themeRef.current=newTheme;
+            setTheme(newTheme);
+        },[])
+
+
+    const themes=useMemo(()=>["material","cobalt","xq-dark","the-matrix","night","3024-day"],[]);
 
   return (
 <Dropdown >
@@ -32,13 +67,11 @@ const {
 <Dropdown.Menu >
     <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} className="mx-2" onChange={() => setAllowTryTheme(!allowTryTheme)} onClick={(e)=>{e.stopPropagation()}} title="Hover to try out themes on desktop, slide over to try on smartphones"/>
     <div ref={themeDropdownRef} >
-        {themes.map((themeName,index)=>{
-            return <DropdownItem key={themeName} onClick={() => updateTheme(themeName)} onMouseOver={()=>tryTheme(themeName)} onTouchStart={()=>{tryTheme(themeName);}} >{themeMapping[themeName]}</DropdownItem>
-        })}
+        <DropdownList themes={themes} tryTheme={tryTheme} updateTheme={updateTheme}/>
     </div>
 </Dropdown.Menu>
 </Dropdown>
 )
 }
 
-export default ThemeSettings ;
+export default memo(ThemeSettings) ;

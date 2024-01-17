@@ -26,6 +26,7 @@ export default function ProjectInfo(props) {
 
   const projectNameRef=useRef();
   const [projectInfo,setProjectInfo]=useProject(props.projectType,props.projectId);
+  console.log(projectInfo);
 
   const navigate=useNavigate();
 

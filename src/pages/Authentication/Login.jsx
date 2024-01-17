@@ -1,26 +1,20 @@
-import React from "react";
 import "./Auth.css";
-import { useState,useRef, useEffect } from "react";
+import { useState,useRef, useEffect,memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext} from "react"; 
 import { SettingsContext } from "../../App";
 import loginSchemaValidator from "../Validations/LoginValidation";
 
-const ErrorMessagesElement = ({errorMessage}) => {
-    
-    return (
-        <>
-        {(errorMessage && <div className='error-text'>{errorMessage}</div>) || <div className="user-select-none">&nbsp;</div>}
-        </>
-    );
-}
+import ErrorMessagesElement from "./ErrorMessage";
 
-
-export default function Login() {
+function Login() {
 
     const [passwordVisibility,setPasswordVisibility]=useState("password");
     const {user,setUser}= useContext(SettingsContext);
     const timerRef = useRef(null);
+
+    const [isDisabled,setIsDisabled]=useState(false);
+
     useEffect(()=>{
       if(user.isAuth)
       {
@@ -28,6 +22,8 @@ export default function Login() {
       }
     },[user]);
     
+
+
     const showPassword=()=>{
       if(passwordVisibility=="password")
       {
@@ -36,43 +32,58 @@ export default function Login() {
       }
       }
 
+
+
+
     const hidePassword=()=>{
       setPasswordVisibility("password");
       clearTimeout(timerRef.current);
     }
 
 
+
+
+
     const [errors,setErrors]=useState("");
 
     const navigate=useNavigate();
     const handleErrors = (newErrors) => {
+        setIsDisabled(false);
         setErrors(newErrors);
         setTimeout(()=>{
-            setErrors("");
-        },3000);
+            if(timerRef)
+            {
+              setErrors("");
+            }
+        },5000);
     }
 
     const handleSubmit = async(e) => {
-        e.preventDefault();
-
+      e.preventDefault();
+      if(!isDisabled)
+      {
         const formData=new FormData(e.currentTarget);
 
         const email=formData.get("email");
         const password=formData.get("password");
+        setIsDisabled(true);
+
         loginSchemaValidator(email, password).then(async(data)=>
           {
             let res = await setUser("login", data);
             if(res && res.isAuth)
-            {   navigate("/");  }
+            {   setIsDisabled(false);
+                navigate("/");  }
             else{ handleErrors(res.error);  }
           })
           .catch(async (error) => {
             if (error) {
               handleErrors(error.message);
+              setIsDisabled
             }
           })
-                    
-    };
+      }
+};
 
 
 
@@ -122,3 +133,6 @@ export default function Login() {
 
   );
 }
+
+
+export default memo(Login);

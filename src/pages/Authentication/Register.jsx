@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect} from 'react';
+import { useState, useContext, useEffect,memo} from 'react';
 import "./Auth.css"
 import { useNavigate } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ const ErrorMessagesElement = ({errorMessage}) => {
 
 
 
-export default function Register() {
+function Register() {
 
   const {user,setUser}= useContext(SettingsContext);
 
@@ -122,3 +122,6 @@ export default function Register() {
       </section>
     );
 }
+
+
+export default memo(Register);

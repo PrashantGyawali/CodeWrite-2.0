@@ -1,5 +1,6 @@
 import { useEffect, useState,useRef } from "react";
 
+
 const key="codewrite";
 
 export function createNewProject(type,value) {
@@ -18,8 +19,8 @@ export function createNewProject(type,value) {
         dateModified: Date.now(),
         dateCreated: Date.now(),
         sharedURL:"",
-        dateSaved:Date.now(),
-        dateShared:Date.now(),
+        dateSaved:"",
+        dateShared:"",
         type:type,
     }
     if(type==="web")
@@ -27,6 +28,9 @@ export function createNewProject(type,value) {
         projectInfo={
             ...projectInfo,
             deployment:"",
+            html:"",
+            css:"",
+            js:"",
             ...value
         }
     }
@@ -46,7 +50,9 @@ export function createNewProject(type,value) {
 
 
 
-export default function useProject(type, id) {
+export default function useProject(type,id) {
+
+
     const render=useRef(0);
 
     if (!id || typeof id !== 'string' || !type || typeof type !== 'string') {
@@ -75,10 +81,14 @@ export default function useProject(type, id) {
 
       let newProjectInfo = {
         ...projectInfo,
-        dateModified: Date.now(),
-        ...value
+        ...value,
       };
-      
+
+      if(data?.html!==value.html || data.css!==value.css || data.js!==value.js || data.md!==value.md || data.name!==value.name ) 
+      {
+        newProjectInfo.dateModified = Date.now();
+      }
+
       setData(newProjectInfo);
       localStorage.setItem(preFixedKey, JSON.stringify(newProjectInfo));
 

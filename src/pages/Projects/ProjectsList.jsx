@@ -5,13 +5,13 @@ import ProjectInfo from './ProjectInfo';
 export default function ProjectList() {
 
   const projectType=useUrl()||"web";
-
   const [projects,setProjects]=useLocalStorage(`${projectType}-projects`,{});
 
   let validProjects=Object.entries(projects).filter((project)=>{return project[1]==true});
 
   useEffect(() => {  
     validProjects=Object.entries(projects).filter((project)=>{return project[1]==true});
+
     }, [projects]);
 
 

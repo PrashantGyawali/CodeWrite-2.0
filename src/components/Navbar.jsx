@@ -1,62 +1,56 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext, useCallback} from "react";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import { SettingsContext } from "../App";
-import { useNavigate} from "react-router-dom";
 import '../App.css'
-import useLocalStorage from "../hooks/localstorage";
 import settingsIcon from "../assets/settingsIcon.svg"
 import Settingsbar from "./Settings/Settings";
+import BrandName from "./NavBar/BrandName"
+
+import MarkdownTab from "./NavBar/MdEditorTab";
+import WebEditorTab from "./NavBar/WebEditorTab";
 
 
 function NavComponent() {
+
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const { editor} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
-  const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
 
-  const navigate = useNavigate();
+  const toggleNavbar = useCallback(() => { setNavbarExpanded(!navbarExpanded); setSettingsOpen(false) });
+
   return (
     <>
-      <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={() => { setNavbarExpanded(!navbarExpanded); setSettingsOpen(false) }}>
-        <Navbar.Brand className="brand-name" onClick={()=>{navigate("/")}}>CodeWrite</Navbar.Brand>
+      <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={toggleNavbar}>
+        <BrandName />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">
             <Nav variant="tabs" defaultActiveKey={editor == "web" ? "link-1" : "link-2"} data-bs-theme="dark" className="ms-0">
               <div className="d-md-flex ms-0">
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1" onClick={() => {navigate(`/self/web/${lastOpened.web}`)}} className="ps-3 pe-3">
-                    <span className="text-warning">{"</> "}</span>Web Editor
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2" onClick={() => {navigate(`/self/md/${lastOpened.md}`)}} className="ps-3 pe-3">
-                    <span className="text-info">M&darr;{" "}</span>Markdown editor</Nav.Link>
-                </Nav.Item>
+                  <WebEditorTab/>
+                  <MarkdownTab/>
               </div>
-
 
               <Nav.Item className="ms-0 ms-md-auto ">
                 <div className={`text-light px-2 py-1 cursor-pointer rounded ${isSettingsOpen?"bg-secondary":""}`} onClick={() => setSettingsOpen(!isSettingsOpen)}>
                   <img src={settingsIcon} alt="settings" className="settings-button" />
                 </div>
               </Nav.Item>
-
               
             </Nav>
           </div>
         </Navbar.Collapse>
       </Navbar>
       <div style={{position:"relative",zIndex:500}}>
-      <Settingsbar isSettingsOpen={isSettingsOpen} /> 
+      <Settingsbar isSettingsOpen={isSettingsOpen}/> 
       </div>
     </>
   );
 }
 
-export default NavComponent;
+export default React.memo(NavComponent);
 
 
 

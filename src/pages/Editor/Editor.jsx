@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect, useRef} from "react";
+import { useContext, useEffect, useRef, useCallback,memo, useMemo} from "react";
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/cobalt.css'
 import 'codemirror/theme/material.css'
@@ -29,23 +29,44 @@ import minimizeIcon from "../../assets/minimize.svg" ;
 import maximizeIcon from "../../assets/maximize.svg" ;
 import DownloadAll from "../../components/Download/DownloadAll.jsx";
 
-import { Controlled as ControlledEditor } from "react-codemirror2";
+import { Controlled as ControlledEditorSlow } from "react-codemirror2";
 import { SettingsContext } from "../../App.jsx";
 
 //utils
 import { sanitizeHTML, isEmptyExcluding } from "../../utils/functions.js";
+import {tabornotAtom,autoCloseTagsAtom,allowResizeAtom,maxHeightInSmallScreenAtom} from "../../Store/EditorSettingsStore.jsx";
+import {themeAtom} from "../../Store/ThemeSettingsStore.jsx";
+import { useAtomValue } from "jotai";
+
+
+
 
 
 
 const contentTypes = {
-  xml: { type: "text/xml", name: "index.html", placeholder: "<!-- Drag and drop your HTML file here or start writing -->" },
-  css: { type: "text/css", name: "style.css", placeholder: "/* Drag and drop your CSS file here or start writing */" },
-  javascript: { type: "text/javascript", name: "script.js", placeholder: "// Drag and drop your JS file here or start writing" },
-  markdown: { type: "text/markdown", name: "markdown.md", placeholder: "# Drag and drop your Markdown file here or start writing" },
+  xml: {value:"html", type: "text/xml", name: "index.html", placeholder: "<!-- Drag and drop your HTML file here or start writing -->" },
+  css: {value:"css", type: "text/css", name: "style.css", placeholder: "/* Drag and drop your CSS file here or start writing */" },
+  javascript: {value:"js", type: "text/javascript", name: "script.js", placeholder: "// Drag and drop your JS file here or start writing" },
+  markdown: {value:"md", type: "text/markdown", name: "markdown.md", placeholder: "# Drag and drop your Markdown file here or start writing" },
 };
 
+
+
+const ControlledEditor = memo(ControlledEditorSlow);
+
+
 const Editor = (props) => {
-  const { editor, theme, tabornot, autoCloseTags,     allowResize , maxHeightInSmallScreen } = useContext(SettingsContext);
+  const { editor } = useContext(SettingsContext);
+
+  const tabornot=useAtomValue(tabornotAtom);
+  const autoCloseTags=useAtomValue(autoCloseTagsAtom);
+  const allowResize=useAtomValue(allowResizeAtom);
+  const maxHeightInSmallScreen=useAtomValue(maxHeightInSmallScreenAtom);
+
+
+  const theme=useAtomValue(themeAtom);
+  
+
   const editorRef = useRef(0);
   const editorContainerRef = useRef(null);
 
@@ -56,14 +77,14 @@ const Editor = (props) => {
     onChange,
     minimized,
     handleMinimize,
-    handleDownloadAllClick,
     editorWidth,
-     setEditorWidth,
+    setEditorWidth,
   } = props;
 
-  const handleChange = (editor, data, value) => {
+
+  const handleChange =useCallback((editor, data, value) => {
     onChange(value);
-  };
+  },[]);
 
   useEffect(() => {
     const adjustLines = () => {
@@ -90,7 +111,8 @@ const Editor = (props) => {
 
 
 
-  const download = () => {
+  const download =useCallback(
+    () => {
     const link = document.createElement('a');
     const downloadableValue = language === "xml" ? sanitizeHTML(value) : value;
     const content = new Blob([downloadableValue], { type: `${contentTypes[language].type};charset=utf-8` });
@@ -98,7 +120,9 @@ const Editor = (props) => {
     link.download = contentTypes[language].name;
     link.click();
     URL.revokeObjectURL(link.href);
-  };
+  }, [language, value]);
+
+
 
   const handleResize = (event) => {
     handleMinimize(true);
@@ -119,33 +143,44 @@ const Editor = (props) => {
     addEventListener(event.type === "touchstart" ? "touchend" : "mouseup", endResize);
   };
 
+
+  const editorOptions=useMemo(()=>{
+    return {
+      lineWrapping: true,
+      lint: true,
+      inputStyle: "textarea",
+      lineNumbers: true,
+      mode: language,
+      theme: theme,
+      autoCloseBrackets: autoCloseTags,
+      autoCloseTags: autoCloseTags,
+      matchBrackets: true,
+      undoDepth: 400,
+    }
+  },[language,theme,autoCloseTags]);
+
+  let editorClassName=useMemo(()=>`code-mirror-wrapper ${maxHeightInSmallScreen?"full-height":""}`,[maxHeightInSmallScreen]) ;
+
+
+
+
+
   return (
     <div className={`editor-container ${minimized === true ? "collapsed" : minimized === false ? "maximized" : ""}`} style={minimized === "resize" ? { flex: "0 1 auto", width: editorWidth,  position: "relative",minWidth:`${language=="markdown"&&"150px"}` } : {}} ref={editorContainerRef}>
       <div className={`editor-title ${language}`}>
         <div>{displayname}</div>
         <div style={{ display: 'flex', flexDirection: "row", marginLeft: "5px" }}>
-          {language === "xml" && <DownloadAll onClickfn={handleDownloadAllClick} title={"Combine into Single HTML"} />}
+          {language === "xml" && <DownloadAll title={"Combine into Single HTML"} code={props.code}/>}
           <Downloadbtn onClickfn={download} title={"Download " + contentTypes[language].name} />
           {!tabornot && editor !== 'markdown' && <button onClick={() => handleMinimize(false)} className="editor-button"><img src={minimized ? maximizeIcon : minimizeIcon} alt={!minimized ? "><" : "<>"} /></button>}
         </div>
       </div>
 
-      <ControlledEditor onBeforeChange={handleChange} value={value} className={`code-mirror-wrapper ${maxHeightInSmallScreen?"full-height":""}`} options={{
-        lineWrapping: true,
-        lint: true,
-        inputStyle: "textarea",
-        lineNumbers: true,
-        mode: language,
-        theme: theme,
-        autoCloseBrackets: autoCloseTags,
-        autoCloseTags: autoCloseTags,
-        matchBrackets: true,
-        undoDepth: 400,
-      }} ref={editorRef} />
+      <ControlledEditor onBeforeChange={handleChange} value={value} className={editorClassName} options={editorOptions} ref={editorRef} />
 
       {!!allowResize && tabornot==false && <div className="resizeBar" onMouseDown={handleResize} onTouchStart={handleResize}></div>}
     </div>
   );
 };
 
-export default Editor;
+export default memo(Editor);
