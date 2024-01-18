@@ -11,25 +11,13 @@ import ThemeSettings from "./ThemeSettings";
 import OutputSettings from "./OutputSettings";
 import SharingSettings from "./SharingSettings";
 import SaveProjectSettings from "./SaveProjectSettings";
+import Close from "./Close";
 
 
 
 function Settingsbar(props) {
 
     const { editor} = useContext(SettingsContext);
-
-
-    const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", { web: "", md: "" });
-
-
-    //handle close button
-    const navigate = useNavigate();
-    const closeProject=()=>{
-        setLastOpened({ ...lastOpened, [editor]: ""});
-        setTimeout(() => {        navigate(`/projects/${editor}`); 
-    },10)
-    }
-
 
     return (
         <Accordion activeKey={props.isSettingsOpen ? "0" : null} data-bs-theme="dark" variant="dark" flush className="position-absolute w-100 ">
@@ -62,7 +50,7 @@ function Settingsbar(props) {
                             <SaveProjectSettings/>
                         </div>
                         <div className="p-1">
-                            <Button variant="secondary" onClick={closeProject} ><img src={exitIcon}  className="icon-images"/>  Close</Button>
+                            <Close/>
                         </div>
                     </Form>
                 </Accordion.Body>

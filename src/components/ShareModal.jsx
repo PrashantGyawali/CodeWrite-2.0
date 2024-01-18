@@ -55,8 +55,8 @@ function ShareModal() {
         credentials: "include", 
         body:JSON.stringify({...code,dateShared:dateShared})
       })
+      setTitle("Sharing...");
       const data=await url.json();
-      console.log(data);
       if(data.url)
       {
         setTitle("Shared 🚀🚀 !!");

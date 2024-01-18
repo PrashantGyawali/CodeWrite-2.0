@@ -44,12 +44,15 @@ function ThemeSettings() {
     
     
         const tryTheme = useCallback((toTryTheme) => {
-            if(!allowTryTheme) return;
-            setTheme(toTryTheme);
-            themeDropdownRef.current.addEventListener("mouseleave",()=>{setTheme(themeRef.current);}) 
-            themeDropdownRef.current.addEventListener("touchend",()=>{setTheme(themeRef.current);}) 
-    
-        },[]);
+            if(!allowTryTheme){
+                return;
+            }
+            else{
+                setTheme(toTryTheme);
+                themeDropdownRef.current.addEventListener("mouseleave",()=>{setTheme(themeRef.current);}) 
+                themeDropdownRef.current.addEventListener("touchend",()=>{setTheme(themeRef.current);}) 
+            }
+        },[allowTryTheme]);
     
         const updateTheme = useCallback((newTheme) => {
             themeRef.current=newTheme;
@@ -59,7 +62,7 @@ function ThemeSettings() {
 
     const themes=useMemo(()=>["material","cobalt","xq-dark","the-matrix","night","3024-day"],[]);
 
-  return (
+return (
 <Dropdown >
 <Dropdown.Toggle variant="dark" id="dropdown-basic">
     Theme: {themeMapping[theme]}

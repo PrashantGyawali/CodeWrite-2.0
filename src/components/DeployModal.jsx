@@ -27,7 +27,7 @@ function DeployModal() {
   const code=useContext(ProjectCodeContext);
   const setCode=useContext(SetProjectCodeContext)
 
-  const [title,setTitle]=useState("Sharing...");
+  const [title,setTitle]=useState("Deploying...");
 
   const [copied,setCopied]=useState(false);
   const copyToClipboard = () => {
@@ -68,6 +68,7 @@ function DeployModal() {
         credentials: "include", 
         body:JSON.stringify(code)
       });
+      setTitle("Deploying...");
       const data=await url.json();
       if(data.url)
       {
