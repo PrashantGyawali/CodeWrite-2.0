@@ -17,6 +17,10 @@
     transform: translateY(5%);
     z-index: 100;
   }
+  .mdeditor-container .resizeBar{
+    background-color:  rgba(255, 255, 255, 0.1);
+    width:10px
+  }
   .resizeBar:hover {
     background-color: rgb(93, 93, 93);
   }

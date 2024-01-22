@@ -1,7 +1,7 @@
 import {useRef,memo, useCallback, useMemo} from 'react'
 import { Dropdown,Form } from 'react-bootstrap'
 import DropdownItem from '../DropdownItem';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { themeAtom,allowTryThemeAtom} from '../../Store/ThemeSettingsStore';
 
 
@@ -31,12 +31,24 @@ const DropdownList=memo(({themes,tryTheme,updateTheme})=>{
     );
 })
 
+const ToggleThemeButton=memo(()=>{
+
+    const [allowTryTheme, setAllowTryTheme] = useAtom(allowTryThemeAtom);
+
+    const toggleAllowTryTheme=useCallback(()=>{setAllowTryTheme(!allowTryTheme)},[allowTryTheme]);
+    const stopPropagation=useCallback((e)=>{e.stopPropagation()},[]);
+
+    return (
+        <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} className="mx-2" onChange={toggleAllowTryTheme} onClick={stopPropagation} title="Hover to try out themes on desktop, slide over to try on smartphones"/>
+    )
+})
+
 
 
 function ThemeSettings() {
 
     const [theme, setTheme] = useAtom(themeAtom);
-    const [allowTryTheme, setAllowTryTheme] = useAtom(allowTryThemeAtom);
+    const allowTryTheme = useAtomValue(allowTryThemeAtom);
 
         //Updating themes and trying themes
         const themeRef=useRef(theme);
@@ -62,13 +74,14 @@ function ThemeSettings() {
 
     const themes=useMemo(()=>["material","cobalt","xq-dark","the-matrix","night","3024-day"],[]);
 
+
 return (
 <Dropdown >
 <Dropdown.Toggle variant="dark" id="dropdown-basic">
     Theme: {themeMapping[theme]}
 </Dropdown.Toggle>
 <Dropdown.Menu >
-    <Form.Check type="switch" label="Try Themes"  defaultChecked={allowTryTheme} className="mx-2" onChange={() => setAllowTryTheme(!allowTryTheme)} onClick={(e)=>{e.stopPropagation()}} title="Hover to try out themes on desktop, slide over to try on smartphones"/>
+    <ToggleThemeButton/>
     <div ref={themeDropdownRef} >
         <DropdownList themes={themes} tryTheme={tryTheme} updateTheme={updateTheme}/>
     </div>

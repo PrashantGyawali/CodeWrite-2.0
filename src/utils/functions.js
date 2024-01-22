@@ -93,13 +93,13 @@ export function sanitizeHTML(string) {
   export function convertConsoleLogs(scriptString, consoleId) {
 
     // Replace console.log()
-    scriptString = scriptString.replace(/console\.log\((.*?)\);?/g, `document.getElementById('${consoleId}').innerHTML += '<span style="color:white">'+ $1 +'</span>' + '\\n';`);
+    scriptString = scriptString.replace(/console\.log\((.*?)\);?/g, `document.getElementById('${consoleId}').innerHTML += '<span style="color:white">'+ $1 +'</span>'+" <br>";`);
   
     // Replace console.error()
-    scriptString = scriptString.replace(/console\.error\((.*?)\);?/g, `document.getElementById('${consoleId}').innerHtml += 'Error: ' + $1 + '\\n';`);
+    scriptString = scriptString.replace(/console\.error\((.*?)\);?/g, `document.getElementById('${consoleId}').innerHtml += 'Error: ' + $1 + +" <br>";`);
   
     // Replace console.table()
-    scriptString = scriptString.replace(/console\.table\((.*?)\);?/g, `document.getElementById('${consoleId}').innerText += tableToString($1) + '\\n';`);
+    scriptString = scriptString.replace(/console\.table\((.*?)\);?/g, `document.getElementById('${consoleId}').innerText += tableToString($1) + +"<br>";`);
   
     // Helper function to convert console.table() result to string
 

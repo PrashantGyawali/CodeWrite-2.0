@@ -13,7 +13,7 @@ import TitleText from './TitleText';
 
 function ShareModal() {
   const [show, setShow] = useState(false);
-  const {user}=useContext(SettingsContext);
+  const {user,editor}=useContext(SettingsContext);
 
   const navigate=useNavigate();
 
@@ -53,7 +53,7 @@ function ShareModal() {
         },
         cache: "no-cache",
         credentials: "include", 
-        body:JSON.stringify({...code,dateShared:dateShared})
+        body:JSON.stringify({...code,type:editor,dateShared:dateShared})
       })
       setTitle("Sharing...");
       const data=await url.json();

@@ -10,6 +10,7 @@ import BrandName from "./NavBar/BrandName"
 
 import MarkdownTab from "./NavBar/MdEditorTab";
 import WebEditorTab from "./NavBar/WebEditorTab";
+import ScreenshotModal from "./ScreenshotModal/ScreenshotModal";
 
 
 function NavComponent() {
@@ -33,12 +34,12 @@ function NavComponent() {
                   <MarkdownTab/>
               </div>
 
-              <Nav.Item className="ms-0 ms-md-auto ">
+              <Nav.Item className="ms-0 ms-md-auto d-flex">
+                <ScreenshotModal/>
                 <div className={`text-light px-2 py-1 cursor-pointer rounded ${isSettingsOpen?"bg-secondary":""}`} onClick={() => setSettingsOpen(!isSettingsOpen)}>
                   <img src={settingsIcon} alt="settings" className="settings-button" />
                 </div>
-              </Nav.Item>
-              
+              </Nav.Item>              
             </Nav>
           </div>
         </Navbar.Collapse>

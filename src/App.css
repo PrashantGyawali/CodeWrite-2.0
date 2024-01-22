@@ -38,7 +38,7 @@
   .full-height>.CodeMirror{
     height: 100% !important;
   }
-  .CodeMirror{
+  .pane>.CodeMirror{
     height: 50vh !important;
   }
 
@@ -211,4 +211,11 @@ width: fit-content;
 
 .icon-images{
   transform:translateY(-1px) scale(1.2);
+}
+
+
+
+.break-word{
+word-break: break-all;
+word-wrap: break-word;
 }

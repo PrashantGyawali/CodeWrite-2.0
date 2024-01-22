@@ -1,4 +1,4 @@
-import { memo,createContext } from "react";
+import { memo} from "react";
 import "../../App.css";
 import NavComponent from "../../components/Navbar";
 import WebEditorBody from "./WebEditorBody";
@@ -8,7 +8,7 @@ import { useParams} from "react-router-dom";
 import { ProjectCodeContext,SetProjectCodeContext } from "../../App";
 
 
- function WebEditor() {
+function WebEditor() {
 
   const urlParams=useParams();
   const [code, setCode] = useProject("web",urlParams.id); 

@@ -35,9 +35,10 @@ const MarkdownOutput=memo((props)=>{
     return  (<div className='text-light markdownoutput'>
         <div className="editor-title css md-output-title">Output</div>
                 <div className='pl-10'>
-                <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={remarkPlugins} components={CodeBlock}>{props.markdown}</Markdown>
+                <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={remarkPlugins} components={CodeBlock} className="break-word">{props.markdown}</Markdown>
                 </div>
             </div>)
 })
+
 
 export default MarkdownOutput;
