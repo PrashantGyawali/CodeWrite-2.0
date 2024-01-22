@@ -1,5 +1,5 @@
 import { memo,useRef,useState,useCallback} from "react";
-import { ProjectCodeContext } from '../../App';
+import { ProjectCodeContext, SettingsContext } from '../../App';
 import { useContext,useEffect} from "react";
 import { Button, Nav } from "react-bootstrap";
 
@@ -13,6 +13,7 @@ import { Resizable } from 're-resizable';
 
 const ModalComponent = (props) => {
     const code = useContext(ProjectCodeContext);
+    const {editor}=useContext(SettingsContext);
     const [tabstate, setTabstate] = useState(1);
 
     const { handleClose } = props;
@@ -85,14 +86,14 @@ const ModalComponent = (props) => {
                 
                 <Nav variant="tabs"  defaultActiveKey="link-1" data-bs-theme="dark">
                     <div className="d-flex w-100 justify-content-start container ">
+                        
+                        {editor=="web" && 
                         <div className="d-flex">
                         <Nav.Item >
                             <Nav.Link
                                 eventKey="link-1"
                                 onClick={() => setTabstate(1)}
-                                className="xml px-2"
-                                
-                            >
+                                className="xml px-2">
                                 HTML
                             </Nav.Link>
                         </Nav.Item>
@@ -115,6 +116,18 @@ const ModalComponent = (props) => {
                             </Nav.Link>
                         </Nav.Item>
                         </div>
+                        }
+                        {editor=="md" &&
+                        <div className="d-flex">
+                        <Nav.Item >
+                            <Nav.Link
+                                eventKey="link-1"
+                                className="markdown px-2">
+                                Markdown
+                            </Nav.Link>
+                        </Nav.Item>
+                        </div>
+                        }   
                         <div className="ms-auto d-flex align-items-center ">
                             <input type="color" id="colorPicker" value={color} onChange={(e)=>setColor(e.target.value)} ref={colorPickerRef}></input>
                             <Button variant="dark" onClick={downloadImage}><img src={screenshotIcon}></img></Button>
@@ -125,7 +138,7 @@ const ModalComponent = (props) => {
 
 
 
-                {tabstate == 1 && (
+                {tabstate == 1 && editor=="web" && (
                 <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights( )}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                         <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                             <CodeSnippet value={html} language="xml" maxHeight={maxHeight}/>
@@ -133,16 +146,23 @@ const ModalComponent = (props) => {
                 </Resizable>
                 )}
                 {tabstate == 2 && (
-                <Resizable className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                     <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={css} language="css" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
                 {tabstate == 3 && (
-                <Resizable className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                     <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={js} language="javascript" maxHeight={maxHeight}/>
+                    </div>
+                </Resizable>
+                )}
+                {tabstate == 1 && editor=="md" &&(
+                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                    <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                        <CodeSnippet value={md} language="markdown" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
