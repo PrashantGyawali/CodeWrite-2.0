@@ -30,23 +30,14 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
       </html>`
 
   }
-  else{
-    let bodyCss=(css.trim()).match(/body\s*{\s*(.*?)\s*}/);
-
-    if (bodyCss && bodyCss.length > 0) {
-        bodyCss =bodyCss[1];
-    } else {
-      bodyCss="";
-    }
+  else{   
+  const parsedCss = processCss(css, htmlId);
   convertedText=`
   <html>
   <style>
 
-  #${htmlId}
-  {
-    ${bodyCss}
-    ${css.trim()}
-  }
+  ${parsedCss}
+
   </style>
   <body style="margin:0px;position:relative">
   <div class="tabs" style="display:flex;width:100%; background-color:rgb(36,36,36);position:sticky;top:0px">
@@ -123,3 +114,31 @@ function generateRandomString() {
   
     return randomString;
   }
+
+  function processCss(css, htmlId) {
+    // Split the CSS by '}'
+    const rules = css.split('}');
+  
+    // Process each rule
+    const processedRules = rules.map(rule => {
+      const trimmedRule = rule.trim();
+  
+      // Check if the rule contains 'body'
+      if (trimmedRule.includes('body')) {
+        // Replace 'body' with '#htmlId'
+        return trimmedRule.replace(/\bbody\b/g, `#${htmlId}`);
+      } else if (trimmedRule.length > 0) {
+        // Wrap the rule inside '#htmlId'
+        return `#${htmlId} { ${trimmedRule} }`;
+      } else {
+        // Empty rule, return as is
+        return rule;
+      }
+    });
+  
+    // Join the processed rules back together
+    const processedCss = processedRules.join('}');
+  
+    return processedCss;
+  }
+  
