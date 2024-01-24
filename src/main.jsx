@@ -16,6 +16,8 @@ import Profile from './pages/Profile/Profile.jsx'
 import Protected from './components/Protected.jsx'
 import DefaultNavOnlyPage from './pages/Default/DefaultNavOnlyPage.jsx'
 import Deployment from './pages/Deployments/Deployment.jsx'
+import SharedWeb from './pages/Shared/SharedWeb.jsx'
+import SharedMd from './pages/Shared/SharedMd.jsx'
 
 const routes=[
   {
@@ -116,11 +118,11 @@ const routes=[
   ,  
   {
     path:"/shared/web/:id",
-    element:<Deployment/>
+    element:<SharedWeb/>
   },
   {
     path:"/shared/md/:id",
-    element:<Deployment/>
+    element:<SharedMd/>
   }
 
 

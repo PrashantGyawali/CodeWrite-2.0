@@ -102,7 +102,10 @@ import { ProjectCodeContext, SetProjectCodeContext } from "../../App";
     }
 
     else{
-      setLastOpened({web:code.id,md:lastOpened.md});
+      if(code?.id)
+      {
+        setLastOpened({web:code.id,md:lastOpened.md});
+      }
     }},[]);
 
 

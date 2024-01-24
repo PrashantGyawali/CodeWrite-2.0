@@ -1,17 +1,15 @@
 import { Accordion, Form, Dropdown, Button} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useContext,useEffect,useState,memo} from "react";
-import { SettingsContext } from "../../App";
-import { useNavigate } from "react-router-dom";
-import useLocalStorage from "../../hooks/localstorage";
-import exitIcon from "../../assets/exitIcon.svg"
+import { SettingsContext } from "../../../App";
 
-import EditorSettings from "./EditorSettings";
-import ThemeSettings from "./ThemeSettings";
-import OutputSettings from "./OutputSettings";
-import SharingSettings from "./SharingSettings";
-import SaveProjectSettings from "./SaveProjectSettings";
-import Close from "./Close";
+
+import EditorSettings from "../EditorSettings";
+import ThemeSettings from "../ThemeSettings";
+import OutputSettings from "../OutputSettings";
+import SharingSettings from "../SharingSettings";
+import SaveProjectSettings from "../SaveProjectSettings";
+import Close from "../Close";
 
 
 

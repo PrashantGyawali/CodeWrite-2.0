@@ -42,7 +42,10 @@ export default function MarkdownPageBody() {
         navigate(`/projects/md`);
         }
         else{
-        setLastOpened({...lastOpened,md:code.id});
+            if(code?.id)
+            {
+                setLastOpened({...lastOpened,md:code.id});
+            }
         setCode({...code,md:markdown})
         }
     }, [markdown])

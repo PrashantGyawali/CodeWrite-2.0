@@ -5,15 +5,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { SettingsContext } from "../App";
 import '../App.css'
 import settingsIcon from "../assets/settingsIcon.svg"
-import Settingsbar from "./Settings/Settings";
+import Settingsbar from "./Settings/DefaultSettings/Settings";
 import BrandName from "./NavBar/BrandName"
 
 import MarkdownTab from "./NavBar/MdEditorTab";
 import WebEditorTab from "./NavBar/WebEditorTab";
 import ScreenshotModal from "./ScreenshotModal/ScreenshotModal";
+import SharedProjectSettings from "./Settings/SharedSettings/SharedProjectSettings";
 
 
-function NavComponent() {
+function NavComponent(props) {
 
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const { editor} = useContext(SettingsContext);
@@ -45,7 +46,7 @@ function NavComponent() {
         </Navbar.Collapse>
       </Navbar>
       <div style={{position:"relative",zIndex:500}}>
-      <Settingsbar isSettingsOpen={isSettingsOpen}/> 
+      {props?.shared?<SharedProjectSettings isSettingsOpen={isSettingsOpen}/>:<Settingsbar isSettingsOpen={isSettingsOpen}/> }
       </div>
     </>
   );

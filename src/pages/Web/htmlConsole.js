@@ -45,9 +45,7 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
   <button id="${consoleTabId}" style="text-decoration:none !important;padding:6px; font-size:18px;background-color:rgb(33, 37, 41); color:white; border:2px solid black">Console</button>
   </div>
   <div id="${htmlId}">
-  <${htmlId}>
   ${html.trim()}
-  </${htmlId}>
   </div>
   <div id="${consoleId}" style="background: linear-gradient(to bottom, rgba(36,36,36,1) 50%, rgb(100,100,100) ); border-bottom: rgb(41,0,155) 4px solid; color:red; font-size:20px; height:88vh; overflow-y:hidden;"></div>
   </body>
@@ -61,7 +59,6 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
     ${showConsoleOnErrorFunction}
     document.getElementById("${consoleTabId}").style.border="2px solid red";
     document.getElementById("${consoleId}").innerText+=error;
-    console.log("huhuhu");
   };  
   
   document.getElementById("${consoleId}").style.display="none";

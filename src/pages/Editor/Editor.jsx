@@ -66,9 +66,6 @@ const Editor = (props) => {
 
   const theme=useAtomValue(themeAtom);
   
-  useEffect(() => {
-  console.log(document.getElementsByClassName("CodeMirror-lines")[0])
-  }, [theme])
 
   const editorRef = useRef(0);
   const editorContainerRef = useRef(null);
