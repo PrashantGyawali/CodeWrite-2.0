@@ -31,11 +31,20 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
 
   }
   else{
+    let bodyCss=(css.trim()).match(/body\s*{\s*(.*?)\s*}/);
+
+    if (bodyCss && bodyCss.length > 0) {
+        bodyCss =bodyCss[1];
+    } else {
+      bodyCss="";
+    }
   convertedText=`
   <html>
   <style>
+
   #${htmlId}
   {
+    ${bodyCss}
     ${css.trim()}
   }
   </style>
