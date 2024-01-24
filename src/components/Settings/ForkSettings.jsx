@@ -14,11 +14,10 @@ export default function ForkSettings() {
 
     const forkProject=()=>{
         projectData.name=projectData.name+"-fork";
-        console.log(type)
         if(projectData && projectData?.name )
         {
             let id= createNewProject(type,projectData);
-            navigate(`/self/md/${id}`);
+            navigate(`/self/${type}/${id}`);
         }
     }       
 
