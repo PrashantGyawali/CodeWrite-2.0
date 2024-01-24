@@ -1,8 +1,9 @@
 import { memo,useRef,useState,useCallback} from "react";
 import { ProjectCodeContext, SettingsContext } from '../../App';
 import { useContext,useEffect} from "react";
-import { Button, Nav } from "react-bootstrap";
+import { Button, Nav,CloseButton } from "react-bootstrap";
 
+import imageSelectIcon from "../../assets/imageSelectIcon.svg"
 import CodeSnippet from "./CodeSnippet";
 
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
@@ -11,7 +12,16 @@ import screenshotIcon from "../../assets/screenshotIcon.svg"
 
 import { Resizable } from 're-resizable';
 
+
+
+
+
+
+
 const ModalComponent = (props) => {
+
+
+
     const code = useContext(ProjectCodeContext);
     const {editor}=useContext(SettingsContext);
     const [tabstate, setTabstate] = useState(1);
@@ -59,7 +69,7 @@ const ModalComponent = (props) => {
         return
     }
 
-    toPng(node, { cacheBust: true, })
+    toPng(node, { cacheBust:false })
         .then((dataUrl) => {
         const link = document.createElement('a')
         link.download = 'code-snippet.png'
@@ -72,19 +82,65 @@ const ModalComponent = (props) => {
     })
 
     const [color,setColor]=useState("#00FFFF");
+    const [bgType,setBgType]=useState("color");
+    const [bgImage,setBgImage]=useState(null);
+    const [bgStyle,setBgStyle]=useState({});//{backgroundImage:`url(${bgImage})`}
+
     const colorPickerRef=useRef(null);
+
+
     const colorPickerFn=useCallback((e)=>{
+        if(bgType=="color"){
         const colorPicker=colorPickerRef.current;
-        colorPicker.click();      
-    },[])
+        colorPicker.click();}
+        else{
+            const imagePicker=document.querySelector("#bgImage");
+            imagePicker.click();
+        }      
+    },[bgType])
+
+    const onColorChange=(e)=>{
+        setColor(e.target.value);
+        setBgType("color")
+    }
+
+    const onImageChange=(e)=>{
+        setBgType("image");
+        const imageFile=e.target.files[0];
+        if(!imageFile){
+            return;
+        }
+        const src = URL.createObjectURL(imageFile);
+        setBgImage(src);
+    }
+
+    useEffect(()=>{
+        if(bgType=="color"){
+            setBgStyle({backgroundColor:color});
+        }
+        else{
+            setBgStyle({
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "100% 100%",
+                backgroundImage:`url(${bgImage})`});
+        }
+    },[bgType,color,bgImage])
+
+
+
+
+
+
+
+
 
     return (
         <>
             <div className="codesnippet-modal " >
             
-            <div style={{height:"1vh",minWidth:"270px !important",padding:"15px"}} ref={editorContainerRef}  >
+            <div style={{height:"1vh",minWidth:"270px !important",padding:"15px",display:"flex",flexDirection:"column",alignItems:"center"}} ref={editorContainerRef}  >
                 
-                <Nav variant="tabs"  defaultActiveKey="link-1" data-bs-theme="dark">
+                <Nav variant="tabs"  defaultActiveKey="link-1" data-bs-theme="dark" className="w-100">
                     <div className="d-flex w-100 justify-content-start container ">
                         
                         {editor=="web" && 
@@ -93,7 +149,7 @@ const ModalComponent = (props) => {
                             <Nav.Link
                                 eventKey="link-1"
                                 onClick={() => setTabstate(1)}
-                                className="xml px-2">
+                                className="xml px-1 px-md-2">
                                 HTML
                             </Nav.Link>
                         </Nav.Item>
@@ -101,7 +157,7 @@ const ModalComponent = (props) => {
                             <Nav.Link
                                 eventKey="link-2"
                                 onClick={() => setTabstate(2)}
-                                className="css px-2"
+                                className="css px-1 px-md-2"
                             >
                                 CSS
                             </Nav.Link>
@@ -110,7 +166,7 @@ const ModalComponent = (props) => {
                             <Nav.Link
                                 eventKey="link-3"
                                 onClick={() => setTabstate(3)}
-                                className="javascript px-2"
+                                className="javascript px-1 px-sm-2"
                             >
                                 JS
                             </Nav.Link>
@@ -129,9 +185,18 @@ const ModalComponent = (props) => {
                         </div>
                         }   
                         <div className="ms-auto d-flex align-items-center ">
-                            <input type="color" id="colorPicker" value={color} onChange={(e)=>setColor(e.target.value)} ref={colorPickerRef}></input>
-                            <Button variant="dark" onClick={downloadImage}><img src={screenshotIcon}></img></Button>
-                            <Button variant="dark" onClick={handleClose}>Close</Button>
+                            <input type="color" id="colorPicker" value={color} onChange={onColorChange} ref={colorPickerRef} title="Choose Background Color"></input>
+
+                            <Button variant="dark" title="Upload Background Image ">
+                                <label htmlFor="bgImage">
+                                    <img src={imageSelectIcon} className="cursor-pointer"></img>
+                                </label>
+                            </Button>
+                            <input type="file" name="bgImage" id="bgImage" className="d-none" accept="image/*" onChange={onImageChange} />
+
+
+                            <Button variant="dark" onClick={downloadImage} title="Download Image"><img src={screenshotIcon}></img></Button>
+                            <CloseButton  onClick={handleClose}></CloseButton>
                         </div>
                     </div>
                 </Nav>
@@ -139,29 +204,29 @@ const ModalComponent = (props) => {
 
 
                 {tabstate == 1 && editor=="web" && (
-                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights( )}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                        <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights( )}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                        <div style={{minHeight:"1vh", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                             <CodeSnippet value={html} language="xml" maxHeight={maxHeight}/>
                         </div>
                 </Resizable>
                 )}
                 {tabstate == 2 && (
-                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                    <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                    <div style={{minHeight:"1vh",  display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={css} language="css" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
                 {tabstate == 3 && (
-                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                    <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                    <div style={{minHeight:"1vh", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={js} language="javascript" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
                 {tabstate == 1 && editor=="md" &&(
-                <Resizable style={{backgroundColor:color}} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                    <div style={{minHeight:"1vh", padding:"5px", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                    <div style={{minHeight:"1vh", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={md} language="markdown" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>

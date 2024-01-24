@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useCallback,memo, useMemo, useState} from "react";
+import {useRef, memo, useMemo} from "react";
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/cobalt.css'
 import 'codemirror/theme/material.css'
@@ -24,7 +24,6 @@ import "./ScreenshotModal.css"
 
 
 import { Controlled as ControlledEditorSlow } from "react-codemirror2";
-import { SettingsContext } from "../../App.jsx";
 
 import {themeAtom} from "../../Store/ThemeSettingsStore.jsx";
 import { useAtomValue } from "jotai";
@@ -37,8 +36,6 @@ const ControlledEditor = memo(ControlledEditorSlow);
 
 
 const CodeSnippet = (props) => {
-  const { editor } = useContext(SettingsContext);
-
 
 
   const theme=useAtomValue(themeAtom);
