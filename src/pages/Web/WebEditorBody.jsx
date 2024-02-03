@@ -10,10 +10,11 @@ import { useAtomValue } from "jotai";
 import { ProjectCodeContext, SetProjectCodeContext } from "../../App";
 
 
+import VerticalResize from "./VerticalResize/VerticalResize";
 
 
 
- function WebEditorBody() {
+function WebEditorBody() {
 
   const tabornot= useAtomValue(tabornotAtom);
 
@@ -109,12 +110,15 @@ import { ProjectCodeContext, SetProjectCodeContext } from "../../App";
     }},[]);
 
 
+  const editorContainerRef = useRef(null);
+  const [editorHeight, setEditorHeight] = useState("50vh");
+
 
   return (
     <>
       {!tabornot ? (
         <>
-          <div className="pane top-pane d-inline d-md-flex">
+          <div className="pane top-pane d-inline d-md-flex position-relative" ref={editorContainerRef} style={{height:editorHeight}}>
             <Editor
               language="xml"
               displayname="HTML"
@@ -146,6 +150,7 @@ import { ProjectCodeContext, SetProjectCodeContext } from "../../App";
               editorWidth={jsWidth}
               setEditorWidth={setJsWidth}
             />
+            <VerticalResize setEditorHeight={setEditorHeight} editorContainerRef={editorContainerRef} />
           </div>
         </>
       ) : (

@@ -40,9 +40,9 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
 
   </style>
   <body style="margin:0px;position:relative">
-  <div class="tabs" style="display:flex;width:100%; background-color:rgb(36,36,36);position:sticky;top:0px">
-  <button  id="${htmlTabId}" style="text-decoration:none;font-size:18px; padding:6px; background-color:rgb(73, 80, 87); color:white; border:2px solid black; ">HTML</button>
-  <button id="${consoleTabId}" style="text-decoration:none !important;padding:6px; font-size:18px;background-color:rgb(33, 37, 41); color:white; border:2px solid black">Console</button>
+  <div class="tabs" style="display:flex;width:100%;box-sizing:border-box; background-color:rgb(36,36,36);position:sticky; top:0px; padding:0px 2px 0px 0px; gap:3px;">
+  <button  id="${htmlTabId}" style="text-decoration:none;font-size:18px; padding:4px; background-color:rgb(73, 80, 87); color:white;border:1px solid rgb(157 157 157);  border-radius:5px 5px 0px 0px">HTML</button>
+  <button id="${consoleTabId}" style="text-decoration:none !important;padding:4px; font-size:18px;background-color:rgb(33, 37, 41); color:white;border:2px solid rgb(57 57 57); border-radius:5px 5px 0px 0px">Console</button>
   </div>
   <div id="${htmlId}">
   ${html.trim()}
@@ -66,16 +66,20 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
     document.getElementById("${consoleId}").style.display="block";
     document.getElementById("${htmlId}").style.display="none";
     document.getElementById("${htmlTabId}").style.backgroundColor="rgb(0,0,0)";
+    document.getElementById("${htmlTabId}").style.border="2px solid rgb(57 57 57)"
     document.getElementById("${consoleTabId}").style.color="white";
     document.getElementById("${consoleTabId}").style.backgroundColor="rgb(73, 80, 87)";
-    document.getElementById("${consoleTabId}").style.border="none";
+    document.getElementById("${consoleTabId}").style.border="1px solid rgb(150,150,150)";
   }
   function showHTML(){
     document.getElementById("${htmlId}").style.display="block";
     document.getElementById("${consoleId}").style.display="none";
     document.getElementById("${consoleTabId}").style.backgroundColor="rgb(0,0,0)";
     document.getElementById("${consoleTabId}").style.color="white";
+    document.getElementById("${consoleTabId}").style.border="2px solid rgb(57 57 57)";
     document.getElementById("${htmlTabId}").style.backgroundColor="rgb(73, 80, 87)";
+    document.getElementById("${htmlTabId}").style.border="1px solid rgb(150,150,150)";
+
   }
   </script>
 

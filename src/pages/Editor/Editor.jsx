@@ -159,7 +159,7 @@ const Editor = (props) => {
     }
   },[language,theme,autoCloseTags]);
 
-  let editorClassName=useMemo(()=>`code-mirror-wrapper ${maxHeightInSmallScreen?"full-height":""}`,[maxHeightInSmallScreen]) ;
+  let editorClassName=useMemo(()=>`code-mirror-wrapper ${maxHeightInSmallScreen?"full-height":"half-height"}`,[maxHeightInSmallScreen]) ;
 
 
 
