@@ -23,9 +23,9 @@ function WebEditorBody() {
   
   const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
   
-  const [html, setHtml] = useState(code.html||"");
-  const [css, setCss] = useState(code.css||"");
-  const [js, setJs] = useState(code.js||"");
+  const [html, setHtml] = useState(code?.html||"");
+  const [css, setCss] = useState(code?.css||"");
+  const [js, setJs] = useState(code?.js||"");
   
   useEffect(() => {
     setCode({...code,html:html,css:css,js:js});
