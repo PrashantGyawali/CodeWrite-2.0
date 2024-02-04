@@ -64,12 +64,12 @@ export default function useUser() {
             cache: "no-cache",
             credentials: "include", 
             headers: {
-              "Content-Type": "application/json",
-              "Set-Cookie":"SameSite=None; Secure"
+                "Content-Type": "application/json",
+                "Set-Cookie":"SameSite=None; Secure"
             },
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(data), // body data type must match "Content-Type" header
-          });
+        });
           return response.json(); // parses JSON response into native JavaScript objects
     }
 
@@ -87,17 +87,17 @@ export default function useUser() {
             },
             referrerPolicy: "no-referrer", 
             body: JSON.stringify(data),
-          });
+        });
 
         
-          try{
+        try{
                 let resjson = await response.json();
                 return resjson;
-          }
-          catch(err)
-          {
-              return {error:"Something went wrong"};
-          }
+            }
+            catch(err)
+            {
+                return {error:"Something went wrong"};
+            }
 
     }
 
@@ -109,11 +109,11 @@ export default function useUser() {
             cache: "no-cache",
             credentials: "include", 
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             referrerPolicy: "no-referrer", 
-          });
-          console.log(response)
+        });
+        console.log(response)
     }
 
     async function registerUser(data)
@@ -126,42 +126,46 @@ export default function useUser() {
             cache: "no-cache",
             credentials: "include", 
             headers: {
-              "Content-Type": "application/json",              
+            "Content-Type": "application/json",              
             },
             referrerPolicy: "no-referrer", 
             body: JSON.stringify(data), 
-          });
+        });
 
-          let resjson = await response.json();
-          return resjson;
+        let resjson = await response.json();
+        return resjson;
 
-          }
-          catch(err)
-          {
-              return {error:"Something went wrong"};
-          }    
+        }
+        catch(err)
+        {
+            return {error:"Something went wrong"};
+        }    
     }
 
     async function checkAuth()
     {
+        try{
         const res=await fetch(url+"/auth",{
             method:"GET",
             mode:"cors",
             credentials:"include",
             headers:{
                 "Content-Type":"application/json",
-                // "Access-Control-Allow-Credentials":true,
-                // "Access-Control-Allow-Origin":"*",
-                // "Access-Control-Allow-Methods":"GET,PUT,POST,DELETE,PATCH,OPTIONS",
             }
         });
-       let resjson=await res.json();
+        let resjson=await res.json();
+
         console.log(resjson);
+
         if(resjson && resjson.isAuth)
         {
             if(await resjson.isAuth){
                 setUser(resjson);
             }
+        }}
+        catch(err)
+        {
+            return
         }
     }
 
