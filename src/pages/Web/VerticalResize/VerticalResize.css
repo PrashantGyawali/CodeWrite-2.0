@@ -9,8 +9,12 @@ cursor: row-resize;
 z-index: 1000;
 }
 
-.vertical-resize:hover, .vertical-resize:active {
+.vertical-resize:hover, .vertical-resize.vertical-resize-active{
 background-color: rgb(93,93,93);
+}
+
+body .vertical-resize-active {
+    cursor: row-resize;
 }
 
 @media screen and (max-width: 767px) {
