@@ -6,6 +6,9 @@ import { Button, Nav,CloseButton } from "react-bootstrap";
 import imageSelectIcon from "../../assets/imageSelectIcon.svg"
 import CodeSnippet from "./CodeSnippet";
 
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 
 import screenshotIcon from "../../assets/screenshotIcon.svg"
@@ -140,48 +143,37 @@ const ModalComponent = (props) => {
             
             <div style={{height:"1vh",minWidth:"270px !important",padding:"15px",display:"flex",flexDirection:"column",alignItems:"center"}} ref={editorContainerRef}  >
                 
-                <Nav variant="tabs"  defaultActiveKey="link-1" data-bs-theme="dark" className="w-100">
-                    <div className="d-flex w-100 justify-content-start container ">
+                <div data-bs-theme="dark" className="w-100 ">
+                    <div className="d-flex w-100 justify-content-start container">
                         
                         {editor=="web" && 
-                        <div className="d-flex">
-                        <Nav.Item >
-                            <Nav.Link
-                                eventKey="link-1"
+                        <div className="d-flex align-items-end ">
+                            <div
                                 onClick={() => setTabstate(1)}
-                                className="xml px-1 px-md-2">
+                                className={`xml px-1 px-md-2 cursor-pointer py-1 ${tabstate==1?"selected":"not-selected"}`}>
                                 HTML
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link
-                                eventKey="link-2"
+                            </div>
+                            <div
                                 onClick={() => setTabstate(2)}
-                                className="css px-1 px-md-2"
+                                className={`css px-1 px-md-2 py-1 cursor-pointer  ${tabstate==2?"selected":"not-selected"}`}
                             >
                                 CSS
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link
-                                eventKey="link-3"
+                            </div>
+                            <div
                                 onClick={() => setTabstate(3)}
-                                className="javascript px-1 px-sm-2"
+                                className={`javascript px-1 px-sm-2 py-1 cursor-pointer ${tabstate==3?"selected":"not-selected"}`}
                             >
                                 JS
-                            </Nav.Link>
-                        </Nav.Item>
+                            </div>
                         </div>
                         }
                         {editor=="md" &&
-                        <div className="d-flex">
-                        <Nav.Item >
-                            <Nav.Link
+                        <div className="d-flex align-items-end ">
+                            <div
                                 eventKey="link-1"
-                                className="markdown px-2">
+                                className="markdown px-2 py-1 cursor-pointer selected">
                                 Markdown
-                            </Nav.Link>
-                        </Nav.Item>
+                            </div>
                         </div>
                         }   
                         <div className="ms-auto d-flex align-items-center ">
@@ -199,7 +191,7 @@ const ModalComponent = (props) => {
                             <CloseButton  onClick={handleClose}></CloseButton>
                         </div>
                     </div>
-                </Nav>
+                </div>
 
 
 
