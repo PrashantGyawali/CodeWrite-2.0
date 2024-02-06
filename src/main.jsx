@@ -19,6 +19,10 @@ import Deployment from './pages/Deployments/Deployment.jsx'
 import SharedWeb from './pages/Shared/SharedWeb.jsx'
 import SharedMd from './pages/Shared/SharedMd.jsx'
 
+import { inject } from '@vercel/analytics';
+
+inject();
+
 const routes=[
   {
   path: '/',

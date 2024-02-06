@@ -19,7 +19,7 @@ function SaveProjectSettings() {
 
 
     useEffect(()=>{
-        if(new Date(code.dateSaved).getTime()<new Date(code.dateModified).getTime() || !code.dateSaved)
+        if(new Date(code.dateSaved).getTime()<new Date(code.dateModified).getTime() || !code?.dateSaved)
         {
             setSaved(false);
         }
