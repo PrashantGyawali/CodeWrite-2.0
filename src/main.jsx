@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App.jsx'
 import './index.css'
-import { RouterProvider, createBrowserRouter,redirect,Navigate} from 'react-router-dom'
+import { RouterProvider, createBrowserRouter,Navigate} from 'react-router-dom'
 import WebEditor from './pages/Web/Webeditor.jsx'
 import Home from './pages/Home/Home.jsx'
 import Projects from './pages/Projects/Projects.jsx'
@@ -91,7 +91,7 @@ const routes=[
         }
       ]
     },
-   {
+  {
       path: '/web',
       element: <Navigate to="/projects/web"/>,
       
