@@ -1,13 +1,10 @@
 import { memo,useRef,useState,useCallback} from "react";
 import { ProjectCodeContext, SettingsContext } from '../../App';
 import { useContext,useEffect} from "react";
-import { Button, Nav,CloseButton } from "react-bootstrap";
+import { Button, CloseButton } from "react-bootstrap";
 
 import imageSelectIcon from "../../assets/imageSelectIcon.svg"
 import CodeSnippet from "./CodeSnippet";
-
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 
@@ -144,7 +141,7 @@ const ModalComponent = (props) => {
             <div style={{height:"1vh",minWidth:"270px !important",padding:"15px",display:"flex",flexDirection:"column",alignItems:"center"}} ref={editorContainerRef}  >
                 
                 <div data-bs-theme="dark" className="w-100 ">
-                    <div className="d-flex w-100 justify-content-start container">
+                    <div className="d-flex w-100 justify-content-start container-fluid">
                         
                         {editor=="web" && 
                         <div className="d-flex align-items-end ">
