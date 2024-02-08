@@ -40,7 +40,7 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
 
   </style>
   <body style="margin:0px;position:relative">
-  <div class="tabs" style="display:flex;width:100%;box-sizing:border-box; background-color:rgb(36,36,36);position:sticky; top:0px; padding:0px 2px 0px 0px; gap:3px;">
+  <div class="tabs" style="height:33px;display:flex;width:100%;box-sizing:border-box; background-color:rgb(36,36,36);position:sticky; top:0px; padding:0px 2px 0px 0px; gap:3px;">
   <button  id="${htmlTabId}" style="text-decoration:none;font-size:18px; padding:4px; background-color:rgb(73, 80, 87); color:white;border:1px solid rgb(157 157 157);  border-radius:5px 5px 0px 0px">HTML</button>
   <button id="${consoleTabId}" style="text-decoration:none !important;padding:4px; font-size:18px;background-color:rgb(33, 37, 41); color:white;border:2px solid rgb(57 57 57); border-radius:5px 5px 0px 0px">Console</button>
   </div>
