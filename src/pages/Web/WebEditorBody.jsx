@@ -188,7 +188,7 @@ function WebEditorBody() {
           </Nav>
 
           {tabstate == 1 && (
-            <div className="pane top-pane">
+            <div className="pane top-pane  d-inline d-md-flex position-relative" ref={editorContainerRef} style={{height:editorHeight}}>
               <Editor
                 language="xml"
                 displayname="HTML"
@@ -196,26 +196,31 @@ function WebEditorBody() {
                 onChange={setHtml}
                 code={code}
               />
+              <VerticalResize setEditorHeight={setEditorHeight} editorContainerRef={editorContainerRef} />
+
             </div>
           )}
           {tabstate == 2 && (
-            <div className="pane top-pane">
+            <div className="pane top-pane d-inline d-md-flex position-relative" ref={editorContainerRef} style={{height:editorHeight}}>
               <Editor
                 language="css"
                 displayname="CSS"
                 value={css}
                 onChange={setCss}
               />
+              <VerticalResize setEditorHeight={setEditorHeight} editorContainerRef={editorContainerRef} />
+
             </div>
           )}
           {tabstate == 3 && (
-            <div className="pane top-pane">
+            <div className="pane top-pane d-inline d-md-flex position-relative" ref={editorContainerRef} style={{height:editorHeight}}>
               <Editor
                 language="javascript"
                 displayname="JS"
                 value={js}
                 onChange={setJs}
               />
+              <VerticalResize setEditorHeight={setEditorHeight} editorContainerRef={editorContainerRef} />
             </div>
           )}
         </>
