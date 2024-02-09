@@ -1,7 +1,7 @@
 import { memo,useRef,useState,useCallback} from "react";
 import { ProjectCodeContext, SettingsContext } from '../../App';
 import { useContext,useEffect} from "react";
-import { Button, CloseButton } from "react-bootstrap";
+import { Button, CloseButton,Dropdown } from "react-bootstrap";
 
 import imageSelectIcon from "../../assets/imageSelectIcon.svg"
 import CodeSnippet from "./CodeSnippet";
@@ -13,14 +13,19 @@ import screenshotIcon from "../../assets/screenshotIcon.svg"
 import { Resizable } from 're-resizable';
 
 
-
-
+import DropdownItem from "../DropdownItem";
+import { useAtom } from "jotai";
+import { scTitleBarAtom,scTitleBarTypeAtom } from "../../Store/ScreenshotStore";
 
 
 
 const ModalComponent = (props) => {
 
+    const [titleBarPresence,setTitleBarPresence]=useAtom(scTitleBarAtom);
+    const [titleBarType,setTitleBarType]=useAtom(scTitleBarTypeAtom);
 
+
+    useEffect(() => {setHeights()},[titleBarPresence,titleBarType]);
 
     const code = useContext(ProjectCodeContext);
     const {editor}=useContext(SettingsContext);
@@ -32,10 +37,7 @@ const ModalComponent = (props) => {
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = "unset";
-        }
-    }, [])
+        return () => {document.body.style.overflow = "unset";}}, [])
 
     const editorContainerRef = useRef(null);
 
@@ -50,9 +52,13 @@ const ModalComponent = (props) => {
     const [minHeight,setMinHeight]=useState("auto");
     const [maxHeight,setMaxHeight]=useState(0);
 
+
+
+
     function setHeights(){
-        setMinHeight(heightRef.current.querySelector(".codesnippet-div").getBoundingClientRect().height);
-        setMaxHeight(document.querySelector(".resizeable-component").getBoundingClientRect().height);
+        document.querySelector(".titlebar").style.width=document.querySelector(".codesnippet-div").getBoundingClientRect().width+"px";
+        setMinHeight(heightRef.current.querySelector(".codesnippet-div").getBoundingClientRect().height+39*titleBarPresence);
+        setMaxHeight(document.querySelector(".resizeable-component").getBoundingClientRect().height-39*titleBarPresence);
     }
 
     useEffect(() => {
@@ -86,9 +92,9 @@ const ModalComponent = (props) => {
     const [bgImage,setBgImage]=useState(null);
     const [bgStyle,setBgStyle]=useState({});//{backgroundImage:`url(${bgImage})`}
 
+
+    
     const colorPickerRef=useRef(null);
-
-
     const colorPickerFn=useCallback((e)=>{
         if(bgType=="color"){
         const colorPicker=colorPickerRef.current;
@@ -105,6 +111,7 @@ const ModalComponent = (props) => {
     }
 
     const onImageChange=(e)=>{
+        e.stopPropagation()
         setBgType("image");
         const imageFile=e.target.files[0];
         if(!imageFile){
@@ -174,14 +181,25 @@ const ModalComponent = (props) => {
                         </div>
                         }   
                         <div className="ms-auto d-flex align-items-center ">
-                            <input type="color" id="colorPicker" value={color} onChange={onColorChange} ref={colorPickerRef} title="Choose Background Color"></input>
 
-                            <Button variant="dark" title="Upload Background Image ">
-                                <label htmlFor="bgImage">
+                        <Dropdown className=" h-100" >
+                        <Dropdown.Toggle  as="div" variant="dark" id="dropdown-basic" className="pe-1 p-0 d-flex align-items-center rounded-2 h-100" style={{backgroundColor:"rgb(50, 50, 50)"}}>
+                            {bgType=="color" && <input type="color" id="colorPicker" value={color} onChange={onColorChange} ref={colorPickerRef} onClick={(e)=>e.stopPropagation()} title="Choose Background Color" className="h-80 align-items-center justify-content-center mx-2"></input>
+                            }
+                            {bgType=="image" && <><Button variant="dark" title="Upload Background Image" style={bgStyle} >
+                                <label htmlFor="bgImage" onClick={(e)=>{e.stopPropagation()}}>
                                     <img src={imageSelectIcon} className="cursor-pointer"></img>
                                 </label>
                             </Button>
-                            <input type="file" name="bgImage" id="bgImage" className="d-none" accept="image/*" onChange={onImageChange} />
+                            <input type="file" name="bgImage" id="bgImage" className="d-none" accept="image/*" onChange={onImageChange} onClick={(e)=>{e.stopPropagation()}}/></>}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="p-0 pt-1">
+                            <DropdownItem onClick={()=>{setBgType("color")}} className="d-flex justify-content-between "><input type="color" id="colorPicker" value={color} onChange={onColorChange} ref={colorPickerRef} title="Choose Background Color"></input>Color</DropdownItem>
+                            <DropdownItem onClick={()=>{setBgType("image")}} className="d-flex justify-content-between align-items-center "><Button variant="dark" title="Upload Background Image " style={bgImage?{backgroundRepeat: "no-repeat",backgroundSize: "100% 100%",backgroundImage:`url(${bgImage})`}:{}}>
+                            <label><img src={imageSelectIcon} className="cursor-pointer"></img></label></Button> Image</DropdownItem>
+                        </Dropdown.Menu>
+                        </Dropdown>
 
 
                             <Button variant="dark" onClick={downloadImage} title="Download Image"><img src={screenshotIcon}></img></Button>
@@ -194,28 +212,30 @@ const ModalComponent = (props) => {
 
                 {tabstate == 1 && editor=="web" && (
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights( )}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                        <div style={{minHeight:"1vh", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                        <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
                             <CodeSnippet value={html} language="xml" maxHeight={maxHeight}/>
                         </div>
                 </Resizable>
                 )}
                 {tabstate == 2 && (
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                    <div style={{minHeight:"1vh",  display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                        <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={css} language="css" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
                 {tabstate == 3 && (
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                    <div style={{minHeight:"1vh", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                        <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={js} language="javascript" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
+
+
                 {tabstate == 1 && editor=="md" &&(
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
-                    <div style={{minHeight:"1vh", display:"flex",width:"100%",justifyContent:"center",alignItems:"center", maxHeight:`100%`}} ref={heightRef}>
+                        <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
                         <CodeSnippet value={md} language="markdown" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>

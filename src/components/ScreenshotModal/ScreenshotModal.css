@@ -1,6 +1,6 @@
 .codesnippet-modal{
     display: flex;
-    flex: row;
+    flex-direction: row;
     justify-content: center;
     z-index: 1000;
     position:absolute;
@@ -28,10 +28,19 @@
     .codesnippet-div{
         width: min-content;
         max-width: 100%;
-        max-height: 100% !important;
+        max-height: 100% !important; 
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        min-width: 240px;
+    }
+
+    .codesnippet-div.rounded-all .CodeMirror{
+        border-radius: 13px 13px 13px 13px !important; 
+    }
+    .codesnippet-div.rounded-bottom .CodeMirror{
+        border-radius: 0px 0px 13px 13px !important;
     }
     
     .react-codemirror2{
@@ -42,12 +51,42 @@
         border-radius: 12px;
     }
 
+    .titlebar{
+        display: flex;
+        align-items: center;
+        padding: 9px;
+        border-radius: 12px 12px 0px 0px;
+        background-color: rgb(33, 37, 41);
+        height:40px;
+        min-width: 240px;
+        width: 100%;
+    }
+
+    .titlebar .mac-icon{
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+    }
+
+    .titlebar .mac-iconbar{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    width: 100%;
+    padding-left: 6px;
+    }
+
     .CodeMirror{
         border-radius: 13px;
         padding: 6px;
         max-height: 100% !important;
         height: 100%;
         max-width: 100%;
+    }
+    
+    .react-codemirror2.has-titlebar .CodeMirror
+    {
+        border-radius: 0px 0px 13px 13px;
     }
 
     .top-resize{
@@ -80,4 +119,11 @@
         border-radius: 6px 6px 0px 0px;
         background-color: rgba(57, 57, 57, 0.6);
     }
+}
+
+.w-16px{
+    box-sizing: border-box;
+    width: 16px !important;
+    height:16px !important;
+    margin-left: 2px;
 }
