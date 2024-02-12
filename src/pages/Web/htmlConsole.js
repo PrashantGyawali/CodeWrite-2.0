@@ -24,7 +24,7 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
       <body style="margin:0px">
       ${html.trim()}
       </body>
-      <script defer>
+      <script >
       ${js.trim()}
       </script>
       </html>`
@@ -117,6 +117,26 @@ function generateRandomString() {
   }
 
   function processCss(css, htmlId) {
+
+
+      // Regular expression to match * followed by any pseudo-class or pseudo-element
+      const starSelectorRegex = /(^|})(?:\s*\*|[^{]*\*[^{]*)(?::[a-zA-Z-]+)?({[^}]*})/g;
+      
+      // Replace * selector with #htmlId and keep track of modified parts
+      let modifiedParts = '';
+      let newCss = css;
+      
+      const pseudoClassRegex = /(\*)\s*(:[a-zA-Z-]+)?(\s*{[^}]*})/g;
+
+      newCss = newCss.replace(pseudoClassRegex, (match, selector, pseudoClass, styles) => {
+        modifiedParts += selector + (pseudoClass || '') + `#${htmlId}` + styles + '\n';
+        return '';
+      });
+      newCss = newCss.replace(starSelectorRegex, (match, before, after) => {
+        modifiedParts += before + `#${htmlId}` + after + '\n';
+        return '';
+      });
+
     // Split the CSS by '}'
     const rules = css.split('}');
   
@@ -140,6 +160,6 @@ function generateRandomString() {
     // Join the processed rules back together
     const processedCss = processedRules.join('}');
   
-    return processedCss;
+    return modifiedParts+processedCss;
   }
   
