@@ -11,7 +11,6 @@
     min-height: 100svh;
     overflow-x: hidden;
     backdrop-filter: blur(5px) brightness(0.4);
-
 }
 
 .codesnippet-modal{
@@ -25,6 +24,11 @@
         align-items: center;
     }
     
+        input[type="color"]:not(.normal-color-input) {
+            width: 30px;
+            height: 30px;
+        }
+
     .codesnippet-div{
         width: min-content;
         max-width: 100%;
@@ -71,9 +75,9 @@
     .titlebar .mac-iconbar{
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    gap: 4px;
     width: 100%;
-    padding-left: 6px;
+    padding-left: 5px;
     }
 
     .CodeMirror{
@@ -90,7 +94,7 @@
     }
 
     .top-resize{
-        height: 6px !important;
+        height: 8px !important;
         border-radius: 12px;
     }
     .bottom-resize{

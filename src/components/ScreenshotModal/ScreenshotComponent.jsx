@@ -3,7 +3,6 @@ import { ProjectCodeContext, SettingsContext } from '../../App';
 import { useContext,useEffect} from "react";
 import { Button, CloseButton,Dropdown } from "react-bootstrap";
 
-import imageSelectIcon from "../../assets/imageSelectIcon.svg"
 import CodeSnippet from "./CodeSnippet";
 
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
@@ -13,17 +12,19 @@ import screenshotIcon from "../../assets/screenshotIcon.svg"
 import { Resizable } from 're-resizable';
 
 
-import DropdownItem from "../DropdownItem";
 import { useAtom } from "jotai";
 import { scTitleBarAtom,scTitleBarTypeAtom } from "../../Store/ScreenshotStore";
 
+import SnippetSettings from "./SnippetSettings" ;
+import BgSelect from "./BgSelect";
 
+import settingsIcon from "../../assets/settingsIcon.svg";
 
 const ModalComponent = (props) => {
 
     const [titleBarPresence,setTitleBarPresence]=useAtom(scTitleBarAtom);
     const [titleBarType,setTitleBarType]=useAtom(scTitleBarTypeAtom);
-
+    const [settingsOpen,setSettingsOpen]=useState(false);
 
     useEffect(() => {setHeights()},[titleBarPresence,titleBarType]);
 
@@ -136,19 +137,14 @@ const ModalComponent = (props) => {
 
 
 
-
-
-
-
-
     return (
         <>
             <div className="codesnippet-modal " >
             
             <div style={{height:"1vh",minWidth:"270px !important",padding:"15px",display:"flex",flexDirection:"column",alignItems:"center"}} ref={editorContainerRef}  >
                 
-                <div data-bs-theme="dark" className="w-100 ">
-                    <div className="d-flex w-100 justify-content-start container-fluid">
+                <div data-bs-theme="dark" className="w-100 "  style={{position:"relative",zIndex:500}}>
+                    <div className="d-flex w-100 justify-content-start container-fluid" >
                         
                         {editor=="web" && 
                         <div className="d-flex align-items-end ">
@@ -180,32 +176,17 @@ const ModalComponent = (props) => {
                             </div>
                         </div>
                         }   
+
                         <div className="ms-auto d-flex align-items-center ">
-
-                        <Dropdown className=" h-100" >
-                        <Dropdown.Toggle  as="div" variant="dark" id="dropdown-basic" className="pe-1 p-0 d-flex align-items-center rounded-2 h-100" style={{backgroundColor:"rgb(50, 50, 50)"}}>
-                            {bgType=="color" && <input type="color" id="colorPicker" value={color} onChange={onColorChange} ref={colorPickerRef} onClick={(e)=>e.stopPropagation()} title="Choose Background Color" className="h-80 align-items-center justify-content-center mx-2"></input>
-                            }
-                            {bgType=="image" && <><Button variant="dark" title="Upload Background Image" style={bgStyle} >
-                                <label htmlFor="bgImage" onClick={(e)=>{e.stopPropagation()}}>
-                                    <img src={imageSelectIcon} className="cursor-pointer"></img>
-                                </label>
-                            </Button>
-                            <input type="file" name="bgImage" id="bgImage" className="d-none" accept="image/*" onChange={onImageChange} onClick={(e)=>{e.stopPropagation()}}/></>}
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu className="p-0 pt-1">
-                            <DropdownItem onClick={()=>{setBgType("color")}} className="d-flex justify-content-between "><input type="color" id="colorPicker" value={color} onChange={onColorChange} ref={colorPickerRef} title="Choose Background Color"></input>Color</DropdownItem>
-                            <DropdownItem onClick={()=>{setBgType("image")}} className="d-flex justify-content-between align-items-center "><Button variant="dark" title="Upload Background Image " style={bgImage?{backgroundRepeat: "no-repeat",backgroundSize: "100% 100%",backgroundImage:`url(${bgImage})`}:{}}>
-                            <label><img src={imageSelectIcon} className="cursor-pointer"></img></label></Button> Image</DropdownItem>
-                        </Dropdown.Menu>
-                        </Dropdown>
-
-
-                            <Button variant="dark" onClick={downloadImage} title="Download Image"><img src={screenshotIcon}></img></Button>
-                            <CloseButton  onClick={handleClose}></CloseButton>
+                        <BgSelect  {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose}}/>
+                        <Button variant="dark" onClick={()=>{setSettingsOpen(!settingsOpen)}} className="p-1 p-md-2"><img src={settingsIcon}></img></Button>
+                        <Button variant="dark" onClick={downloadImage} title="Download Image" className="p-1 p-md-2"><img src={screenshotIcon}></img></Button>
+                        <CloseButton onClick={handleClose}></CloseButton>
                         </div>
+                        
+
                     </div>
+                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose}} isSettingsOpen={true}/>}
                 </div>
 
 

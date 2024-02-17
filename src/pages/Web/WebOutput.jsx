@@ -23,7 +23,6 @@ const OutputFrame=memo(({srcDoc})=>{
 
 function WebOutput() {
 const [srcDoc,setSrcDoc]=useAtom(srcDocAtom);
-
 const projectCode=useContext(ProjectCodeContext);
 
 const showConsole=useAtomValue(showConsoleAtom);
@@ -51,7 +50,7 @@ return (
 <>
 
     <div className="pane bottom-pane" style={{ position: "relative" }}>
-    <OutputFrame srcDoc={srcDoc}/>
+    <OutputFrame srcDoc={srcDoc} code={projectCode}/>
     {!autorun && (
         <button
         onClick={() =>
