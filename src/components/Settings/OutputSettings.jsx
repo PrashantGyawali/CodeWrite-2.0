@@ -31,7 +31,7 @@ return (
         <OverlayTrigger
             placement="bottom"
             overlay={<Tooltip>Console is still <strong>experimental</strong>. It may cause unexpected behavior with the css and the script.</Tooltip>}>
-            <img src={informationIcon} alt="info" onClick={(e)=>e.stopPropagation()}/>
+            <img src={informationIcon} alt="info" onClick={(e)=>e.stopPropagation()} className='ms-2'/>
         </OverlayTrigger>
         </div>
     </DropdownItem>
