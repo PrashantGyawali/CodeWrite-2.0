@@ -10,7 +10,7 @@ const scLineHeightAtom= atomWithStorage('codewrite-sc-lineHeight', "1.5");
 const scShadowAtom= atomWithStorage('codewrite-sc-shadow', "true");
 const scFontStyleAtom= atomWithStorage('codewrite-sc-fontStyle', "Monospace");
 
-const scBgColorAtom= atomWithStorage('codewrite-sc-bgColor', "white");
+const scBgColorAtom= atomWithStorage('codewrite-sc-bgColor', "rgb(0,225,255)");
 const scBgTypeAtom= atomWithStorage('codewrite-sc-bgType', "color");
 const scBgImageAtom= atom(null);
 
