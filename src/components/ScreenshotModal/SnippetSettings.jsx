@@ -163,17 +163,17 @@ function SnippetSettings(props) {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu variant="dark" className="p-1 bg-dark position-absolute ">
-                                        <DropdownItem>
+                                        <DropdownItem onClick={()=>props.downloadImage("png")}>
                                             <img src={imageSelectIcon} alt="png" width="20px" />
                                             {"  "}PNG
                                         </DropdownItem>
 
-                                        <DropdownItem>
+                                        <DropdownItem onClick={()=>props.downloadImage("jpg")}>
                                             <img src={imageSelectIcon} alt="jpg" width="20px" />
                                             {"  "}JPG
                                         </DropdownItem>
 
-                                        <DropdownItem>
+                                        <DropdownItem onClick={()=>props.downloadImage("svg")}>
                                             <img src={svgIcon} alt="svg" width="20px" />
                                             {"  "}SVG
                                         </DropdownItem>

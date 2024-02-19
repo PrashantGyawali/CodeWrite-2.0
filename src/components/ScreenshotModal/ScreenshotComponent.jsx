@@ -79,22 +79,47 @@ const ModalComponent = (props) => {
     }, [tabstate,fontSize,lineHeight,fontStyle])
 
 
-    const downloadImage = useCallback(() => {
+    const downloadImage = useCallback((format) => {
         let node=document.querySelector(".resizeable-component");
-    if (!node) {
-        return
-    }
+        if (!node) {
+            return
+        }
 
-    toPng(node, { cacheBust:false })
-        .then((dataUrl) => {
-        const link = document.createElement('a')
-        link.download = 'code-snippet.png'
-        link.href = dataUrl
-        link.click();
-        })
-        .catch((err) => {
-        console.log(err)
-        })
+        if(format=="png"){
+            toPng(node, { cacheBust:false })
+                .then((dataUrl) => {
+                const link = document.createElement('a')
+                link.download = 'code-snippet.png'
+                link.href = dataUrl
+                link.click();
+                })
+                .catch((err) => {
+                console.log(err)
+                })}
+        if(format=="jpg"){
+            toJpeg(node, { cacheBust:false })
+                .then((dataUrl) => {
+                const link = document.createElement('a')
+                link.download = 'code-snippet.jpg'
+                link.href = dataUrl
+                link.click();
+                })
+                .catch((err) => {
+                console.log(err)
+                }
+            )}
+        if(format=="svg"){
+            toSvg(node, { cacheBust:false })
+                .then((dataUrl) => {
+                const link = document.createElement('a')
+                link.download = 'code-snippet.svg'
+                link.href = dataUrl
+                link.click();
+                })
+                .catch((err) => {
+                console.log(err)
+                })
+            }
     })
 
     const [color,setColor]=useAtom(scBgColorAtom);
@@ -189,13 +214,13 @@ const ModalComponent = (props) => {
                         <div className="ms-auto d-flex align-items-center ">
                         <BgSelect  {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose}}/>
                         <Button variant="dark" onClick={()=>{setSettingsOpen(!settingsOpen)}} className="p-1 p-md-2"><img src={settingsIcon}></img></Button>
-                        <Button variant="dark" onClick={downloadImage} title="Download Image" className="p-1 p-md-2"><img src={screenshotIcon}></img></Button>
+                        <Button variant="dark" onClick={()=>downloadImage("png")} title="Download Image" className="p-1 p-md-2"><img src={screenshotIcon}></img></Button>
                         <CloseButton onClick={handleClose}></CloseButton>
                         </div>
                         
 
                     </div>
-                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose,settingsOpen,setSettingsOpen}} />}
+                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose,settingsOpen,setSettingsOpen,downloadImage}} />}
                 </div>
 
 
