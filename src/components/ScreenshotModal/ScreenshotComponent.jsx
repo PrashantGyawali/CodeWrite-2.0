@@ -12,8 +12,8 @@ import screenshotIcon from "../../assets/screenshotIcon.svg"
 import { Resizable } from 're-resizable';
 
 
-import { useAtom } from "jotai";
-import { scTitleBarAtom,scTitleBarTypeAtom } from "../../Store/ScreenshotStore";
+import { useAtom, useAtomValue } from "jotai";
+import { scFontSizeAtom, scLineHeightAtom, scTitleBarAtom,scTitleBarTypeAtom,scBgColorAtom,scBgTypeAtom, scBgImageAtom, scFontStyleAtom } from "../../Store/ScreenshotStore";
 
 import SnippetSettings from "./SnippetSettings" ;
 import BgSelect from "./BgSelect";
@@ -22,9 +22,13 @@ import settingsIcon from "../../assets/settingsIcon.svg";
 
 const ModalComponent = (props) => {
 
-    const [titleBarPresence,setTitleBarPresence]=useAtom(scTitleBarAtom);
-    const [titleBarType,setTitleBarType]=useAtom(scTitleBarTypeAtom);
+    const titleBarPresence=useAtomValue(scTitleBarAtom);
+    const titleBarType=useAtomValue(scTitleBarTypeAtom);
     const [settingsOpen,setSettingsOpen]=useState(false);
+
+    const fontSize=useAtomValue(scFontSizeAtom);
+    const lineHeight=useAtomValue(scLineHeightAtom)
+    const fontStyle=useAtomValue(scFontStyleAtom)
 
     useEffect(() => {setHeights()},[titleBarPresence,titleBarType]);
 
@@ -61,13 +65,18 @@ const ModalComponent = (props) => {
         setMinHeight(heightRef.current.querySelector(".codesnippet-div").getBoundingClientRect().height+39*titleBarPresence);
         setMaxHeight(document.querySelector(".resizeable-component").getBoundingClientRect().height-39*titleBarPresence);
     }
+    useEffect(() => {
+        setTimeout(()=>{
+            document.querySelector(".resizeable-component").style.height=document.querySelector(".codesnippet-div").getBoundingClientRect().height+39*titleBarPresence +
+            (document.querySelector(".resizeable-component").getBoundingClientRect().width- document.querySelector(".codesnippet-div").getBoundingClientRect().width)*0.8+"px";
+        },0);
+    }, [fontSize])
 
     useEffect(() => {
         document.querySelector(".resizeable-component").style.height=document.querySelector(".resizeable-component").getBoundingClientRect().height+
         (document.querySelector(".resizeable-component").getBoundingClientRect().width- document.querySelector(".codesnippet-div").getBoundingClientRect().width)*0.8+"px";
-        setHeights();
-    }, [tabstate])
-
+        setTimeout(()=>{setHeights();},0) 
+    }, [tabstate,fontSize,lineHeight,fontStyle])
 
 
     const downloadImage = useCallback(() => {
@@ -88,9 +97,9 @@ const ModalComponent = (props) => {
         })
     })
 
-    const [color,setColor]=useState("#00FFFF");
-    const [bgType,setBgType]=useState("color");
-    const [bgImage,setBgImage]=useState(null);
+    const [color,setColor]=useAtom(scBgColorAtom);
+    const [bgType,setBgType]=useAtom(scBgTypeAtom);
+    const [bgImage,setBgImage]=useAtom(scBgImageAtom);
     const [bgStyle,setBgStyle]=useState({});//{backgroundImage:`url(${bgImage})`}
 
 
@@ -186,7 +195,7 @@ const ModalComponent = (props) => {
                         
 
                     </div>
-                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose}} isSettingsOpen={true}/>}
+                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose,settingsOpen,setSettingsOpen}} />}
                 </div>
 
 

@@ -29,23 +29,34 @@ import { useAtomValue } from "jotai";
 
 import { Resizable } from 're-resizable';
 import TitleBar from "./Titlebar.jsx";
-import { scTitleBarAtom } from "../../Store/ScreenshotStore.jsx";
+import { scFontSizeAtom, scFontStyleAtom, scLineHeightAtom, scLineNumberAtom, scShadowAtom, scTitleBarAtom } from "../../Store/ScreenshotStore.jsx";
 
 const ControlledEditor = memo(ControlledEditorSlow);
 
 
 
+const fontMap={
+  "Ubuntu Mono":`"Ubuntu Mono", monospace`,
+  "Fira Code":`"Fira Code", monospace`,
+  "VT323":`"VT323", monospace`,
+  "Source Code Pro":`"Source Code Pro", monospace`,
+  "Press Start 2P":`"Press Start 2P", system-ui`,
+  "DynaPuff":`"DynaPuff", system-ui`,
+  "Monospace":`monospace`
+}
 
-
-
-// todo: make it responsive on resizing, add toogle to show ... or -+x or none
 
 const CodeSnippet = (props) => {
 
   const theme=useAtomValue(themeAtom);
+  const lineNumbers=useAtomValue(scLineNumberAtom)
+  const shadows =useAtomValue(scShadowAtom)
   const titleBarPresence=useAtomValue(scTitleBarAtom);
-  
-  const {language,value,lineNumbers} = props;
+  const fontSize=useAtomValue(scFontSizeAtom);
+  const lineHeight=useAtomValue(scLineHeightAtom);
+  const fontStyle=useAtomValue(scFontStyleAtom);
+
+  const {language,value} = props;
 
   const editorClassName="has-titlebar";
 
@@ -57,15 +68,14 @@ const handleChange=()=>{}
         lineWrapping: true,
         lint: true,
         inputStyle: "textarea",
-        lineNumbers: true,
+        lineNumbers: lineNumbers,
         mode: language,
         theme: theme,
         matchBrackets: true,
         readOnly:"nocursor",
         viewportMargin: Infinity,
-
     }
-  },[language,theme]);
+  },[language,theme,lineNumbers]);
 
   const handleClasses={
     "top":"top-resize resize",
@@ -73,24 +83,22 @@ const handleChange=()=>{}
     "left":"left-resize resize",
     "right":"right-resize resize",
 }
-
   const titleBarRef=useRef(null);
 
-  function handleWidthSync(){
+  function handleTitleBarWidthSync(){
     titleBarRef.current.style.width=document.querySelector(".codesnippet-div").getBoundingClientRect().width+"px";
   }
   useEffect(() => {
     titleBarRef.current.style.width=document.querySelector(".codesnippet-div").getBoundingClientRect().width+"px";
-    window.addEventListener("resize",handleWidthSync);
-
+    window.addEventListener("resize",handleTitleBarWidthSync);
     return () => {
-      window.removeEventListener("resize",handleWidthSync)
+      window.removeEventListener("resize",handleTitleBarWidthSync)
     }
-  },[]);
+  },[fontSize]);
 
   return (<>
     <TitleBar titleBarRef={titleBarRef} type={language}/>
-    <Resizable className={`codesnippet-div ${titleBarPresence?"rounded-bottom":"rounded-all"}`} defaultSize={{width:"90%"}}  maxHeight={props.maxHeight} handleClasses={handleClasses} onClick={(e)=>e.stopPropagation()}  onResize={handleWidthSync}>
+    <Resizable className={`codesnippet-div ${titleBarPresence?"rounded-bottom":"rounded-all"} ${shadows?"snippet-shadow":""}`} defaultSize={{width:"90%"}} style={{fontSize:fontSize+"px",lineHeight:lineHeight+"em",fontFamily:fontMap[fontStyle]}} maxHeight={props.maxHeight} handleClasses={handleClasses} onClick={(e)=>e.stopPropagation()}  onResize={handleTitleBarWidthSync}>
         <ControlledEditor onBeforeChange={handleChange} value={value} className={editorClassName} options={editorOptions} />
     </Resizable>
   </>
