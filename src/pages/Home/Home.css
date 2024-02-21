@@ -8,13 +8,14 @@
     flex-direction: column;
     height: min(450px,80vw);
     gap:10px;
-    text-shadow: 1px 1px 2px rgb(0, 0, 0), 0 0 1em blue, 0 0 0.2em rgb(0, 0, 0);
+    -webkit-text-stroke: 0.5px rgb(255, 255, 255);
+    -moz-text-stroke: 0.5px rgb(255, 255, 255);
     min-height: 300px;
 }
 
 .hero-image{
     box-sizing: border-box;
-    background-image:linear-gradient(180deg,rgb(36, 36, 36,1) 0%, rgba(0,0,0,0.2638305322128851) 25%, rgba(0,0,0,0.3786764705882353) 71%, rgba(36,36,36,1) 100%),url('./assets/hero.png');
+    background-image:linear-gradient(180deg,rgb(36, 36, 36,1) 0%, rgba(0,0,0,0.38) 25%, rgba(0,0,0,0.5) 71%, rgba(36,36,36,1) 100%),url('./assets/hero.png');
     background-repeat: no-repeat;
     filter: blur(0.5px);
     height: 100%;
@@ -34,6 +35,7 @@
     align-items: center;
     gap: 10px;
     z-index: 3;
+    
 
     .hero-title{
         font-size: min(2.8em,12vw);
@@ -43,4 +45,76 @@
         font-size: min(2em,5vw);
         text-align: center;
     }
+}
+
+.justify{
+  text-align: justify;
+}
+
+.swiper {
+    width:100%;
+    aspect-ratio: 1.77;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.materialIDE{
+    background-image: url("./assets/material.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .cobaltIDE {
+    background-image: url("./assets/cobalt.png");
+    background-repeat: no-repeat;
+    background-size: cover;  
+  }
+  
+  .matrixIDE {
+    background-image: url("./assets/matrix.png");
+    background-repeat: no-repeat;
+    background-size: cover; 
+    }
+  
+  .lightIDE {
+    background-image: url("./assets/light.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .nightIDE {
+    background-image: url("./assets/night.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .xqdarkIDE {
+    background-image: url("./assets/xqdark.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  
+  .swiper-slide:nth-child(8n) {
+    background-color: rgb(0, 68, 255);
+  }
+  
+  .swiper-slide:nth-child(9n) {
+    background-color: rgb(218, 12, 218);
+  }
+  
+  .swiper-slide:nth-child(10n) {
+    background-color: rgb(54, 94, 77);
+  }
+
+.home{
+  overflow-x: hidden;
 }
