@@ -1,3 +1,7 @@
+.home{
+  overflow-x: hidden;
+}
+
 .hero-section{
     box-sizing: border-box;
     color: white;
@@ -66,55 +70,71 @@
     color: #fff;
 }
 
+  .ide-img{
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .snippet-img{
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 .materialIDE{
     background-image: url("./assets/material.png");
-    background-repeat: no-repeat;
-    background-size: cover;
   }
   
   .cobaltIDE {
-    background-image: url("./assets/cobalt.png");
-    background-repeat: no-repeat;
-    background-size: cover;  
+    background-image: url("./assets/cobalt.png"); 
   }
   
   .matrixIDE {
     background-image: url("./assets/matrix.png");
-    background-repeat: no-repeat;
-    background-size: cover; 
     }
   
   .lightIDE {
     background-image: url("./assets/light.png");
-    background-repeat: no-repeat;
-    background-size: cover;
   }
   
   .nightIDE {
     background-image: url("./assets/night.png");
-    background-repeat: no-repeat;
-    background-size: cover;
   }
   
   .xqdarkIDE {
     background-image: url("./assets/xqdark.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  
-  
-  .swiper-slide:nth-child(8n) {
-    background-color: rgb(0, 68, 255);
-  }
-  
-  .swiper-slide:nth-child(9n) {
-    background-color: rgb(218, 12, 218);
-  }
-  
-  .swiper-slide:nth-child(10n) {
-    background-color: rgb(54, 94, 77);
   }
 
-.home{
-  overflow-x: hidden;
+.snippet1{
+  background-image: url("./assets/snippet1.png");
+}
+
+.snippet2{
+  background-image: url("./assets/snippet2.png");
+}
+
+.snippet3{
+  background-image: url("./assets/snippet3.png");
+}
+
+.snippet4{
+  background-image: url("./assets/snippet4.png");
+}
+
+.snippet5{
+  background-image: url("./assets/snippet5.png");
+}
+
+
+.feature-title{
+  font-size: min(2.5em,8vw);
+  text-align: center;
+  font-weight: 500;
+}
+
+.feature-description{
+  font-size: min(1.3em,4vw);
+  text-align: center;
+  font-weight: 300;
+  text-align: justify;
 }
