@@ -22,6 +22,14 @@ function ProjectCards()
   const srcdoc=`
   <html>
   <head></head>
+  <style>
+    .container{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+  </style>
   <body style="overflow:hidden;">
 
     <div class="container">
@@ -125,7 +133,7 @@ function drawHand(ctx, pos, length, width) {
           sandbox="allow-scripts" style={{ overflow:'hidden', borderRadius:"10px",width:"100%",height:"100%"}} >
           </iframe>
         </div>
-        <div className="text-end pe-3">-Ram</div>
+        <div className="text-end pe-3 h5">-Ram</div>
       </div>
     </>
 }
@@ -159,7 +167,7 @@ export default function Home() {
           </div>
 
 
-          <div className=' container p-0 d-flex justify-content-end col-10 col-md-5  '> 
+          <div className=' container p-0 d-flex justify-content-end col-12 col-md-5  '> 
             <Slider classNames={IDEs} type="ide-img"/>
           </div>
 
