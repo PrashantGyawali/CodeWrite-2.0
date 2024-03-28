@@ -220,7 +220,7 @@ const ModalComponent = (props) => {
                         
 
                     </div>
-                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose,settingsOpen,setSettingsOpen,downloadImage}} />}
+                    {settingsOpen && <SnippetSettings {...{bgType,color,onColorChange,bgStyle,setBgType,bgImage,onImageChange,colorPickerRef,handleClose,settingsOpen,setSettingsOpen,downloadImage}} />}
                 </div>
 
 
