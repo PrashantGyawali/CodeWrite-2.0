@@ -202,6 +202,16 @@ cursor: pointer;
   display: block;
 }
 
+.bg-darker{
+  background-color: rgb(20, 20, 20);
+}
+.border-radius-10{
+  border-radius: 10px;
+}
+.subtle-border{
+  border:1px solid grey;
+}
+
 .w-nav-100{
 width: fit-content;
 }
