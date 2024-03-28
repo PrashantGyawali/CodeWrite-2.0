@@ -34,21 +34,29 @@ function ProjectCards()
 
     <div class="container">
     Current Time
-    <canvas id="canvas" width="250" height="250"
+    <canvas id="canvas"
     style="background-color:#333"></canvas>
     </div>  
   </body>
 
   <script>
   const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+  const windowWidth=window.innerWidth;
+  const windowHeight=window.innerHeight;
 
-let radius = canvas.height / 2;
+  canvas.width = window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  const ctx = canvas.getContext("2d");
+
+
+let radius = windowWidth / 2;
 ctx.translate(radius, radius);
 radius = radius * 0.90
 setInterval(drawClock, 1000);
 
 function drawClock() {
+
   drawFace(ctx, radius);
   let currentTime=new Date(new Date().getTime()-15*60*1000);
   drawTime(ctx, radius, currentTime);
@@ -122,18 +130,18 @@ function drawHand(ctx, pos, length, width) {
   </html>
   `
   return <>
-      <div className='p-2 bg-dark d-flex flex-column col-sm-10 col-md-6 col-lg-4 col-xl-3 border-box' style={{aspectRatio:"1"}}>
+      <div className='d-flex flex-column col-sm-6 col-lg-4 col-xl-3 border-box my-3' style={{aspectRatio:"1"}}>
 
-        <div className='position-relative h-100'>
+        <div className='position-relative h-100 bg-dark px-3 py-2'>
 
           {/* Because iframe didnt detect the mouse clicks */}
-          <div style={{width:"100%",height:"100%",position:"absolute"}} onClick={(e)=>{e.stopPropagation();console.log("hi")}}></div> 
+          <div style={{width:"100%",height:"100%",position:"absolute"}} onClick={(e)=>{e.stopPropagation();}}></div> 
 
           <iframe srcDoc={srcdoc} title="output"
-          sandbox="allow-scripts" style={{ overflow:'hidden', borderRadius:"10px",width:"100%",height:"100%"}} >
+          sandbox="allow-scripts" style={{ overflow:'hidden', borderRadius:"10px",width:"100%",height:"90%"}} >
           </iframe>
-        </div>
         <div className="text-end pe-3 h5">-Ram</div>
+        </div>
       </div>
     </>
 }
@@ -203,10 +211,10 @@ export default function Home() {
         
         <div className="row justify-content-between container-fluid mt-5 mb-4">
 
-          <div className='container d-flex justify-content-center align-items-center col-12 col-md-5 ms-2'>
-            <img src={shareIcon} alt="deploy" width="33%"/>
-            <img src={cloudUploadIcon} alt="share"  width="33%%"/>
-            <img src={deployIcon} alt="save"  width="33%%"/>
+          <div className='container d-flex justify-content-center  align-items-center col-12 col-md-5 ms-2'>
+            <img src={shareIcon} alt="deploy" className='m-2 w-25 '/>
+            <img src={cloudUploadIcon} alt="share"  className="m-2 w-25"/>
+            <img src={deployIcon} alt="save"  className="m-2 w-25"/>
           </div>
 
           <div className='p-2 ms-2 col-md-6'>
@@ -218,7 +226,7 @@ export default function Home() {
 
         <section className='container-fluid p-4'> 
             <div className='feature-title'>Discover</div>
-            <div className='d-flex flex-wrap justify-content-evenly row p-3'>
+            <div className='d-flex flex-wrap justify-content-evenly row ' >
               <ProjectCards/>
               <ProjectCards/>
               <ProjectCards/>

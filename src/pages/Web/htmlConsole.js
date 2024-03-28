@@ -17,13 +17,19 @@ export default function htmlWithConsole(html,css,js,showConsole,showConsoleOnErr
   }
   if(!showConsole)
   {
+    
       convertedText=`
       <html>
-      <style>${css.trim()}
-      </style>
+        <head>
+          <style> 
+            ${css.trim()}
+          </style>
+        </head>
+
       <body style="margin:0px">
-      ${html.trim()}
+        ${html.trim()}
       </body>
+      
       <script >
       ${js.trim()}
       </script>
