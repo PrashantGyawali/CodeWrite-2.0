@@ -12,6 +12,8 @@ import shareIcon from '../../assets/shareIcon.svg';
 import deployIcon from '../../assets/deployIcon.svg';
 import expandIcon from '../../assets/expandIcon.svg';
 import './Projects.css'
+import WebProjectPreview from './WebProjectPreview';
+import MdProjectPreview from './MdProjectPreview';
 
 const iconsData={
   "edit":"Edit Project Name",
@@ -65,7 +67,7 @@ export default function ProjectInfo(props) {
   }, [projectNameEditing]);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 572px)');
+    const mediaQuery = window.matchMedia('(min-width: 300px)');
 
     const handleResize = (e) => {
       // e.matches will be true if the media query is satisfied
@@ -83,20 +85,18 @@ export default function ProjectInfo(props) {
     };
   }, [setMinimized]);
 
+
+
   const cloudIcon=function()
   {
 
-    
-    if(projectInfo.dateSaved==projectInfo.dateModified)
-    {
+    if(projectInfo.dateSaved==projectInfo.dateModified){
       return cloudSavedIcon;
     }
-    else if(projectInfo.dateSaved<projectInfo.dateModified)
-    {
+    else if(projectInfo.dateSaved<projectInfo.dateModified){
       return cloudUpload;
     }
-    else if(projectInfo.dateSaved>projectInfo.dateModified)
-    {
+    else if(projectInfo.dateSaved>projectInfo.dateModified){
 
       //make a request to the server for the project data or use the data that was fetced when loading the project page
       //if dateSaved of database > dateSaved of localstorage then cloudError else cloudSaved
@@ -105,18 +105,22 @@ export default function ProjectInfo(props) {
     return cloudUpload;
   }()
 
-
   return (
-    <div className='project'>
-    
+    <div className='project col-12 col-sm-6'>
+      { projectInfo.type=="web" && <WebProjectPreview projectInfo={projectInfo} projectType={props.projectType} projectId={props.projectId} navigate={navigate}/> }
+      { projectInfo.type=="md" && <MdProjectPreview projectInfo={projectInfo} navigate={navigate}/> }
+
+
+      <div className='w-100'>
       <div className='project-name-wrapper'>
       <div className="project-name-div" >
-        {!projectNameEditing?<>
+        {!projectNameEditing ?
+        <>
           <div  onClick={()=>navigate(`/self/${props.projectType}/${props.projectId}`)} className='project-link'> </div>
-            <input value={projectInfo.name} onChange={()=>{}} className='editing-input' disabled/>
+            <input value={projectInfo.name} onChange={()=>{}} className='project-name-input' disabled/>
             </>
             :
-            <input value={projectName} ref={projectNameRef} className='editing-input'  onChange={(e) => {setProjectName(e.target.value);}} />
+            <input value={projectName} ref={projectNameRef} className='project-name-input'  onChange={(e) => {setProjectName(e.target.value);}} />
           }
       </div>
         <div className={`minimize-btn  ${minimized?"":"opened"}`} onClick={()=>setMinimized(!minimized)}><img src={expandIcon}></img></div>
@@ -124,10 +128,14 @@ export default function ProjectInfo(props) {
 
       {
         !minimized &&       
-        <div className='project-info'>
-        { (new Date(projectInfo.dateModified)).toLocaleString()}
+        <div className='project-info ps-2'>
+        
+          <span className="datespan" title="Last Modified">
+            {(new Date(projectInfo.dateModified)).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+          </span>
   
-          <div style={{display:"flex", gap:"10px", padding:"5px", flexWrap:"nowrap", alignItems:"center", justifyContent:"center"}}>
+          <div className="project-options-container">
+
               {/* save to database */}
               <div onClick={() => {}} className='project-info-icon' title={iconsData["upload"]}><img src={cloudIcon} className='icon-images'/></div>
   
@@ -135,13 +143,14 @@ export default function ProjectInfo(props) {
               <div onClick={() => {}} className='project-info-icon' title={iconsData["share"]}><img src={shareIcon}/></div>
   
             {props.projectType=="web" && <div onClick={() => {}} className='project-info-icon' title={iconsData["deploy"]}><img src={deployIcon}/></div> }
+
             <div onClick={() => { setProjectNameEditing(true);}} className='project-info-icon' title={iconsData["edit"]}><img src={editIcon}/></div>
   
             <div onClick={() => { deleteProject(props.projectId,props.projectType, props.updateProjects);}} className='project-info-icon' title={iconsData["delete"]}><img src={deleteIcon}/></div>
           </div>
         </div>
       }
-
+      </div>
     </div>
   );
 }
