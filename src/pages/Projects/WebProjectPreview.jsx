@@ -22,7 +22,7 @@ function WebProjectPreview({projectInfo,projectType,projectId,navigate})
       title={projectInfo.name}
       sandbox='allow-scripts'
       className='project-iframe'
-      style={{transform:`scale(${(Math.min(window.innerWidth,285)/1366).toString()})`}}
+      style={{transform:`scale(${(Math.min(window.innerWidth,285)/1380).toString()})`}}
     >
     </iframe>
   </div>

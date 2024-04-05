@@ -106,7 +106,7 @@ export default function ProjectInfo(props) {
   }()
 
   return (
-    <div className='project col-12 col-sm-6'>
+    <div className='project col'>
       { projectInfo.type=="web" && <WebProjectPreview projectInfo={projectInfo} projectType={props.projectType} projectId={props.projectId} navigate={navigate}/> }
       { projectInfo.type=="md" && <MdProjectPreview projectInfo={projectInfo} navigate={navigate}/> }
 

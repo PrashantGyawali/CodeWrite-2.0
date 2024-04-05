@@ -111,6 +111,7 @@ input:disabled{
     align-items:center;
     margin-bottom:10px; 
     background-color: #222222;
+    min-width: min(285px,100vw);
 }
 @media screen and (max-width: 575px) {
     .project{
@@ -210,11 +211,11 @@ input:disabled{
 }
 
 }
-
 .project-iframe-container{
     cursor: pointer;
     width: min(327px,100vw);
     height: 184px;
+    overflow-x: hidden;
     &:hover{
         transform: scale(1.03);
     }
