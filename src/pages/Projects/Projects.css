@@ -242,3 +242,8 @@ input:disabled{
 .datespan{
     white-space: nowrap;
 }
+
+
+.md-project{
+    width: min(100vw,600px) !important;
+}
