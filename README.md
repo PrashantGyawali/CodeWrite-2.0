@@ -17,8 +17,13 @@ Welcome to **CodeWrite-2.0**, our web-based HTML, CSS, JavaScript and Markdown e
 - **Syntax Highlighting**: Code is highlighted for better readability.
 - **Dark Mode**: Enjoy coding in low-light environments.
 - **Multiple Themes**: Customize themes according to your liking.
--  **Download** : Download code on your local computer.
 ![CodeWrite-2.0 WebSettings](./public/websettings.png)
+- **Download** : Download code on your local computer.
+- **Code snippets** : Create, customize and export codesnippts effortlessly
+ ![CodeWrite-2.0 WebSettings](./public/snippet.png)
+- **Share and deploy**: Share your code and make a quick deployment in just few clicks
+
+![CodeWrite-2.0 WebSettings](./public/snippet.png)
 
 ## How to Use
 
@@ -30,9 +35,6 @@ Welcome to **CodeWrite-2.0**, our web-based HTML, CSS, JavaScript and Markdown e
 ## Roadmap
 
 - **PWA**: Make the core functionality work offline
-- **Backend**: Save code on database
-- **Sharing**: Share your code to others to see or fork as link
-- **Deployment**: Live preview your website on the server
 - **Collaborative** code editing using websockets
 
 ## Star and Contribute
@@ -44,5 +46,5 @@ If you find our web editor useful, consider starring the project on GitHub to sh
 
 Happy coding!
 
-![Happy codeing](./public/logo.ico)
+![Happy coding](./public/logo.ico)
 
