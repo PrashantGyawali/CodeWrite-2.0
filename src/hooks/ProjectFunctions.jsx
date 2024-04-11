@@ -1,6 +1,5 @@
 import { useEffect, useState,useRef } from "react";
 
-
 const key="codewrite";
 
 export function createNewProject(type,value) {
@@ -41,9 +40,9 @@ export function createNewProject(type,value) {
             ...value
         }
     }
-    projectList[id]=true;
+    projectList[projectInfo.id]=true;
     localStorage.setItem(`${key}-${type}-projects`,JSON.stringify(projectList));
-    localStorage.setItem(`${key}-${type}-${id}`,JSON.stringify(projectInfo));
+    localStorage.setItem(`${key}-${type}-${projectInfo.id}`,JSON.stringify(projectInfo));
 
     return id;
 }
@@ -60,7 +59,7 @@ export default function useProject(type,id) {
     }
   
     const preFixedKey = `${key}-${type}-${id}`;
-    const projectInfo = getItemFromLocalStorage(preFixedKey);
+    let projectInfo = getItemFromLocalStorage(preFixedKey);
   
     if (!projectInfo) {
       return [null, null, null];
@@ -102,5 +101,4 @@ export default function useProject(type,id) {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : null;
   };
-
 

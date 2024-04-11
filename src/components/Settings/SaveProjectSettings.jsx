@@ -49,8 +49,10 @@ function SaveProjectSettings() {
                 })
             })
             let resjson=await res.json();
-            console.log(resjson);
-            setCode({...code,dateSaved:dateSaved});
+            if(!resjson.error)
+            {
+                setCode({...code,dateSaved:dateSaved});
+            }
         }
         else
         {

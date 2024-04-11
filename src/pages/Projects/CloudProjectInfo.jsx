@@ -1,0 +1,163 @@
+import React, { useState, useEffect, useRef } from 'react'
+import {createNewProject} from '../../hooks/ProjectFunctions';
+import { useNavigate } from 'react-router-dom';
+import editIcon from '../../assets/editIcon.svg';
+import deleteIcon from '../../assets/deleteIcon.svg';
+import cloudUpload from '../../assets/cloudUpload.svg';
+import cloudSavedIcon from '../../assets/cloudSavedIcon.svg';
+import shareIcon from '../../assets/shareIcon.svg';
+import deployIcon from '../../assets/deployIcon.svg';
+import expandIcon from '../../assets/expandIcon.svg';
+import './Projects.css'
+import WebProjectPreview from './WebProjectPreview';
+import MdProjectPreview from './MdProjectPreview';
+import { deleteCloudProject } from '../../hooks/cloudStorage';
+
+const iconsData = {
+    "edit": "Edit Project Name",
+    "delete": "Delete Project",
+    "upload": "Save to Cloud",
+    "share": "Share Project",
+    "deploy": "Deploy Project"
+}
+
+
+export default function CloudProjectInfo(props) {
+
+    const projectNameRef = useRef();
+    const [projectInfo, setProjectInfo] = useState({...props.value});
+
+    const navigate = useNavigate();
+
+    const [projectName, setProjectName] = useState(projectInfo.name);
+    const [projectNameEditing, setProjectNameEditing] = useState(false);
+
+
+    const [minimized, setMinimized] = useState(window.innerWidth < 573 ? true : false);
+
+
+    const handleSaveToLocal=(projectInfo)=>{
+        if(!localStorage[`codewrite-${projectInfo.type}-${projectInfo.publicId}`])
+        {
+            createNewProject(projectInfo.type,{...projectInfo,id:projectInfo.publicId});
+            navigate(`/self/${projectInfo.type}/${projectInfo.publicId}`);
+        }
+    }
+
+    useEffect(() => {
+        if (projectName != projectInfo?.name && projectName != "" && !projectNameEditing) {
+            setProjectInfo( {
+                ...projectInfo,
+                name: projectName,
+                dateModified: Date.now()
+            });
+            handleSaveToLocal({
+                ...projectInfo,
+                name: projectName,
+                dateModified: Date.now(),
+                id:projectInfo.publicId
+            })
+            
+        }
+        else {
+            setProjectName(projectInfo.name);
+        }
+    }, [projectNameEditing]);
+
+    useEffect(() => {
+        if (projectNameEditing) {
+            projectNameRef.current.focus();
+            projectNameRef.current.addEventListener("focusout", () => {
+                setProjectNameEditing(false);
+            });
+            projectNameRef.current.addEventListener("keyup", function (e) {
+                if (e.key === "Enter") {
+                    setProjectNameEditing(false);
+                }
+            });
+        }
+    }, [projectNameEditing]);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(min-width: 300px)');
+
+        const handleResize = (e) => {
+            // e.matches will be true if the media query is satisfied
+            setMinimized(!e.matches);
+        };
+
+        // Initial check
+        handleResize(mediaQuery);
+
+        // Listen for changes in media query matches
+        mediaQuery.addEventListener("change", handleResize);
+        // Clean up the event listener on component unmount
+        return () => {
+            mediaQuery.removeEventListener("change", handleResize);
+        };
+    }, [setMinimized]);
+
+
+
+    const cloudIcon = function () {
+
+        if (projectInfo.dateSaved == projectInfo.dateModified) {
+            return cloudSavedIcon;
+        }
+        else if (projectInfo.dateSaved < projectInfo.dateModified) {
+            return cloudUpload;
+        }
+        else if (projectInfo.dateSaved > projectInfo.dateModified) {
+            return cloudSavedIcon;
+        }
+        return cloudUpload;
+    }()
+
+    return (
+        <div className='project col'>
+            {projectInfo.type == "web" && <WebProjectPreview projectInfo={projectInfo} projectType={projectInfo.publicId} projectId={projectInfo.publicId} navigate={()=>handleSaveToLocal(projectInfo)} />}
+            {projectInfo.type == "md" && <MdProjectPreview projectInfo={projectInfo} navigate={()=>handleSaveToLocal(projectInfo)} />}
+
+
+            <div className='w-100'>
+                <div className='project-name-wrapper'>
+                    <div className="project-name-div" >
+                        {!projectNameEditing ?
+                            <>
+                                <div onClick={() =>{handleSaveToLocal(projectInfo);}} className='project-link'> </div>
+                                <input value={projectInfo.name} onChange={() => { }} className='project-name-input' disabled />
+                            </>
+                            :
+                            <input value={projectName} ref={projectNameRef} className='project-name-input' onChange={(e) => { setProjectName(e.target.value); }} />
+                        }
+                    </div>
+                    <div className={`minimize-btn  ${minimized ? "" : "opened"}`} onClick={() => setMinimized(!minimized)}><img src={expandIcon}></img></div>
+                </div>
+
+                {
+                    !minimized &&
+                    <div className='project-info ps-2'>
+
+                        <span className="datespan" title="Last Modified">
+                            {(new Date(projectInfo.dateModified)).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                        </span>
+
+                        <div className="project-options-container">
+
+                            <div className='project-info-icon' title={iconsData["upload"]}><img src={cloudIcon} className='icon-images' /></div>
+
+                            {/* create a /shared/web/id project on db */}
+                            <div onClick={() => { }} className='project-info-icon' title={iconsData["share"]}><img src={shareIcon} /></div>
+
+                            {props.projectType == "web" && <div onClick={() => { }} className='project-info-icon' title={iconsData["deploy"]}><img src={deployIcon} /></div>}
+
+                            <div onClick={() => { setProjectNameEditing(true); }} className='project-info-icon' title={iconsData["edit"]}><img src={editIcon} /></div>
+
+                            <div onClick={() => { confirm("Delete project from cloud") && deleteCloudProject(projectInfo.publicId, projectInfo.type); }} className='project-info-icon' title={iconsData["delete"]}><img src={deleteIcon} /></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    );
+}
