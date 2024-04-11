@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 
-function WebProjectPreview({projectInfo,projectType,projectId,navigate})
+function WebProjectPreview({projectInfo,navigate})
 {
   const [hoverState,setHoverState]=useState(false);
+  let timer=useRef(0);
+
+  const mouseEnterHandler=()=>{timer.current=setTimeout(()=>{setHoverState(true)},1000)}
+  const mouseExitHandler=()=>{clearTimeout(timer.current);if(hoverState){setHoverState(false)}}
+
     return (
-    <div className=' project-iframe-container' onClick={()=>navigate(`/self/${projectType}/${projectId}`)} onMouseEnter={()=>{setHoverState(true)}} onMouseLeave={()=>{setHoverState(false)}} >
+    <div className=' project-iframe-container' onClick={navigate} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseExitHandler} >
     <iframe
       srcDoc={`<html>
       <head>
