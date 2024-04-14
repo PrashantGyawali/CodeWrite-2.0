@@ -33,6 +33,22 @@ export default function Projects() {
       return;
     }
     let cloudProjects=await fetchCloudStorage();
+
+    // Simple error handling
+    if(!cloudProjects)
+    {
+      setCloudProjectsList([]);
+      console.log("No cloud projects found");
+      return;
+    }
+    else if(cloudProjects.error)
+    {
+      setCloudProjectsList([]);
+      console.log(cloudProjects.error);
+      return;
+    }
+
+    
     setCloudProjectsList(cloudProjects);
   },[user])
 

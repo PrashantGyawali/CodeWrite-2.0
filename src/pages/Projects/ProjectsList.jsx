@@ -17,6 +17,7 @@ export default function ProjectList() {
 
   let [allcloudProjects,_]=useAtom(cloudProjects);
   let key="codewrite"
+  console.log(allcloudProjects)
   let cloudProjectsList=allcloudProjects.filter((project)=>{return project.type==projectType &&  !localStorage.getItem(`${key}-${projectType}-${project.publicId}`) });
 
   useEffect(() => {
