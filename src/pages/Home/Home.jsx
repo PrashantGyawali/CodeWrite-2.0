@@ -15,6 +15,7 @@ import "swiper/css/keyboard"
 import livePreview from "./assets/livepreview.gif"
 
 import Slider from './Slider';
+import { useNavigate } from 'react-router-dom'
 
 
 function ProjectCards()
@@ -147,11 +148,15 @@ function drawHand(ctx, pos, length, width) {
 }
 
 
+
+
+
+
 const IDEs=["materialIDE","cobaltIDE","matrixIDE","nightIDE","lightIDE","xqdarkIDE"];
 const snippets=Array(5).fill(0).map((_,i)=>`snippet${i+1}`);
 
-
 export default function Home() {
+  const navigate=useNavigate();
   return (
     < div className='home'>
 
@@ -162,6 +167,7 @@ export default function Home() {
         <div className='hero-text'>
           <div className='hero-title h1'>Simplistic Editor for the web</div>
           <div className='hero-subtitle h2'>Brainstorm ideas and quickly bring them to life</div>
+          <button className='start-now' onClick={()=>navigate("/projects/web")}>Start Now</button>
         </div>
       </section>
 
