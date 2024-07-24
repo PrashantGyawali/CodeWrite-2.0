@@ -30,7 +30,6 @@ const showConsoleOnError=useAtomValue(showConsoleOnErrorAtom);
 const autorun=useAtomValue(autorunAtom);
 
 
-
 useEffect(()=>{
     if (autorun) {
         const timeout = setTimeout(() => {
@@ -39,10 +38,13 @@ useEffect(()=>{
     
         return () => clearTimeout(timeout);
     }
-},[projectCode])
+},[projectCode,autorun,setSrcDoc]);
 
 useEffect(()=>{
-        setSrcDoc(htmlWithConsole(projectCode.html,projectCode.css,projectCode.js,showConsole,showConsoleOnError ))
+    if(projectCode)
+    {
+        setSrcDoc(htmlWithConsole(projectCode.html,projectCode.css,projectCode.js,showConsole,showConsoleOnError ));
+    }
 },[showConsole,showConsoleOnError]);
 
 

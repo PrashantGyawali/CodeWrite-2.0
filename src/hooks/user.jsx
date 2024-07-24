@@ -1,58 +1,40 @@
 import {useEffect, useState} from 'react'
 
 const url="https://codewrite-server.onrender.com";
-// const url="http://localhost:3000";
 
 export default function useUser() {
     const [user,setUser] = useState({name:"Guest",email:"",joined:Date.now()});
 
 
     async function handleUser(type,data){
-        switch(type)
-        {
-            case "login":
-                let userInfo=await logInUser(data);
+        if (type === "login") {
+            let userInfo = await logInUser(data);
 
-                if(userInfo && userInfo.isAuth && !userInfo.error)
-                {
-                    setUser(userInfo);
-                }
-                else{
-                    console.log(userInfo);
-                }
-                return (userInfo)
-
-                break;
-
-
-            case "logout":
-                logOutUser().then(()=>{
-                    setUser({name:"Guest",email:"",joined:Date.now()});
-                });
-                
-                break;
-
-
-            case "update":
-                const updatedUser =await updateExistingUserInfo(data);
-                console.log(updatedUser);
-                if(updatedUser && !updatedUser.error && updatedUser.isAuth)
-                {
-                    setUser(updatedUser);
-                }
-                break;
-
-            case "register":
-                const registeredUser = await registerUser(data);
-                if(registeredUser && registeredUser.isAuth && !registeredUser.error)
-                {
-                    setUser(registeredUser);
-                }
-                return registeredUser; //this will return the error text recieved from db or the user object
-                break;
-
-            default:
-                break;
+            if (userInfo && userInfo.isAuth && !userInfo.error) {
+            setUser(userInfo);
+            } else {
+            console.log(userInfo);
+            }
+            return userInfo;
+        } 
+        else if (type === "logout") {
+            logOutUser().then(() => {
+            setUser({ name: "Guest", email: "", joined: Date.now() });
+            });
+        }
+        else if (type === "update") {
+            const updatedUser = await updateExistingUserInfo(data);
+            console.log(updatedUser);
+            if (updatedUser && !updatedUser.error && updatedUser.isAuth) {
+            setUser(updatedUser);
+            }
+        } 
+        else if (type === "register") {
+            const registeredUser = await registerUser(data);
+            if (registeredUser && registeredUser.isAuth && !registeredUser.error) {
+            setUser(registeredUser);
+            }
+            return registeredUser; //this will return the error text received from db or the user object
         }
     }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import "./Home.css"
 
 
@@ -24,8 +23,6 @@ const Slider =({classNames,type}) => {
             delay: 2500,
             disableOnInteraction: false,
         }}
-        onSlideChange={() =>{}}
-        onSwiper={(swiper) =>{}}
         className="swiper" 
         >
         {

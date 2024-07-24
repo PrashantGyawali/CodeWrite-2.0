@@ -36,7 +36,7 @@ function ShareModal() {
 
   const [errorMsg,setErrorMsg]=useState("");
 
-  useEffect(async()=>{
+  useEffect(()=>{ async function shareCode(){
     if(!show) return;
     if(!user?.isAuth)
     {
@@ -44,7 +44,7 @@ function ShareModal() {
     }
     else{
       const dateShared=Date.now();
-      const url=await fetch("https://codewrite-server.onrender.com/share",
+      const url=await fetch(`https://codewrite-server.onrender.com/share`,
       {
         method:"POST",
         mode: "cors",
@@ -68,7 +68,10 @@ function ShareModal() {
         setErrorMsg(data.error);
       }
     }   
-},[show])
+}
+shareCode();
+  }
+,[show])
 
 
   useEffect(()=>{

@@ -1,12 +1,17 @@
-import { useState,useRef } from "react";
+/* eslint-disable react/prop-types */
+import { useState,useRef, useEffect } from "react";
 
 function WebProjectPreview({projectInfo,navigate})
 {
   const [hoverState,setHoverState]=useState(false);
   let timer=useRef(0);
+  let mouseEnterHandler=()=>{timer.current=setTimeout(()=>{if(timer!==null&&hoverState!=undefined&&hoverState!=null){setHoverState(true)}},1000)};
+  let mouseExitHandler=()=>{clearTimeout(timer.current);if(hoverState){setHoverState(false)}}
 
-  const mouseEnterHandler=()=>{timer.current=setTimeout(()=>{setHoverState(true)},1000)}
-  const mouseExitHandler=()=>{clearTimeout(timer.current);if(hoverState){setHoverState(false)}}
+  useEffect(()=>{
+    return ()=>{clearTimeout(timer.current);}
+  },[])
+
 
     return (
     <div className=' project-iframe-container' onClick={navigate} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseExitHandler} >

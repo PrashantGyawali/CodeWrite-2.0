@@ -165,3 +165,38 @@ animation: 5s linear infinite outline-color-change;
     outline-color: rgba(0, 166, 255, 0.811);
   }
 }
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.grid-item {
+  width: 100%;
+  padding-bottom: 66.67%; /* Aspect ratio of 1.5 (100 / 1.5) */
+  overflow: hidden;
+  justify-content: center;
+  position: relative;
+}
+
+.discover-text {
+  text-decoration: none;
+  position: absolute;
+  left:0;
+  top:0px;
+  width: 100%;
+  padding: 3px;
+  padding-left: 10px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.346); /* Semi-transparent background for better readability */
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.grid-item:hover>.discover-text{
+background-color:rgba(0, 0, 0, 0.775);
+color:rgb(255, 255, 255);
+cursor: pointer;
+}

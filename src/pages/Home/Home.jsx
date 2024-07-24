@@ -1,10 +1,10 @@
-import React from 'react'
 import "./Home.css"
 
 import cloudUploadIcon from "../../assets/cloudUpload.svg"
 import deployIcon from "../../assets/deployIcon.svg"
 import shareIcon from "../../assets/shareIcon.svg"
 
+import FallbackProjects from "./FallbackProjectCards.jsx"
 
 // Import Swiper styles
 import 'swiper/css';
@@ -14,139 +14,83 @@ import "swiper/css/keyboard"
 
 import livePreview from "./assets/livepreview.gif"
 
+import { useState,useEffect,useRef} from 'react';
 import Slider from './Slider';
 import { useNavigate } from 'react-router-dom'
 
-
-function ProjectCards()
+function FeaturedProjects()
 {
-  const srcdoc=`
-  <html>
-  <head></head>
-  <style>
-    .container{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
+  const [data, setData] = useState(null);
+  const fetchDataAsync = async () => {
+    try{
+    const result = await fetch("https://codewrite-server.onrender.com/discover").then(res=> res.json());
+    if(result?.projects?.length>0)
+    {
+      setData(result.projects);
+    }}
+    catch(e)
+    {
+      console.log(e.toString().slice(0,500));
     }
-  </style>
-  <body style="overflow:hidden;">
+  };
 
-    <div class="container">
-    Current Time
-    <canvas id="canvas"
-    style="background-color:#333"></canvas>
-    </div>  
-  </body>
+  // Immediately trigger data fetching when component mounts
+  useEffect(() => {
+  fetchDataAsync();
+},[]);
 
-  <script>
-  const canvas = document.getElementById("canvas");
-  const windowWidth=window.innerWidth;
-  const windowHeight=window.innerHeight;
+    return (<>
+          <div className="grid-container">
+          {data ? data.map((project) => <ProjectCards projectInfo={project} key={project.sharedURL}/>): <FallbackProjects />}
+          </div> 
+          </>
+    );
 
-  canvas.width = window.innerWidth;
-  canvas.height=window.innerHeight;
-
-  const ctx = canvas.getContext("2d");
-
-
-let radius = windowWidth / 2;
-ctx.translate(radius, radius);
-radius = radius * 0.90
-setInterval(drawClock, 1000);
-
-function drawClock() {
-
-  drawFace(ctx, radius);
-  let currentTime=new Date(new Date().getTime()-15*60*1000);
-  drawTime(ctx, radius, currentTime);
-  drawNumbers(ctx, radius);
 }
 
-function drawFace(ctx, radius) {
-  const grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
-  grad.addColorStop(0, '#333');
-  grad.addColorStop(0.5, 'white');
-  grad.addColorStop(1, '#333');
-  ctx.beginPath();
-  ctx.arc(0, 0, radius, 0, 2*Math.PI);
-  ctx.fillStyle = 'white';
-  ctx.fill();
-  ctx.strokeStyle = grad;
-  ctx.lineWidth = radius*0.1;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
-  ctx.fillStyle = '#333';
-  ctx.fill();
+
+
+
+function ProjectCards({projectInfo})
+{
+  let iframeref=useRef(null);
+  let textDivRef=useRef(null);
+
+  useEffect(()=>{
+    window.addEventListener("resize",()=>{
+      textDivRef.current.style.width=iframeref.current.getBoundingClientRect().width+"px";
+    });
+    textDivRef.current.style.width=iframeref.current.getBoundingClientRect().width+"px";
+  },[]);
+
+
+  return <> 
+    <div style={{overflow:"hidden"}} className="grid-item">
+      <iframe
+          srcDoc={`<html>
+          <head>
+          <style> 
+            ${projectInfo.css.trim()}
+          </style>
+          </head>
+          <body style="margin:0px;overflow-Y:hidden;overflow-x:hidden; transform-origin:top left;">
+          ${projectInfo.html.trim()}
+          </body>
+          <script >
+          ${projectInfo.js.trim()}
+          </script>
+          </html>`}
+          sandbox='allow-scripts'
+          className='project-iframe'
+          style={{transform:`scale(${(Math.min(window.innerWidth,285)/1080).toString()})`}}
+          ref={iframeref}
+        >
+        </iframe>
+
+    <a className="discover-text" ref={textDivRef} href={`/shared/web/${projectInfo.sharedURL}`}>{projectInfo.name}</a>
+    </div>
+  </>
 }
-
-function drawNumbers(ctx, radius) {
-  ctx.font = radius*0.15 + "px arial";
-  ctx.textBaseline="middle";
-  ctx.textAlign="center";
-  for(let num = 1; num < 13; num++){
-    let ang = num * Math.PI / 6;
-    ctx.rotate(ang);
-    ctx.translate(0, -radius*0.85);
-    ctx.rotate(-ang);
-    ctx.fillText(num.toString(), 0, 0);
-    ctx.rotate(ang);
-    ctx.translate(0, radius*0.85);
-    ctx.rotate(-ang);
-  }
-}
-
-function drawTime(ctx, radius,currentTime){
-    const now = currentTime;
-    let hour = now.getHours();
-    let minute = now.getMinutes();
-    let second = now.getSeconds();
-    //hour
-    hour=hour%12;
-    hour=(hour*Math.PI/6)+
-    (minute*Math.PI/(6*60))+
-    (second*Math.PI/(360*60));
-    drawHand(ctx, hour, radius*0.5, radius*0.07);
-    //minute
-    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
-    drawHand(ctx, minute, radius*0.8, radius*0.07);
-    // second
-    second=(second*Math.PI/30);
-    drawHand(ctx, second, radius*0.9, radius*0.02);
-}
-
-function drawHand(ctx, pos, length, width) {
-    ctx.beginPath();
-    ctx.lineWidth = width;
-    ctx.lineCap = "round";
-    ctx.moveTo(0,0);
-    ctx.rotate(pos);
-    ctx.lineTo(0, -length);
-    ctx.stroke();
-    ctx.rotate(-pos);
-}
-  </script>
-  </html>
-  `
-  return <>
-      <div className='d-flex flex-column col-sm-6 col-lg-4 col-xl-3 border-box my-3' style={{aspectRatio:"1"}}>
-
-        <div className='position-relative h-100 bg-dark px-3 py-2'>
-
-          {/* Because iframe didnt detect the mouse clicks */}
-          <div style={{width:"100%",height:"100%",position:"absolute"}} onClick={(e)=>{e.stopPropagation();}}></div> 
-
-          <iframe srcDoc={srcdoc} title="output"
-          sandbox="allow-scripts" style={{ overflow:'hidden', borderRadius:"10px",width:"100%",height:"90%"}} >
-          </iframe>
-        <div className="text-end pe-3 h5">-Ram</div>
-        </div>
-      </div>
-    </>
-}
-
 
 
 
@@ -233,18 +177,7 @@ export default function Home() {
         <section className='container-fluid p-4'> 
             <div className='feature-title'>Discover</div>
             <div className='d-flex flex-wrap justify-content-evenly row ' >
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>              
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
-              <ProjectCards/>
+              <FeaturedProjects/>   
             </div>
         </section>
     </div>

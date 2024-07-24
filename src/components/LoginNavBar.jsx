@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from "react";
+import { useState, useContext, useCallback } from "react";
 import Button from "react-bootstrap/Button";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,6 +16,7 @@ import MarkdownTab from "./NavBar/MdEditorTab";
 function LoginNavComponent() {
   const { editor,user} = useContext(SettingsContext);
   const [navbarExpanded, setNavbarExpanded] = useState(false);
+  const navigate = useNavigate();
   
   const handleProfileClick = useCallback(() => {
     if(user.isAuth)
@@ -25,14 +26,13 @@ function LoginNavComponent() {
     else{
       navigate("/auth")
     }
-  },[user])
+  },[user,navigate])
 
   const handleToggle=useCallback(()=>{
     setNavbarExpanded(!navbarExpanded);
   },[navbarExpanded])
 
   
-  const navigate = useNavigate();
   return (
     <>
       <Navbar expand="md" className="bg-body-tertiary" data-bs-theme="dark" expanded={navbarExpanded} onToggle={handleToggle}>
