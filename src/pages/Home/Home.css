@@ -200,3 +200,25 @@ background-color:rgba(0, 0, 0, 0.775);
 color:rgb(255, 255, 255);
 cursor: pointer;
 }
+
+.discover-btn{
+  background-color: #001c3e;
+  border: 1px solid #0009b8;
+  color: white;
+  padding: 4px 15px;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  top:-20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@media screen and (max-width: 660px) {
+  @media screen and (min-width: 500px) {
+.discover-btn{
+  top:-50px;
+}
+  }
+}

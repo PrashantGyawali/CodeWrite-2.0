@@ -4,7 +4,7 @@ import cloudUploadIcon from "../../assets/cloudUpload.svg"
 import deployIcon from "../../assets/deployIcon.svg"
 import shareIcon from "../../assets/shareIcon.svg"
 
-import FallbackProjects from "./FallbackProjectCards.jsx"
+import FallbackProjects from "../../components/ProjectCards/FallbackProjectCards.jsx"
 
 // Import Swiper styles
 import 'swiper/css';
@@ -14,9 +14,12 @@ import "swiper/css/keyboard"
 
 import livePreview from "./assets/livepreview.gif"
 
-import { useState,useEffect,useRef} from 'react';
+import { useState,useEffect} from 'react';
 import Slider from './Slider';
 import { useNavigate } from 'react-router-dom'
+
+import ProjectCards from "../../components/ProjectCards/ProjectCard.jsx"
+
 
 function FeaturedProjects()
 {
@@ -47,52 +50,6 @@ function FeaturedProjects()
     );
 
 }
-
-
-
-
-function ProjectCards({projectInfo})
-{
-  let iframeref=useRef(null);
-  let textDivRef=useRef(null);
-
-  useEffect(()=>{
-    window.addEventListener("resize",()=>{
-      textDivRef.current.style.width=iframeref.current.getBoundingClientRect().width+"px";
-    });
-    textDivRef.current.style.width=iframeref.current.getBoundingClientRect().width+"px";
-  },[]);
-
-
-  return <> 
-    <div style={{overflow:"hidden"}} className="grid-item">
-      <iframe
-          srcDoc={`<html>
-          <head>
-          <style> 
-            ${projectInfo.css.trim()}
-          </style>
-          </head>
-          <body style="margin:0px;overflow-Y:hidden;overflow-x:hidden; transform-origin:top left;">
-          ${projectInfo.html.trim()}
-          </body>
-          <script >
-          ${projectInfo.js.trim()}
-          </script>
-          </html>`}
-          sandbox='allow-scripts'
-          className='project-iframe'
-          style={{transform:`scale(${(Math.min(window.innerWidth,285)/1080).toString()})`}}
-          ref={iframeref}
-        >
-        </iframe>
-
-    <a className="discover-text" ref={textDivRef} href={`/shared/web/${projectInfo.sharedURL}`}>{projectInfo.name}</a>
-    </div>
-  </>
-}
-
-
 
 
 
@@ -179,6 +136,7 @@ export default function Home() {
             <div className='d-flex flex-wrap justify-content-evenly row ' >
               <FeaturedProjects/>   
             </div>
+            <button className='discover-btn' onClick={()=>navigate("/discover")}>More↓</button>
         </section>
     </div>
   )

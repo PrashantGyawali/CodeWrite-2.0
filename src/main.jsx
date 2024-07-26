@@ -18,8 +18,10 @@ import DefaultNavOnlyPage from './pages/Default/DefaultNavOnlyPage.jsx'
 import Deployment from './pages/Deployments/Deployment.jsx'
 import SharedWeb from './pages/Shared/SharedWeb.jsx'
 import SharedMd from './pages/Shared/SharedMd.jsx'
+import DiscoverPage from './pages/Discover/DiscoverPage.jsx'
 
 import { inject } from '@vercel/analytics';
+
 
 inject();
 
@@ -35,6 +37,10 @@ const routes=[
         {
           path: '/',
           element: <Home/>
+        },
+        {
+          path:"/discover",
+          element:<DiscoverPage/>
         },
         {
           path: '/auth',
