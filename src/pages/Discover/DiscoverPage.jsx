@@ -13,7 +13,7 @@ export default function DiscoverPage() {
         if (page >= lastPage) {
             return;
         }
-        fetch(`http://localhost:3000/discover?limit=${limit.current}&page=${page+1}`)
+        fetch(`https://codewrite-server.onrender.com/discover?limit=${limit.current}&page=${page+1}`)
         .then((res) => res.json())
         .then((data) => {
             if (data?.projects?.length > 0) {

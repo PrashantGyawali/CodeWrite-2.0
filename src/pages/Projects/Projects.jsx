@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect,useContext } from 'react'
 import { Link, Outlet,useLocation} from 'react-router-dom'
 import "./Projects.css"
 
@@ -6,7 +6,6 @@ import fetchCloudStorage from '../../hooks/cloudStorage';
 
 import {useAtom} from 'jotai';
 import cloudProjects from '../../Store/CloudProjects';
-import { useContext } from 'react';
 import { SettingsContext } from '../../App';
 
 
@@ -23,9 +22,9 @@ export default function Projects() {
   else if(location.pathname.search("md")!= -1)
   {
     markdownselected="selected"
-  };
+  }
   
-  let [cloudProjectsList,setCloudProjectsList]=useAtom(cloudProjects);
+  let [,setCloudProjectsList]=useAtom(cloudProjects);
   useEffect(async ()=>{
     if(!user || !user?.email)
     {
