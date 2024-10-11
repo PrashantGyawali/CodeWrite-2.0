@@ -20,10 +20,10 @@ Welcome to **CodeWrite-2.0**, our web-based HTML, CSS, JavaScript and Markdown e
 ![CodeWrite-2.0 WebSettings](./public/websettings.png)
 - **Download** : Download code on your local computer.
 - **Code snippets** : Create, customize and export codesnippts effortlessly
- ![CodeWrite-2.0 WebSettings](./public/snippet.png)
-- **Share and deploy**: Share your code and make a quick deployment in just few clicks
-
 ![CodeWrite-2.0 WebSettings](./public/snippet.png)
+![CodeWrite-2.0 WebSettings](./public/snippet2.png)
+- **Share and deploy**: Share your code and make a quick deployment in just few clicks
+![CodeWrite-2.0 WebSettings](./public/shared.png)
 
 ## How to Use
 
@@ -36,15 +36,15 @@ Welcome to **CodeWrite-2.0**, our web-based HTML, CSS, JavaScript and Markdown e
 
 - **PWA**: Make the core functionality work offline
 - **Collaborative** code editing using websockets
+- **Language Support** code compilation for other languages
 
 ## Star and Contribute
 
 If you find our web editor useful, consider starring the project on GitHub to show your support. You're also welcome to contribute to the development of this open-source project by submitting issues, feature requests, or pull requests. Your contributions help us make CodeWrite-2.0 better for everyone.
 
-[**Star on GitHub**](https://github.com/PrashantGyawali/CodeWrite-2.0)
-[**& Contribute on GitHub**](https://github.com/PrashantGyawali/CodeWrite-2.0)
+[**Star on GitHub**](https://github.com/PrashantGyawali/CodeWrite-2)
+[**& Contribute on GitHub**](https://github.com/PrashantGyawali/CodeWrite-2)
 
 Happy coding!
 
 ![Happy coding](./public/logo.ico)
-
