@@ -19,6 +19,7 @@ import Slider from './Slider';
 import { useNavigate } from 'react-router-dom'
 
 import ProjectCards from "../../components/ProjectCards/ProjectCard.jsx"
+import CookieNotice from "./CookieNotice.jsx"
 
 
 function FeaturedProjects()
@@ -61,6 +62,7 @@ export default function Home() {
   return (
     < div className='home'>
 
+      <CookieNotice/>
 
       <section className='hero-section'>
       <div className='text-center hero-image'>
