@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const WebEditorTab=memo(()=>{
     const navigate=useNavigate();
-    const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
+    const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:"", "other-language":""});
 
     const handleWebEditorClick = useCallback(() => {
         navigate(`/self/web/${lastOpened.web}`)

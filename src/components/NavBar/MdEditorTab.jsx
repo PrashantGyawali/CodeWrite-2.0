@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const MarkdownTab=memo(()=>{
     const navigate=useNavigate();
-    const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:""});
+    const [lastOpened, setLastOpened] = useLocalStorage("lastOpened", {web:"",md:"", "other-language":""});
 
     const handleMdEditorClick = useCallback(() => {
         navigate(`/self/md/${lastOpened.md}`)
