@@ -30,7 +30,7 @@ function NavComponent(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">
-            <Nav variant="tabs" defaultActiveKey={editor == "web" ? "link-1" :editor == "md"?"link-2":"link-3"} data-bs-theme="dark" className="ms-0">
+            <Nav variant="tabs" activeKey={editor == "web" ? "link-1" :editor == "md"?"link-2":editor=="other-language"?"link-3":""} data-bs-theme="dark" className="ms-0">
               <div className="d-md-flex ms-0">
                   <WebEditorTab/>
                   <MarkdownTab/>

@@ -41,7 +41,7 @@ function LoginNavComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">
-            <Nav variant="tabs"  data-bs-theme="dark" className="ms-0" defaultActiveKey={editor == "md" ? "link-2" :editor == "other-language"?"link-3":"link-1"}>
+            <Nav variant="tabs"  data-bs-theme="dark" className="ms-0" activeKey={editor == "md" ? "link-2" :editor == "other-language"?"link-3":editor=="web"?"link-1":""} >
               <div className="d-md-flex ms-0">
                 <WebEditorTab/>
                 <MarkdownTab/>
