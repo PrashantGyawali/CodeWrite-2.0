@@ -26,7 +26,6 @@ export default function CloudProjectInfo(props) {
 
     const projectNameRef = useRef();
     const [projectInfo, setProjectInfo] = useState({...props.value});
-
     const navigate = useNavigate();
 
     const [projectName, setProjectName] = useState(projectInfo.name);
@@ -37,6 +36,7 @@ export default function CloudProjectInfo(props) {
 
 
     const handleSaveToLocal=(projectInfo)=>{
+        console.log(projectInfo);
         if(!localStorage[`codewrite-${projectInfo.type}-${projectInfo.publicId}`])
         {
             createNewProject(projectInfo.type,{...projectInfo,id:projectInfo.publicId});
@@ -125,7 +125,7 @@ export default function CloudProjectInfo(props) {
                         {!projectNameEditing ?
                             <>
                                 <div onClick={() =>{handleSaveToLocal(projectInfo);}} className='project-link'> </div>
-                                <input value={projectInfo.name} onChange={() => { }} className='project-name-input' disabled />
+                                <input value={projectInfo.name} className='project-name-input' disabled />
                             </>
                             :
                             <input value={projectName} ref={projectNameRef} className='project-name-input' onChange={(e) => { setProjectName(e.target.value); }} />
@@ -133,7 +133,7 @@ export default function CloudProjectInfo(props) {
                     </div>
                     <div className={`minimize-btn  ${minimized ? "" : "opened"}`} onClick={() => setMinimized(!minimized)}><img src={expandIcon}></img></div>
                 </div>
-
+            
                 {
                     !minimized &&
                     <div className='project-info ps-2'>
@@ -141,6 +141,10 @@ export default function CloudProjectInfo(props) {
                         <span className="datespan" title="Last Modified">
                             {(new Date(projectInfo.dateModified)).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
                         </span>
+
+                        {
+                            projectInfo.type=="other-language"?<span title="Language" style={{textTransform:"capitalize"}}>Language: {projectInfo.language}</span>:""
+                        }
 
                         <div className="project-options-container">
 

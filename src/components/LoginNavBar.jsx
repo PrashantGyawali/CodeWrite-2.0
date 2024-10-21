@@ -12,6 +12,7 @@ import userIcon from "../assets/userIcon.svg"
 import BrandName from "./NavBar/BrandName";
 import WebEditorTab from "./NavBar/WebEditorTab";
 import MarkdownTab from "./NavBar/MdEditorTab";
+import CustomLanguageTab from "./NavBar/CustomLanguageTab";
 
 function LoginNavComponent() {
   const { editor,user} = useContext(SettingsContext);
@@ -40,10 +41,11 @@ function LoginNavComponent() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  >
           <div className="ms-0  justify-content-start w-100">
-            <Nav variant="tabs"  data-bs-theme="dark" className="ms-0" defaultActiveKey={editor=="markdown"?"link-2":"link1"}>
+            <Nav variant="tabs"  data-bs-theme="dark" className="ms-0" defaultActiveKey={editor == "md" ? "link-2" :editor == "other-language"?"link-3":"link-1"}>
               <div className="d-md-flex ms-0">
                 <WebEditorTab/>
                 <MarkdownTab/>
+                <CustomLanguageTab/>
               </div>
               <Nav.Item className="ms-3 ms-md-auto ">
                 <Button variant="dark" className="text-light border-radius-50 "  data-bs-theme="dark" onClick={handleProfileClick} >

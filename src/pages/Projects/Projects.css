@@ -20,21 +20,21 @@
         border-radius: 10px 5px 0px 0px;
     }
 
-    :nth-child(2).tab{
+    :nth-last-child(1).tab{
         border-radius: 5px 10px 0px 0px;
     }
-    :nth-child(2).tab.selected{
+    :nth-last-child(1).tab.selected{
         border-left: 2px solid rgb(20, 20, 20);
         border-radius: 5px 10px 0px 0px;
     }
 
     .tab{
         text-decoration: none;
-        font-size: min(19px,6vw);
+        font-size: min(19px,4vw);
         color:#616161;
         text-align: center;
         margin: 0px;
-        padding: 2px 20px 2px 20px;
+        padding: 2px 20px 2px min(20px,4vw);
         border-bottom: 2px solid rgb(20, 20, 20);
         background-color: rgb(25, 25, 25);
         cursor: pointer;

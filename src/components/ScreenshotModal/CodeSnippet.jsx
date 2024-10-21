@@ -11,6 +11,13 @@ import 'codemirror/mode/xml/xml'
 import 'codemirror/mode/css/css'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/markdown/markdown'
+import 'codemirror/mode/python/python'
+import 'codemirror/mode/clike/clike'
+import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/clojure/clojure'
+import 'codemirror/mode/lua/lua'
+import 'codemirror/mode/crystal/crystal'
+import 'codemirror/mode/rust/rust'
 
 import 'codemirror/addon/edit/closebrackets'
 import 'codemirror/addon/edit/closetag'
@@ -56,10 +63,9 @@ const CodeSnippet = (props) => {
   const lineHeight=useAtomValue(scLineHeightAtom);
   const fontStyle=useAtomValue(scFontStyleAtom);
 
-  const {language,value} = props;
+  const {language,value,name} = props;
 
   const editorClassName="has-titlebar";
-
 
 const handleChange=()=>{} 
 
@@ -97,7 +103,7 @@ const handleChange=()=>{}
   },[fontSize]);
 
   return (<>
-    <TitleBar titleBarRef={titleBarRef} type={language}/>
+    <TitleBar titleBarRef={titleBarRef} type={language} name={name}/>
     <Resizable className={`codesnippet-div ${titleBarPresence?"rounded-bottom":"rounded-all"} ${shadows?"snippet-shadow":""}`} defaultSize={{width:"90%"}} style={{fontSize:fontSize+"px",lineHeight:lineHeight+"em",fontFamily:fontMap[fontStyle]}} maxHeight={props.maxHeight} handleClasses={handleClasses} onClick={(e)=>e.stopPropagation()}  onResize={handleTitleBarWidthSync}>
         <ControlledEditor onBeforeChange={handleChange} value={value} className={editorClassName} options={editorOptions} />
     </Resizable>

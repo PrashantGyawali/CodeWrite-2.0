@@ -40,6 +40,15 @@ export function createNewProject(type,value) {
             ...value
         }
     }
+    else if(type==="other-language")
+    {
+        projectInfo={
+            ...projectInfo,
+              language:"c",
+              stdin:"",
+            ...value
+        }
+    }
     projectList[projectInfo.id]=true;
     localStorage.setItem(`${key}-${type}-projects`,JSON.stringify(projectList));
     localStorage.setItem(`${key}-${type}-${projectInfo.id}`,JSON.stringify(projectInfo));
@@ -83,7 +92,7 @@ export default function useProject(type,id) {
         ...value,
       };
 
-      if(data?.html!==value.html || data.css!==value.css || data.js!==value.js || data.md!==value.md || data.name!==value.name ) 
+      if(data?.html!==value.html || data.css!==value.css || data.js!==value.js || data.md!==value.md || data.name!==value.name ||(data["other-code"]&&value["other-code"]&&data["other-code"]!=value["other-code"]) ||data?.language!==value?.language) 
       {
         newProjectInfo.dateModified = Date.now();
       }

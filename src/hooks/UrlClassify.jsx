@@ -7,4 +7,6 @@ export default function useUrl(){
     return "web";
     else if(String(location.pathname).includes("md"))
     return "md";
+    else if(String(location.pathname).includes("other-language"))
+    return "other-language";
 }

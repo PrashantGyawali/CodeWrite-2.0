@@ -15,13 +15,18 @@ export default function Projects() {
 
   let webselected="";
   let markdownselected="";
-  if(location.pathname.search("md")==-1)
+  let otherLanguageSelected="";
+  if(location.pathname.search("web")!==-1)
   {
     webselected="selected"
   }
   else if(location.pathname.search("md")!= -1)
   {
     markdownselected="selected"
+  }
+  else if(location.pathname.search("other-language")!==-1)
+  {
+    otherLanguageSelected ="selected"
   }
   
   let [,setCloudProjectsList]=useAtom(cloudProjects);
@@ -59,6 +64,7 @@ export default function Projects() {
     <div className="project-tab-row">
       <Link to="/projects/web" className={"tab "+webselected}>Web Projects</Link>
       <Link to="/projects/md" className={"tab "+markdownselected}>Markdowns</Link>
+      <Link to="/projects/other-language" className={"tab "+otherLanguageSelected}>Other Languages</Link>
     </div>
     <div className='projects-list'>
     <Outlet/>

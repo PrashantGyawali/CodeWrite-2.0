@@ -19,6 +19,7 @@ import SnippetSettings from "./SnippetSettings" ;
 import BgSelect from "./BgSelect";
 
 import settingsIcon from "../../assets/settingsIcon.svg";
+import language from "react-syntax-highlighter/dist/esm/languages/hljs/1c";
 
 const ModalComponent = (props) => {
 
@@ -37,8 +38,6 @@ const ModalComponent = (props) => {
     const [tabstate, setTabstate] = useState(1);
 
     const { handleClose } = props;
-
-    const {html,css,js,md}=code; 
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -210,6 +209,15 @@ const ModalComponent = (props) => {
                             </div>
                         </div>
                         }   
+                        {editor=="other-language" &&
+                        <div className="d-flex align-items-end ">
+                            <div
+                                eventKey="link-1"
+                                className="markdown px-2 py-1 cursor-pointer selected">
+                                {code.language}
+                            </div>
+                        </div>
+                        }   
 
                         <div className="ms-auto d-flex align-items-center ">
                         <BgSelect  {...{bgType,color,onColorChange,bgStyle,downloadImage,setBgType,bgImage,onImageChange,colorPickerRef,handleClose}}/>
@@ -228,21 +236,21 @@ const ModalComponent = (props) => {
                 {tabstate == 1 && editor=="web" && (
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights( )}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                         <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
-                            <CodeSnippet value={html} language="xml" maxHeight={maxHeight}/>
+                            <CodeSnippet value={code.html} language="xml" maxHeight={maxHeight}/>
                         </div>
                 </Resizable>
                 )}
                 {tabstate == 2 && (
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                         <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
-                        <CodeSnippet value={css} language="css" maxHeight={maxHeight}/>
+                        <CodeSnippet value={code.css} language="css" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
                 {tabstate == 3 && (
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                         <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
-                        <CodeSnippet value={js} language="javascript" maxHeight={maxHeight}/>
+                        <CodeSnippet value={code.js} language="javascript" maxHeight={maxHeight}/>
                     </div>
                 </Resizable>
                 )}
@@ -251,7 +259,15 @@ const ModalComponent = (props) => {
                 {tabstate == 1 && editor=="md" &&(
                 <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
                         <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
-                        <CodeSnippet value={md} language="markdown" maxHeight={maxHeight}/>
+                        <CodeSnippet value={code.md} language="markdown" maxHeight={maxHeight}/>
+                    </div>
+                </Resizable>
+                )}
+
+                {tabstate == 1 && editor=="other-language" &&(
+                <Resizable style={bgStyle} className="resizeable-component" handleClasses={handleClasses} defaultSize={{width:"80vw"}} onResize={(...e)=>{setHeights()}} minHeight={minHeight+"px"} onClick={colorPickerFn} >
+                        <div style={{minHeight:"100%", display:"flex",width:"100%", flexDirection:"column",justifyContent:"center",alignItems:"center", height:"max-content",maxHeight:`100%`}} ref={heightRef}>
+                        <CodeSnippet value={code["other-code"]} language={code["language"]=="c"?"clike":code["language"]} maxHeight={maxHeight} name={code.name}/>
                     </div>
                 </Resizable>
                 )}

@@ -19,8 +19,11 @@ import Deployment from './pages/Deployments/Deployment.jsx'
 import SharedWeb from './pages/Shared/SharedWeb.jsx'
 import SharedMd from './pages/Shared/SharedMd.jsx'
 import DiscoverPage from './pages/Discover/DiscoverPage.jsx'
+import OtherLanguageEditor from './pages/OtherLanguage/OtherLanguageEditor.jsx'
 
 import { inject } from '@vercel/analytics';
+import OtherLanguageProjectsPage from './pages/Projects/Other/OtherProjectsPage.jsx'
+import SharedOther from './pages/Shared/SharedOther.jsx'
 
 
 inject();
@@ -92,6 +95,10 @@ const routes=[
             {
               path: '/projects/md/',
               element: <MarkdownProjectsPage/>
+            },
+            {
+              path: '/projects/other-language/',
+              element: <OtherLanguageProjectsPage/>
             }
           ]
         }
@@ -113,6 +120,11 @@ const routes=[
     errorElement:<Navigate to="/projects/md"/>
   },
   {
+    path: '/self/other-language/:id',
+    element: <OtherLanguageEditor/>,
+    errorElement:<Navigate to="/projects/other-language"/>
+  },
+  {
     path: '/self/web',
     element:<Navigate to="/projects/web"/>
     
@@ -120,6 +132,10 @@ const routes=[
   {
     path: '/self/md',
     element:<Navigate to="/projects/md"/>
+  },
+  {
+    path: '/self/other-language',
+    element:<Navigate to="/projects/other-language"/>
   },
   {
     path:"/deployments/:id",
@@ -133,6 +149,10 @@ const routes=[
   {
     path:"/shared/md/:id",
     element:<SharedMd/>
+  },
+  {
+    path:"/shared/other-language/:id",
+    element:<SharedOther/>
   }
 
 

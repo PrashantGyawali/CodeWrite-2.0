@@ -13,7 +13,7 @@ const contentTypes = {
     markdown: {value:"md", type: "text/markdown", name: "markdown.md", },
 };
 
-function TitleBar({titleBarRef,type}) {
+function TitleBar({titleBarRef,type,name}) {
 
 const [titleBarPresence,setTitleBarPresence]=useAtom(scTitleBarAtom);
 const [titleBarType,setTitleBarType]=useAtom(scTitleBarTypeAtom);
@@ -29,7 +29,7 @@ return (
             <div className="mac-icon bg-success"></div>
         </div>  
     </div>
-        <input className={`titlebar-middle w-100 text-center overflow-hidden bg-transparent ${type}`} style={{outline:"none",border:"none",minWidth:0,width:"100%",flexShrink:1}} defaultValue={contentTypes[type].name}> 
+        <input className={`titlebar-middle w-100 text-center overflow-hidden bg-transparent ${type}`} style={{outline:"none",border:"none",minWidth:0,width:"100%",flexShrink:1}} defaultValue={contentTypes[type]?.name||name}> 
         </input>    
     <div className={`titlebar-right  w-100 text-end `}>
         <div className={`${titleBarType?.includes("windows")?"":"d-none"}`}>

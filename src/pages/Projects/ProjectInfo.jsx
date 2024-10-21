@@ -190,6 +190,10 @@ export default function ProjectInfo(props) {
         !minimized &&       
         <div className='project-info ps-2'>
         
+        {
+          projectInfo.type=="other-language"?<span title="Language" style={{textTransform:"capitalize"}}>Language:{" "+projectInfo.language}</span>:""
+        }
+
           <span className="datespan" title="Last Modified">
             {(new Date(projectInfo.dateModified)).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
           </span>

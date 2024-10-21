@@ -19,7 +19,7 @@ function SaveProjectSettings() {
 
 
     useEffect(()=>{
-        if(new Date(code.dateSaved).getTime()<new Date(code.dateModified).getTime() || !code?.dateSaved)
+        if(!code?.dateSaved || new Date(code.dateSaved).getTime()<new Date(code.dateModified).getTime())
         {
             setSaved(false);
         }
@@ -34,6 +34,7 @@ function SaveProjectSettings() {
         {
             const dateSaved=Date.now();
             const url="https://codewrite-server.onrender.com";
+            console.log
             let res= await fetch(url+"/save",
             {
                 method:"POST",
