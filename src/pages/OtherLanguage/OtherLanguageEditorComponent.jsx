@@ -202,7 +202,7 @@ const Editor = (props) => {
 		>
 			<div className={`editor-title ${language}`}>
 
-					<Dropdown>
+					<Dropdown data-bs-theme="dark">
 						<Dropdown.Toggle
 							variant="dark"
 							id="dropdown-basic"
