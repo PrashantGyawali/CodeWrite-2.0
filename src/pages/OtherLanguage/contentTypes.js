@@ -15,6 +15,7 @@ const contentTypes = {
 		return 0;
 	}`,stdin:"hello\nhi\n" },
     "clojure": {
+      version:"1.10.3",
         type: "text/x-closure", displayName: ".clj", placeholder: `(ns game-of-life)\n
   (defn neighbors
     [[x y]]

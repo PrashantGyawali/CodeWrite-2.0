@@ -41,7 +41,7 @@ import { isEmptyExcluding } from "../../utils/functions.js";
 import {autoCloseTagsAtom,} from "../../Store/EditorSettingsStore.jsx";
 import {themeAtom} from "../../Store/ThemeSettingsStore.jsx";
 import { useAtomValue } from "jotai";
-import { Button, Dropdown } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import DropdownItem from "../../components/DropdownItem.jsx";
 import contentTypes from "./contentTypes.js";
 
@@ -212,7 +212,7 @@ const Editor = (props) => {
 
 						<Dropdown.Menu>
 						{Object.keys(contentTypes).map((language) => <DropdownItem key={language} onClick={() => onLanguageChange(language)}>
-								{contentTypes[language].displayName}
+								<span style={{textTransform:"capitalize"}}>{language}</span> {contentTypes[language].version && `(${contentTypes[language].version})`}
 							</DropdownItem>
 						)}               
 						</Dropdown.Menu>
