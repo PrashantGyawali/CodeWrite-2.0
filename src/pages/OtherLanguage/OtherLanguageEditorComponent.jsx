@@ -59,6 +59,7 @@ const Editor = (props) => {
 	const [editorWidth, setEditorWidth] = useState("auto");
 
 	const displayName = contentTypes[language].displayName;
+	const iconImage = contentTypes[language].icon;
 
 	const handleChange = (editor, data, value) => {
 		onChange(value);
@@ -206,8 +207,10 @@ const Editor = (props) => {
 						<Dropdown.Toggle
 							variant="dark"
 							id="dropdown-basic"
+							className="d-flex align-items-center"
 						>
-							{fileName}{displayName}
+							
+							<img src={iconImage} height="20px" className="me-2"/>{fileName}{displayName}
 						</Dropdown.Toggle>
 
 						<Dropdown.Menu>
