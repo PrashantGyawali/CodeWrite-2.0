@@ -20,7 +20,8 @@ import { useNavigate } from 'react-router-dom'
 
 import ProjectCards from "../../components/ProjectCards/ProjectCard.jsx"
 import CookieNotice from "./CookieNotice.jsx"
-
+import { Button } from "react-bootstrap"
+import IconCloud from "./IconCloud.jsx"
 
 function FeaturedProjects()
 {
@@ -70,7 +71,22 @@ export default function Home() {
         <div className='hero-text'>
           <div className='hero-title h1'>Simplistic Editor for the web</div>
           <div className='hero-subtitle h2 '>Brainstorm ideas and quickly bring them to life</div>
-          <button className='start-now' onClick={()=>navigate("/projects/web")}>Start Now</button>
+          <Button
+                variant="primary"
+                size="lg"
+                className="start-now"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 6px 8px rgba(139, 92, 246, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(139, 92, 246, 0.25)';
+                }}
+                onClick={()=>navigate("/projects/web")}
+              >
+                <span><span className="star">✨</span> Start Now <span className="star">✨</span></span>
+              </Button>
         </div>
       </section>
 
@@ -94,13 +110,13 @@ export default function Home() {
 
         <div className="d-flex justify-content-between container-fluid flex-column-reverse flex-md-row">
 
-          <div className='col-md-6 ms-sm-4 p-md-2 p-lg-4 '>
+          <div className='col-md-6 p-md-2 p-lg-4 '>
             <img src={livePreview} className='w-100' style={{borderRadius:"5%"}}></img>
           </div>
 
           <div className='p-4 col-md-6 d-flex  flex-column justify-content-center align-items-center'>
             <div className='feature-title'> <span  style={{textDecoration:"underline dashed",textDecorationColor:"aqua"}}>Realtime Preview</span>⏱️</div>
-            <div className='feature-description'>Get instant preview of your code on the same page. Say goodbye to hassle of switching tabs or windows</div>
+            <div className='feature-description'>Get instant preview of your code on the same page. Say goodbye to hassle of switching tabs or windows. Code at rocket speed🚀</div>
           </div>
         </div>
 
@@ -109,7 +125,7 @@ export default function Home() {
 
         <div className="container-fluid row">
           <div className='container p-4 d-flex align-items-center flex-column justify-content-center col col-md-5'>
-            <div className='feature-title'>✨✨ <span  style={{textDecoration:"underline wavy",textDecorationColor:"lime"}}>Beautiful Code Snippets</span>🤩</div>
+            <div className='feature-title'>✨✨<span style={{textDecoration:"underline wavy",textDecorationColor:"lime"}}>Beautiful Code Snippets</span>🤩</div>
             <div className='feature-description'>Capture beautiful code snippets as you go. Choose your own backgrounds, fonts, themes and much more.</div>
           </div>
           <div className=' container p-0 d-flex justify-content-end col-11 col-md-6  '> 
@@ -130,8 +146,20 @@ export default function Home() {
             <div className='feature-title'> 🎉<span  style={{textDecoration:"underline"}}>Save, Deploy and Share</span>🤯</div>
             <div className='feature-description'>Never lose your progress by saving on the cloud. Want to see your project live? simply deploy with just a single click. Want to share your code to others? No worries we got you covered</div>
           </div >
+          
         </div>
 
+        <div className="container-fluid row">
+          <div className='container p-4 d-flex align-items-center flex-column justify-content-center col col-md-5'>
+            <div className='feature-title'>🌐<span style={{textDecoration:"underline wavy",textDecorationColor:"lime"}}>Multipe Language Support</span>🤩</div>
+            <div className='feature-description'>Support for dozen languages with support for more coming soon.⌛</div>
+          </div>
+          <div className=' container p-2 d-flex justify-content-center col-11 col-md-6'> 
+          <IconCloud/>
+          </div>
+        </div>
+
+        
 
         <section className='container-fluid p-4'> 
             <div className='feature-title'>Discover</div>

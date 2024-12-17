@@ -127,7 +127,7 @@
 
 
 .feature-title{
-  font-size: min(2.5em,8vw);
+  font-size: min(2.45em,8vw);
   text-align: center;
   font-weight: 500;
   
@@ -147,20 +147,39 @@
 }
 
 
-.start-now{
-font-size: min(1.25em,4vw);
-border-radius: 12px;
-padding: 4px 16px;
-text-align: center;
-outline: 4px ridge  rgba(0, 166, 255, 0.811);
-border-radius: 2rem;
-animation: 5s linear infinite outline-color-change;
+.start-now {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; 
+  border-radius: 50rem;
+  background: linear-gradient(to right, #7a57c9, #6366f1);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(139, 92, 246, 0.25);
+  transition: all 0.3s ease;
+  border: 1px solid black;
 }
-.start-now:hover{
-  background-color: rgba(13, 31, 40, 0.811);
-  outline-color: rgba(0, 166, 255, 0.811);
-  transition: 0.5s;
+
+.start-now .star{
+  animation: star 2s infinite;
 }
+
+@keyframes star {
+  0% {
+    filter: brightness(1) ;
+    
+  }
+  50% {
+    filter: brightness(1.1) contrast(1.1);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+
 @keyframes outline-color-change {
   0% {
     outline-color: rgba(0, 166, 255, 0.811);
