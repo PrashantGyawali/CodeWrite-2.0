@@ -55,7 +55,7 @@ function FeaturedProjects()
 
 
 const IDEs=["materialIDE","cobaltIDE","matrixIDE","nightIDE","lightIDE","xqdarkIDE"];
-const snippets=Array(5).fill(0).map((_,i)=>`snippet${i+1}`);
+const snippets=Array(4).fill(0).map((_,i)=>`snippet${i+1}`);
 
 export default function Home() {
   const navigate=useNavigate();
@@ -69,7 +69,7 @@ export default function Home() {
       </div>
         <div className='hero-text'>
           <div className='hero-title h1'>Simplistic Editor for the web</div>
-          <div className='hero-subtitle h2'>Brainstorm ideas and quickly bring them to life</div>
+          <div className='hero-subtitle h2 '>Brainstorm ideas and quickly bring them to life</div>
           <button className='start-now' onClick={()=>navigate("/projects/web")}>Start Now</button>
         </div>
       </section>
@@ -78,8 +78,8 @@ export default function Home() {
 
         <div className=" container-fluid row">
 
-          <div className='container p-4 d-flex align-items-center flex-column justify-content-center col col-md-6'>
-            <div className="feature-title">Simple and customizable</div>
+          <div className='container p-4 d-flex align-items-center flex-column justify-content-center col col-md-6' style={{position:"relative"}}>
+            <div className="feature-title"><span  style={{textDecoration:"underline wavy",textDecorationColor:"yellow"}}>Simple and customizable</span>😎</div>
             <div className='feature-description'>Explore the simple yet fully customizable editor for web developers right in your browser! Choose between multiple IDE themes and settings.</div>
           </div>
 
@@ -99,7 +99,7 @@ export default function Home() {
           </div>
 
           <div className='p-4 col-md-6 d-flex  flex-column justify-content-center align-items-center'>
-            <div className='feature-title'>Realtime Preview</div>
+            <div className='feature-title'> <span  style={{textDecoration:"underline dashed",textDecorationColor:"aqua"}}>Realtime Preview</span>⏱️</div>
             <div className='feature-description'>Get instant preview of your code on the same page. Say goodbye to hassle of switching tabs or windows</div>
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function Home() {
 
         <div className="container-fluid row">
           <div className='container p-4 d-flex align-items-center flex-column justify-content-center col col-md-5'>
-            <div className='feature-title'>Beautiful Code Snippets</div>
+            <div className='feature-title'>✨✨ <span  style={{textDecoration:"underline wavy",textDecorationColor:"lime"}}>Beautiful Code Snippets</span>🤩</div>
             <div className='feature-description'>Capture beautiful code snippets as you go. Choose your own backgrounds, fonts, themes and much more.</div>
           </div>
           <div className=' container p-0 d-flex justify-content-end col-11 col-md-6  '> 
@@ -127,7 +127,7 @@ export default function Home() {
           </div>
 
           <div className='p-2 ms-2 col-md-6'>
-            <div className='feature-title'>Save, Deploy and Share </div>
+            <div className='feature-title'> 🎉<span  style={{textDecoration:"underline"}}>Save, Deploy and Share</span>🤯</div>
             <div className='feature-description'>Never lose your progress by saving on the cloud. Want to see your project live? simply deploy with just a single click. Want to share your code to others? No worries we got you covered</div>
           </div >
         </div>

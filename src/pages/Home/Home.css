@@ -1,6 +1,10 @@
 .home{
   overflow-x: hidden;
+  width: 100%;
+  max-width: 2000px;
+  justify-self: center;
 }
+
 
 .hero-section{
     box-sizing: border-box;
@@ -121,22 +125,25 @@
   background-image: url("./assets/snippet4.png");
 }
 
-.snippet5{
-  background-image: url("./assets/snippet5.png");
-}
-
 
 .feature-title{
   font-size: min(2.5em,8vw);
   text-align: center;
   font-weight: 500;
+  
+  font-family: "Madimi One", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .feature-description{
-  font-size: min(1.3em,4vw);
+  padding-top: 8px;
+  font-size: min(1.5em,4vw);
   text-align: center;
   font-weight: 300;
   text-align: justify;
+  font-family: "Bricolage Grotesque", serif;
+  font-variation-settings:"wdth" 200;
 }
 
 

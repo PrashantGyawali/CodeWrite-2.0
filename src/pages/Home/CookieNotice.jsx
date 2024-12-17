@@ -12,7 +12,7 @@ function CookieNotice() {
         if (!navigator.cookieEnabled) {
             handleShow();
         }
-        else if(!localStorage.getItem("cookie-notice") || (new Date().getTime()-localStorage.getItem("cookie-notice-time"))>86400000 || (parseInt(localStorage.getItem("cookie-notice-count")||"1")%6==1))    
+        else if(!localStorage.getItem("cookie-notice") || (new Date().getTime()-localStorage.getItem("cookie-notice-time"))>86400000*2 || (parseInt(localStorage.getItem("cookie-notice-count")||"1")%4==1))    
         {
             if(parseInt(localStorage.getItem("cookie-notice-count")||"1")>13)
             {
